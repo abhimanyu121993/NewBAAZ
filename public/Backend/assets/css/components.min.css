@@ -637,18 +637,15 @@ footer.footer-border {
     display: none
 }
 
-.main-menu.menu-light {
+/* .main-menu.menu-light {
     color: white;
     background: #2434639e;
 }
 
 .main-menu.menu-light .navigation {
     background: #747e9b;
-}
+} */
 
-.navbar-floating .navbar-container:not(.main-menu-content) {
-    background-color: #fca40b6b
-}
 
 .vertical-layout.vertical-menu-modern .main-menu .navigation li a {
     color: white;

@@ -10,11 +10,14 @@ use App\Http\Controllers\Admin\FuelTypeController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\CountryController;
+use App\Http\Controllers\Admin\DemandingServiceController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\HomeSliderController;
 use App\Http\Controllers\Admin\OrderHistoryController;
+use App\Http\Controllers\Admin\OtherProductController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\ServiceChargeController;
 use App\Http\Controllers\Admin\WorkshopController;
 use App\Http\Controllers\Admin\ZoneController;
 use App\Http\Middleware\AuthLogin;
@@ -56,6 +59,11 @@ Route::group(['prefix'=>'Backend','as'=>'Backend.'],function(){
     //Orders
     Route::get('pending-orders',[OrderHistoryController::class,'pendingOrders'])->name('pendingOrders');
     Route::get('confirmed-orders',[OrderHistoryController::class,'confirmedOrders'])->name('confirmedOrders');
+
+    Route::resource('demandingservice',DemandingServiceController::class);
+    Route::resource('servicecharge',ServiceChargeController::class);
+    Route::resource('otherproduct',OtherProductController::class);
+
 });
 
 

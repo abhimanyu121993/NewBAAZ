@@ -1,23 +1,20 @@
-{{-- @role('Superadmin')
-@php
-    echo 'hello';
-@endphp
-@php $rolecolor='blue'; @endphp
-@elserole('Country Admin') 
-@php $rolecolor=''; @endphp 
-@elserole('Zonal Head') 
-@php $rolecolor=''; @endphp 
-@elserole('Area Head') 
-@php $rolecolor=''; @endphp 
-@elserole('City Head') 
-@php $rolecolor=''; @endphp 
-@elserole('RM') 
-@php $rolecolor='';@endphp
-@endrole --}}
+@role('Superadmin')
+@php $rolecolor='#78244C'; @endphp
+@elserole('Country Admin')
+@php $rolecolor='#A64AC9'; @endphp
+@elserole('Zonal Head')
+@php $rolecolor='#29648A'; @endphp
+@elserole('Area Head')
+@php $rolecolor='#C2ABE2'; @endphp
+@elserole('City Head')
+@php $rolecolor='#5CDB95'; @endphp
+@elserole('RM')
+@php $rolecolor='#950740';@endphp
+@endrole
 
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow"
-    style="background-color: @php  $rolecolor @endphp;" data-scroll-to-active="true">
-    <div class="navbar-header" style="background-color: @php  $rolecolor @endphp;">
+     data-scroll-to-active="true">
+    <div class="navbar-header" style="background-color: @php echo $rolecolor @endphp;">
         <ul class="nav navbar-nav flex-row">
             <li class="nav-item me-auto"><a class="navbar-brand p-0" href="#">
                     <img class="" alt="logo" height="40" width="60"
@@ -32,8 +29,8 @@
         </ul>
     </div>
     {{-- <div class="shadow-bottom"></div> --}}
-    <div class="main-menu-content" style="background-color: @php  $rolecolor @endphp;">
-        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+    <div class="main-menu-content" style="background-color: @php echo $rolecolor @endphp;">
+        <ul class="navigation navigation-main" id="main-menu-navigation" style="background-color: @php echo $rolecolor @endphp;"  data-menu="menu-navigation">
             <li class="nav-item"><a class="d-flex align-items-center" href="{{ route('Backend.dashboard') }}"><i
                         data-feather="home"></i><span class="menu-title text-truncate"
                         data-i18n="Dashboards">Dashboard</span></a>
