@@ -29,7 +29,7 @@
                         <label class="form-label" for="basic-addon-name">Add-on Product Name</label>
 
                         <input type="text" id="basic-addon-name" name='name' class="form-control"
-                            value="{{ isset($editproduct) ? $editproduct->name : '' }}" placeholder="Country Name"
+                            value="{{ isset($editproduct) ? $editproduct->name : '' }}" placeholder="Add-on Product Name"
                             aria-label="Name" aria-describedby="basic-addon-name" required />
                     </div>
                 </div>

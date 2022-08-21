@@ -14,6 +14,7 @@
   backface-visibility: hidden; }
 
 .vertical-layout.vertical-menu-modern .main-menu .navigation li a {
+    color: white;
   align-items: center; }
 
 .vertical-layout.vertical-menu-modern .main-menu .navigation > li > a svg,
