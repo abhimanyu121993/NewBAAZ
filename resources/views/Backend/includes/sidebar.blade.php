@@ -12,6 +12,7 @@
 @php $rolecolor='#950740';@endphp
 @endrole
 
+
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow"
      data-scroll-to-active="true">
     <div class="navbar-header" style="background-color: @php echo $rolecolor @endphp;">

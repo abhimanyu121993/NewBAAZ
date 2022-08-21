@@ -11,6 +11,7 @@
 @elserole('RM')
 @php $rolecolor='#950740';@endphp
 @endrole
+
 <nav
     class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl">
     <div class="navbar-container d-flex content" style="background-color: @php echo $rolecolor @endphp;">
