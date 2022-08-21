@@ -244,6 +244,41 @@
                             stroke-linejoin="round" class="feather feather-folder-minus">
                             <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
                             <line x1="9" y1="14" x2="15" y2="14"></line>
+                        </svg><span class="menu-title text-truncate" data-i18n="Invoice">Other Services</span></a>
+                    <ul class="menu-content">
+                        <li><a class="d-flex align-items-center" href="{{ route('Backend.demandingservice.index') }}"><svg
+                                    xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="feather feather-circle">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                </svg><span class="menu-item text-truncate" data-i18n="List">Demanding Services</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="{{ route('Backend.servicecharge.index') }}"><svg
+                                    xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="feather feather-circle">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                </svg><span class="menu-item text-truncate" data-i18n="List">Service Charges</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="{{ route('Backend.otherproduct.index') }}"><svg
+                                    xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="feather feather-circle">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                </svg><span class="menu-item text-truncate" data-i18n="List">Other Products</span></a>
+                        </li>
+
+                    </ul>
+                </li>
+            @endcan
+
+            @can('Role_Permission')
+                <li class="nav-item has-sub" style=""><a class="d-flex align-items-center" href="#"><svg
+                            xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="feather feather-folder-minus">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                            <line x1="9" y1="14" x2="15" y2="14"></line>
                         </svg><span class="menu-title text-truncate" data-i18n="Invoice">Roles/Permission</span></a>
                     <ul class="menu-content">
                         <li><a class="d-flex align-items-center" href="{{ route('Backend.role.index') }}"><svg
