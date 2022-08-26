@@ -30,7 +30,7 @@ class WorkshopController extends Controller
         $countries = Country::all();
         $zones = Zone::all();
         $cities = City::all();
-        $workshops = Workshop::all();
+        $workshops = User::role('Workshop')->get();
         return view('Backend.workshop',compact('workshops'));
     }
 
@@ -52,36 +52,50 @@ class WorkshopController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name'=>'required',
+            'phone'=>'nullable',
+            'email'=>'required',
+            'password'=>'required',
+            'owner_name'=>'nullable',
+            'gst'=>'nullable',
+            'pic'=>'nullable|image',
+            'gstpic'=>'nullable|image'
+        ]);
         try
         {
+            $picpath = 'upload/default_image.png';
+            $gstpicpath = 'upload/default_image.png';
             if($request->hasFile('pic'))
             {
                 $wsppic='wosp-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
                 $request->pic->move(public_path('upload/workshops/'),$wsppic);
+                $picpath = 'upload/workshops/'.$wsppic;
             }
             if($request->hasFile('gstpic'))
             {
                 $gstpic='GST-'.$request->name.time().'-'.rand(0,99).'.'.$request->gstpic->extension();
                 $request->gstpic->move(public_path('upload/workshops/gst'),$gstpic);
+                $gstpicpath = 'upload/workshops/gst/'.$gstpic;
             }
 
             $hashpassword = Hash::make($request->password);
-            $data = [
+            $udata = [
                 'name' => $request->name,
                 'phone' => $request->phone,
                 'email' => $request->email,
                 'password' => $hashpassword,
                 'owner_name' => $request->owner_name,
                 'gst' => $request->gst,
-                'pic'=>'upload/workshops/'.$wsppic,
-                'gstpic'=>'upload/workshops/gst/'.$gstpic
+                'pic'=> $picpath,
+                'gstpic'=> $gstpicpath
             ];
-            $res= Workshop::create($data); 
-
+            $res= User::create($udata);
             if($res)
             {
-                User::create(['name' => $request->name, 'phone' => $request->phone,'email' => $request->email, 'password' => $hashpassword]);
+                $udata["userid"] = $res->id;
                 $res->assignRole('Workshop');
+                Workshop::create($udata);
                 session()->flash('success','Workshop created Sucessfully');
             }
             else
@@ -120,9 +134,9 @@ class WorkshopController extends Controller
         $countries = Country::all();
         $zones = Zone::all();
         $cities = City::all();
-        $workshops = Workshop::get();
+        $workshops = User::role('Workshop')->get();
         $id=Crypt::decrypt($id);
-        $editworkshop=Workshop::find($id);
+        $editworkshop=User::find($id);
         if($editworkshop)
         {
             return view('Backend.workshop',compact('workshops','editworkshop'));
@@ -143,23 +157,38 @@ class WorkshopController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name'=>'required',
+            'phone'=>'nullable',
+            'email'=>'required',
+            'password'=>'nullable',
+            'owner_name'=>'nullable',
+            'gst'=>'nullable',
+            'pic'=>'nullable|image',
+            'gstpic'=>'nullable|image'
+        ]);
+        Log::info('update workshop'.json_encode($request->all()));
         try
         {
+            $picpath = 'upload/default_image.png';
+            $gstpicpath = 'upload/default_image.png';
             if($request->hasFile('pic'))
             {
                 $wsppic='wosp-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
                 $request->pic->move(public_path('upload/workshops/'),$wsppic);
-                $oldpic=Workshop::find($id)->pluck('pic')[0];
-                    unlink(public_path($oldpic));
-                Workshop::find($id)->update(['pic' => 'upload/workshops/'.$wsppic]);
+                $oldpic=User::find($id)->pluck('pic')[0];
+                unlink(public_path($oldpic));
+                $picpath = 'upload/workshops/'.$wsppic;
+                User::find($id)->update(['pic' => $picpath]);
             }
             if($request->hasFile('gstpic'))
             {
                 $gstpic='GST-'.$request->name.time().'-'.rand(0,99).'.'.$request->gstpic->extension();
                 $request->gstpic->move(public_path('upload/workshops/gst/'),$gstpic);
-                $oldpic=Workshop::find($id)->pluck('gstpic')[0];
-                    unlink(public_path($oldpic));
-                Workshop::find($id)->update(['gstpic' => 'upload/workshops/gst/'.$wsppic]);
+                $oldpic=User::find($id)->pluck('gstpic')[0];
+                unlink(public_path($oldpic));
+                $gstpicpath = 'upload/workshops/gst/'.$wsppic;
+                User::find($id)->update(['gstpic' => $gstpicpath]);
             }
 
             $data = [
@@ -169,7 +198,7 @@ class WorkshopController extends Controller
                 'owner_name' => $request->owner_name,
                 'gst' => $request->gst
             ];
-            $res= Workshop::find($id)->update($data);
+            $res= User::find($id)->update($data);
 
             if($res)
             {
@@ -199,7 +228,7 @@ class WorkshopController extends Controller
     {
         $id=Crypt::decrypt($id);
         try{
-                $res=Workshop::find($id)->delete();
+                $res=User::find($id)->delete();
                 if($res)
                 {
                     session()->flash('success','Workshop deleted ducessfully');

@@ -51,9 +51,9 @@
                                                 @php $oid=Crypt::encrypt($order->order_id); @endphp
                                                 <td><a href="{{ route('Backend.orderhistory.show', $oid) }}">BAAZ-{{ $order->order_id }}</a></td>
                                                 <td>{{ $order->user->name ?? 'BAAZ Customer' }}</td>
-                                                <td>{{ $order->slot ?? ''}}</td>
+                                                <td>{{ $order->slot_detail->name ?? ''}}</td>
                                                 <td>{{ $order->user->mobileno ?? ''}}</td>
-                                                <td>{{ $order->order_status }}</td>
+                                                <td>{{ $order->order_status_detail->name }}</td>
                                                 <td>{{ $order->created_at }}</td>
                                                 @canany(['Confirmed_orders_edit', 'Confirmed_orders_delete'])
                                                 <form id="allotworkshop" action="{{ route('Backend.allotWorkshop') }}" method="POST">
@@ -61,9 +61,9 @@
                                                     <td>
                                                         <input type="hidden" name="oid" value="{{ $order->id ?? '' }}" />
                                                         <select style="width:200px;" class="form-select" id="select2-basic" name='wid' required>
-                                                            <option disabled value="">--Select Workshop--</option>
+                                                            <option selected disabled value="">--Select Workshop--</option>
                                                             @foreach ($workshops as $shop)
-                                                                <option {{ !isset($editcity) ? '': ($order->assigned_workshop == $shop->id ? 'selected' : '') }} value="{{$shop->id}}">{{$shop->name}}</option>
+                                                                <option {{ !isset($order) ? '': ($order->assigned_workshop == $shop->id ? 'selected' : '') }} value="{{$shop->id}}">{{$shop->name}}</option>
                                                             @endforeach
                                                         </select>
                                                     </td>

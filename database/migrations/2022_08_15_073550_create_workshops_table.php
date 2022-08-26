@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('workshops', function (Blueprint $table) {
             $table->id();
+            $table->string('userid');
             $table->string('name');
             $table->string('owner_name');
             $table->string('phone');

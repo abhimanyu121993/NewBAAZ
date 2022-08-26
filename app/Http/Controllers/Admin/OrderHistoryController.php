@@ -108,29 +108,44 @@ class OrderHistoryController extends Controller
     public function pendingOrders()
     {
         $userrole = Auth::user()->roles[0]->name;
+        $userid = Auth::user()->id;
         Log::info('role'.json_encode($userrole));
-        $workshops = Workshop::all();
+        Log::info('user id'.json_encode($userid));
+        $workshops = User::role('Workshop')->get();
         if($userrole == 'Superadmin') {
-            $pendingorders = Order::orWhere('order_status','pending')
+            $pendingorders = Order::orWhere('order_status',1)
             ->orWhere('order_status', NULL)
             ->paginate(20);
         //Log::info('pendingorders'.json_encode($pendingorders));
+        return view('Backend.pending_orders', compact('pendingorders', 'workshops'));
         }
-        elseif($userrole == 'RM') {
-            $pendingorders = Order::Where('assigned_workshop',)
-                ->orWhere('order_status','pending')
-                ->orWhere('order_status', NULL)
+        elseif($userrole == 'Workshop') {
+            $pendingorders = Order::Where('assigned_workshop', $userid)
+                ->Where('order_status',1)
                 ->paginate(20);
         //Log::info('pendingorders'.json_encode($pendingorders));
+        return view('Backend.pending_orders', compact('pendingorders'));
         }
-
-        return view('Backend.pending_orders', compact('pendingorders', 'workshops'));
     }
 
     public function confirmedOrders()
     {
-        $confirmedorders = Order::Where('order_status','confirmed')
+        $userrole = Auth::user()->roles[0]->name;
+        $userid = Auth::user()->id;
+        $workshops = User::role('Workshop')->get();
+        if($userrole == 'Superadmin') {
+            $confirmedorders = Order::orWhere('order_status',2)
+            ->orWhere('order_status', NULL)
             ->paginate(20);
+        //Log::info('pendingorders'.json_encode($pendingorders));
+        return view('Backend.confirmed_orders', compact('confirmedorders', 'workshops'));
+        }
+        elseif($userrole == 'Workshop') {
+            $confirmedorders = Order::Where('assigned_workshop', $userid)
+                ->Where('order_status',2)
+                ->paginate(20);
+        //Log::info('pendingorders'.json_encode($pendingorders));
         return view('Backend.confirmed_orders', compact('confirmedorders'));
+        }
     }
 }

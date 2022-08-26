@@ -18,6 +18,16 @@ class Order extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Customer::class, 'user_id');
+    }
+
+    public function slot_detail()
+    {
+        return $this->belongsTo(Slot::class, 'slot' );
+    }
+
+    public function order_status_detail()
+    {
+        return $this->belongsTo(OrderStatus::class, 'order_status');
     }
 }
