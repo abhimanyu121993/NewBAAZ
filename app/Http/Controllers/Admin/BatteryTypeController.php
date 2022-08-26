@@ -3,15 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
+use App\Models\BatteryType;
 use App\Models\Error;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 
-class CategoryController extends Controller
+class BatteryTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,8 +21,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = Category::get();
-        return view('Backend.category', compact('category'));
+        $batterytypes = BatteryType::get();
+        return view('Backend.batterytype', compact('batterytypes'));
     }
 
     /**
@@ -31,8 +32,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-
-
+        //
     }
 
     /**
@@ -44,26 +44,25 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'cname'=>'required',
+            'name'=>'required',
             'pic'=>'nullable|image'
         ]);
-        $catpic='branddummy.jpg';
         try
         {
             if($request->hasFile('pic'))
             {
-                $catpic='category-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
-                $request->pic->move(public_path('upload/category/'),$catpic);
+                $batterypic='battery-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
+                $request->pic->move(public_path('upload/batterytype/'),$batterypic);
             }
-            $res= Category::create(['name'=>$request->cname,'image'=>'upload/category/'.$catpic]);
+            $res= BatteryType::create(['name'=>$request->name,'image'=>'upload/batterytype/'.$batterypic]);
 
             if($res)
             {
-                session()->flash('success','Category Added Sucessfully');
+                session()->flash('success','Battery Type Added Sucessfully');
             }
             else
             {
-                session()->flash('error','Category not added ');
+                session()->flash('error','Battery Type not added ');
             }
         }
         catch(Exception $ex)
@@ -81,9 +80,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
-
+        //
     }
 
     /**
@@ -94,12 +93,12 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::get();
+        $batterytypes = BatteryType::get();
         $id=Crypt::decrypt($id);
-        $categoryedit=Category::find($id);
-        if($categoryedit)
+        $batteryedit=BatteryType::find($id);
+        if($batteryedit)
         {
-            return view('Backend.category',compact('category','categoryedit'));
+            return view('Backend.batterytype',compact('batterytypes','batteryedit'));
         }
         else
         {
@@ -118,29 +117,28 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'cname'=>'required',
+            'name'=>'required',
             'pic'=>'nullable|image'
         ]);
-        $brandpic='branddummy.jpg';
         try
         {
             if($request->hasFile('pic'))
             {
-                $catpic='category-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
-                $request->pic->move(public_path('upload/category/'),$catpic);
-                $oldpic=Category::find($id)->pluck('image')[0];
+                $batterypic='battery-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
+                $request->pic->move(public_path('upload/batterytype/'),$batterypic);
+                $oldpic=BatteryType::find($id)->pluck('image')[0];
                 unlink(public_path($oldpic));
-                Category::find($id)->update(['image'=>'upload/category/'.$catpic]);
+                BatteryType::find($id)->update(['image'=>$batterypic]);
             }
-            $res= Category::find($id)->update(['name'=>$request->cname]);
+            $res= BatteryType::find($id)->update(['name'=>$request->name]);
 
             if($res)
             {
-                session()->flash('success','Category Updated Sucessfully');
+                session()->flash('success','Battery Type Updated Sucessfully');
             }
             else
             {
-                session()->flash('error','Category not updated ');
+                session()->flash('error','Battery Type not updated ');
             }
         }
         catch(Exception $ex)
@@ -162,14 +160,14 @@ class CategoryController extends Controller
     {
         $id=Crypt::decrypt($id);
         try{
-                $res=Category::find($id)->delete();
+                $res=BatteryType::find($id)->delete();
                 if($res)
                 {
-                    session()->flash('success','Category deleted ducessfully');
+                    session()->flash('success','Battery Type deleted ducessfully');
                 }
                 else
                 {
-                    session()->flash('error','Category not deleted ');
+                    session()->flash('error','Battery Type not deleted ');
                 }
             }
             catch(Exception $ex)

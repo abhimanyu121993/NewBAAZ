@@ -47,7 +47,6 @@ class FuelTypeController extends Controller
             'name'=>'required',
             'pic'=>'nullable|image'
         ]);
-        $fuelpic='branddummy.jpg';
         try
         {
             if($request->hasFile('pic'))
@@ -121,7 +120,6 @@ class FuelTypeController extends Controller
             'name'=>'required',
             'pic'=>'nullable|image'
         ]);
-        $brandpic='branddummy.jpg';
         try
         {
             if($request->hasFile('pic'))
@@ -132,7 +130,7 @@ class FuelTypeController extends Controller
                     unlink(public_path($oldpic));
                     FuelType::find($id)->update(['image'=>$fuelpic]);
             }
-            $res= FuelType::find($id)->update(['name'=>$request->name,'image'=>'upload/fueltype/'.$fuelpic]);
+            $res= FuelType::find($id)->update(['name'=>$request->name]);
 
             if($res)
             {

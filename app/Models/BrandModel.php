@@ -15,4 +15,9 @@ class BrandModel extends Model
     {
         return $this->belongsTo(Brand::class, 'bid');
     }
+
+    public function ModelServiceMap()
+    {
+        return $this->hasMany(ModelServiceMap::class,'id');
+    }
 }

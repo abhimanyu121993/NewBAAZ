@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Area;
+use App\Models\Country;
 use App\Models\Error;
 use App\Models\Zone;
 use Exception;
@@ -21,9 +22,10 @@ class AreaController extends Controller
      */
     public function index()
     {
+        $countries = Country::all();
         $zones = Zone::all();
         $areas = Area::all();
-        return view('Backend.setup.area', compact('areas', 'zones'));
+        return view('Backend.setup.area', compact('areas', 'zones', 'countries'));
     }
 
     /**
@@ -46,11 +48,12 @@ class AreaController extends Controller
     {
         $request->validate([
             'name'=>'required',
+            'country_id' => 'required',
             'zone_id' => 'required'
         ]);
         try
         {
-            $res= Area::create(['name'=>$request->name, 'zone_id' => $request->zone_id]);
+            $res= Area::create(['name'=>$request->name,'country_id' => $request->country_id, 'zone_id' => $request->zone_id]);
 
             if($res)
             {
@@ -89,13 +92,14 @@ class AreaController extends Controller
      */
     public function edit($id)
     {
+        $countries = Country::all();
         $zones = Zone::all();
         $areas = Area::get();
         $id=Crypt::decrypt($id);
         $editarea=Area::find($id);
         if($editarea)
         {
-            return view('Backend.setup.area',compact('areas','editarea', 'zones'));
+            return view('Backend.setup.area',compact('areas','editarea', 'zones', 'countries'));
         }
         else
         {
@@ -115,11 +119,12 @@ class AreaController extends Controller
     {
         $request->validate([
             'name'=>'required',
+            'country_id' => 'required',
             'zone_id' => 'required'
         ]);
         try
         {
-            $res= Area::find($id)->update(['name'=>$request->name, 'zone_id' => $request->zone_id]);
+            $res= Area::find($id)->update(['name'=>$request->name,'country_id' => $request->country_id, 'zone_id' => $request->zone_id]);
 
             if($res)
             {

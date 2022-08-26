@@ -14,6 +14,7 @@
 @endsection
 
 @section('Content-Area')
+@can('Services_create')
     <div class="card">
         <div class="card-header">
             <h3>
@@ -88,7 +89,9 @@
             </form>
         </div>
     </div>
+@endcan
 
+@can('Services_read')
     <div class="card">
         <div class="card-header">
             <h3>Manage Services</h3>
@@ -103,7 +106,9 @@
                         <th>Price</th>
                         <th>Description</th>
                         <th>Image</th>
-                        <th>Action</th>
+                        @canany(['Services_edit', 'Services_delete'])
+                            <th>Action</th>
+                        @endcan
                     </tr>
 
                 </thead>
@@ -127,24 +132,32 @@
                                                 aria-expanded="false"><i data-feather="grid"></i></button>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 @php $sid=Crypt::encrypt($service->id); @endphp
+                                                @can('Services_edit')
                                                 <a class="dropdown-item" href="{{ route('Backend.service.edit', $sid) }}"><i
                                                         class="me-1" data-feather="check-square"></i><span
-                                                        class="align-middle">Edit</span></a>
-                                                        <a class="dropdown-item" href=""
-                                                        onclick="event.preventDefault();document.getElementById('delete-form-{{ $sid }}').submit();"><i
-                                                            class="me-1" data-feather="message-square"></i><span
-                                                            class="align-middle">Delete</span></a>
+                                                        class="align-middle">Edit</span>
+                                                </a>
+                                                @endcan
+                                                @can('Services_delete')
+                                                <a class="dropdown-item" href=""
+                                                onclick="event.preventDefault();document.getElementById('delete-form-{{ $sid }}').submit();"><i
+                                                    class="me-1" data-feather="message-square"></i><span
+                                                    class="align-middle">Delete</span>
+                                                </a>
+                                                @endcan
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </td>
                         </tr>
+                        @can('Services_delete')
                         <form id="delete-form-{{ $sid }}" action="{{ route('Backend.service.destroy', $sid) }}"
                             method="post" style="display: none;">
                             @method('DELETE')
                             @csrf
                         </form>
+                        @endcan
                     @endforeach
 
                 </tbody>
@@ -154,6 +167,8 @@
             {!! $services->links('pagination::bootstrap-5') !!}
         </div>
     </div>
+@endcan
+
 @endsection
 
 

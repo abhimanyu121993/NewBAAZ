@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cities', function (Blueprint $table) {
+        Schema::create('model_service_maps', function (Blueprint $table) {
             $table->id();
-            $table->string('country_id');
-            $table->string('zone_id');
-            $table->string('area_id');
-            $table->string('name');
+            $table->string('model_id');
+            $table->string('fuel_id');
+            $table->string('service_id');
+            $table->string('price');
+            $table->string('discounted_price');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cities');
+        Schema::dropIfExists('model_service_maps');
     }
 };

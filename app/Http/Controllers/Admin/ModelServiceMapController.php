@@ -3,15 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
+use App\Models\BrandModel;
 use App\Models\Error;
+use App\Models\FuelType;
+use App\Models\ModelServiceMap;
+use App\Models\Service;
+use App\Models\ServiceCharge;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 
-class CategoryController extends Controller
+class ModelServiceMapController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,8 +24,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = Category::get();
-        return view('Backend.category', compact('category'));
+        $fueltypes = FuelType::all();
+        $services = Service::all();
+        $models = BrandModel::all();
+        $modelmaps = ModelServiceMap::all();
+        return view('Backend.modelservicemap', compact('modelmaps','models','fueltypes', 'services'));
     }
 
     /**
@@ -31,8 +38,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-
-
+        //
     }
 
     /**
@@ -44,26 +50,23 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'cname'=>'required',
-            'pic'=>'nullable|image'
+            'model_id'=>'required',
+            'service_id'=>'required',
+            'fuel_id' => 'required',
+            'price' => 'required',
+            'dprice' => 'required'
         ]);
-        $catpic='branddummy.jpg';
         try
         {
-            if($request->hasFile('pic'))
-            {
-                $catpic='category-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
-                $request->pic->move(public_path('upload/category/'),$catpic);
-            }
-            $res= Category::create(['name'=>$request->cname,'image'=>'upload/category/'.$catpic]);
+            $res= ModelServiceMap::create(['model_id'=>$request->model_id,'service_id' => $request->service_id, 'fuel_id' => $request->fuel_id, 'price' => $request->price, 'discounted_price' => $request->dprice]);
 
             if($res)
             {
-                session()->flash('success','Category Added Sucessfully');
+                session()->flash('success','Model Map Added Sucessfully');
             }
             else
             {
-                session()->flash('error','Category not added ');
+                session()->flash('error','Model Map not added ');
             }
         }
         catch(Exception $ex)
@@ -81,9 +84,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
-
+        //
     }
 
     /**
@@ -94,12 +97,15 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::get();
-        $id=Crypt::decrypt($id);
-        $categoryedit=Category::find($id);
-        if($categoryedit)
+        $id = Crypt::decrypt($id);
+        $fueltypes = FuelType::all();
+        $services = Service::all();
+        $models = BrandModel::all();
+        $modelmaps = ModelServiceMap::all();
+        $editmodelmap = ModelServiceMap::find($id);
+        if($editmodelmap)
         {
-            return view('Backend.category',compact('category','categoryedit'));
+            return view('Backend.modelservicemap', compact('modelmaps','models','fueltypes', 'services', 'editmodelmap'));
         }
         else
         {
@@ -118,29 +124,23 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'cname'=>'required',
-            'pic'=>'nullable|image'
+            'model_id'=>'required',
+            'service_id'=>'required',
+            'fuel_id' => 'required',
+            'price' => 'required',
+            'dprice' => 'required'
         ]);
-        $brandpic='branddummy.jpg';
         try
         {
-            if($request->hasFile('pic'))
-            {
-                $catpic='category-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
-                $request->pic->move(public_path('upload/category/'),$catpic);
-                $oldpic=Category::find($id)->pluck('image')[0];
-                unlink(public_path($oldpic));
-                Category::find($id)->update(['image'=>'upload/category/'.$catpic]);
-            }
-            $res= Category::find($id)->update(['name'=>$request->cname]);
+            $res= ModelServiceMap::find($id)->update(['model_id'=>$request->model_id,'service_id' => $request->service_id, 'fuel_id' => $request->fuel_id, 'price' => $request->price, 'discounted_price' => $request->dprice]);
 
             if($res)
             {
-                session()->flash('success','Category Updated Sucessfully');
+                session()->flash('success','Model Map Updated Sucessfully');
             }
             else
             {
-                session()->flash('error','Category not updated ');
+                session()->flash('error','Model Map not Updated ');
             }
         }
         catch(Exception $ex)
@@ -149,7 +149,7 @@ class CategoryController extends Controller
             Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
             Session::flash('error','Server Error ');
         }
-            return redirect()->back();
+        return redirect()->back();
     }
 
     /**
@@ -162,14 +162,14 @@ class CategoryController extends Controller
     {
         $id=Crypt::decrypt($id);
         try{
-                $res=Category::find($id)->delete();
+                $res=ModelServiceMap::find($id)->delete();
                 if($res)
                 {
-                    session()->flash('success','Category deleted ducessfully');
+                    session()->flash('success','Model Map deleted ducessfully');
                 }
                 else
                 {
-                    session()->flash('error','Category not deleted ');
+                    session()->flash('error','Model Map not deleted ');
                 }
             }
             catch(Exception $ex)

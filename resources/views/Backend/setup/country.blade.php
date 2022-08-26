@@ -6,6 +6,8 @@
 @endsection
 
 @section('Content-Area')
+
+@can('Country_create')
     <div class="card">
         <div class="card-header">
             <h3>
@@ -43,61 +45,76 @@
             </form>
         </div>
     </div>
+@endcan
 
-    <div class="card">
-        <div class="card-header">
-            <h3>Manage Country</h3>
-        </div>
-        <div class="card-body">
-            <table class="datatables-basic table datatable table-responsive">
-                <thead>
-                    <tr>
-                        <th>Sr.No</th>
-                        <th>Name</th>
-                        <th>Created at</th>
+@can('Country_read')
+<div class="card">
+    <div class="card-header">
+        <h3>Manage Country</h3>
+    </div>
+    <div class="card-body">
+        <table class="datatables-basic table datatable table-responsive">
+            <thead>
+                <tr>
+                    <th>Sr.No</th>
+                    <th>Name</th>
+                    <th>Created at</th>
+                    @canany(['Country_edit', 'Country_delete'])
                         <th>Action</th>
-                    </tr>
+                    @endcan
+                </tr>
 
-                </thead>
-                <tbody>
-                    @foreach ($countries as $country)
-                        <tr>
-                            <td>{{ $loop->index + 1 }}</td>
-                            <td>{{ $country->name }}</td>
-                            <td>{{ $country->created_at }}</td>
-                            <td>
-                                <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
-                                    <div class="mb-1 breadcrumb-right">
-                                        <div class="dropdown">
-                                            <button class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle"
-                                                type="button" data-bs-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false"><i data-feather="grid"></i></button>
-                                            <div class="dropdown-menu dropdown-menu-end">
-                                                @php $cid=Crypt::encrypt($country->id); @endphp
+            </thead>
+            <tbody>
+                @foreach ($countries as $country)
+                    <tr>
+                        <td>{{ $loop->index + 1 }}</td>
+                        <td>{{ $country->name }}</td>
+                        <td>{{ $country->created_at }}</td>
+                        @canany(['Country_edit', 'Country_delete'])
+                        <td>
+                            <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
+                                <div class="mb-1 breadcrumb-right">
+                                    <div class="dropdown">
+                                        <button class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle"
+                                            type="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false"><i data-feather="grid"></i></button>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            @php $cid=Crypt::encrypt($country->id); @endphp
+                                            @can('Country_edit')
                                                 <a class="dropdown-item" href="{{ route('Backend.country.edit', $cid) }}"><i
                                                         class="me-1" data-feather="check-square"></i><span
-                                                        class="align-middle">Edit</span></a>
-                                                        <a class="dropdown-item" href=""
-                                                        onclick="event.preventDefault();document.getElementById('delete-form-{{ $cid }}').submit();"><i
-                                                            class="me-1" data-feather="message-square"></i><span
-                                                            class="align-middle">Delete</span></a>
-                                            </div>
+                                                        class="align-middle">Edit</span>
+                                                </a>
+                                            @endcan
+                                            @can('Country_delete')
+                                                <a class="dropdown-item" href=""
+                                                onclick="event.preventDefault();document.getElementById('delete-form-{{ $cid }}').submit();"><i
+                                                    class="me-1" data-feather="message-square"></i><span
+                                                    class="align-middle">Delete</span>
+                                                </a>
+                                            @endcan
                                         </div>
                                     </div>
                                 </div>
-                            </td>
-                        </tr>
+                            </div>
+                        </td>
+                        @endcan
+                    </tr>
+                    @can('Country_delete')
                         <form id="delete-form-{{ $cid }}" action="{{ route('Backend.country.destroy', $cid) }}"
                             method="post" style="display: none;">
                             @method('DELETE')
                             @csrf
                         </form>
-                    @endforeach
+                    @endcan
+                @endforeach
 
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
     </div>
+</div>
+@endcan
 
 @endsection
 

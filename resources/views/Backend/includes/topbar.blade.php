@@ -10,6 +10,8 @@
 @php $rolecolor='#5CDB95'; @endphp
 @elserole('RM')
 @php $rolecolor='#950740';@endphp
+@else
+@php $rolecolor='#157DEC';@endphp
 @endrole
 
 <nav

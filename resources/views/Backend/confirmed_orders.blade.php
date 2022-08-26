@@ -1,5 +1,6 @@
 @extends('layouts.adminLayout')
 @section('Head-Area')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/vendors/css/vendors.min.css') }}">
     <link rel="stylesheet" type="text/css"
         href="{{ asset('Backend/assets/vendors/css/tables/datatable/dataTables.bootstrap5.min.css') }}">
@@ -9,10 +10,12 @@
         href="{{ asset('Backend/assets/vendors/css/pickers/flatpickr/flatpickr.min.css') }}">
 
         <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/vendors/css/tables/datatable/datatables.min.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{asset('Backend/assets/vendors/css/forms/select/select2.min.css')}}">
 @endsection
 
 @section('Content-Area')
-   
+
+@can('Confirmed_orders_read')
  <!-- Scroll - horizontal and vertical table -->
  <section id="horizontal-vertical">
     <div class="row">
@@ -32,12 +35,12 @@
                                         <th>Name</th>
                                         <th>Slots</th>
                                         <th>Phone</th>
-                                        <th>Amount</th>
                                         <th>Order Status</th>
-                                        <th>Payment Mode</th>
-                                        <th>Payment Status</th>
                                         <th>Ordered at</th>
-                                        <th>Action</th>
+                                        @canany(['Confirmed_orders_edit', 'Confirmed_orders_delete'])
+                                            <th>Assigned To</th>
+                                            <th>Action</th>
+                                        @endcan
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -50,36 +53,27 @@
                                                 <td>{{ $order->user->name ?? 'BAAZ Customer' }}</td>
                                                 <td>{{ $order->slot ?? ''}}</td>
                                                 <td>{{ $order->user->mobileno ?? ''}}</td>
-                                                <td>{{ $order->total_amount }}</td>
                                                 <td>{{ $order->order_status }}</td>
-                                                <td>{{ $order->payment_mode }}</td>
-                                                <td>{{ $order->payment_status }}</td>
                                                 <td>{{ $order->created_at }}</td>
-                                                <td>
-                                                    <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
-                                                        <div class="mb-1 breadcrumb-right">
-                                                            <div class="dropdown">
-                                                                <button class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle"
-                                                                    type="button" data-bs-toggle="dropdown" aria-haspopup="true"
-                                                                    aria-expanded="false"><i data-feather="grid"></i></button>
-                                                                <div class="dropdown-menu dropdown-menu-end">
-                                                                    @php $oid=Crypt::encrypt($order->id); @endphp
-                                                                    <a class="dropdown-item" href="#"
-                                                                        onclick="event.preventDefault();
-                                                        document.getElementById('delete-form-{{ $oid }}').submit();"><i
-                                                                            class="me-1" data-feather="trash-2"></i><span
-                                                                            class="align-middle">Delete</span></a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
+                                                @canany(['Confirmed_orders_edit', 'Confirmed_orders_delete'])
+                                                <form id="allotworkshop" action="{{ route('Backend.allotWorkshop') }}" method="POST">
+                                                    @csrf
+                                                    <td>
+                                                        <input type="hidden" name="oid" value="{{ $order->id ?? '' }}" />
+                                                        <select style="width:200px;" class="form-select" id="select2-basic" name='wid' required>
+                                                            <option disabled value="">--Select Workshop--</option>
+                                                            @foreach ($workshops as $shop)
+                                                                <option {{ !isset($editcity) ? '': ($order->assigned_workshop == $shop->id ? 'selected' : '') }} value="{{$shop->id}}">{{$shop->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <button type="submit" class="btn-icon btn btn-primary btn-round btn-sm"
+                                                         ><i data-feather="check-circle"></i></button>
+                                                    </td>
+                                                </form>
+                                                @endcan
                                             </tr>
-                                            <form id="delete-form-{{ $oid }}" action="#"
-                                            method="post" style="display: none;">
-                                            @method('DELETE')
-                                            @csrf
-                                        </form>
                                        @endforeach
                                     @endif
                                 </tbody>
@@ -92,12 +86,14 @@
     </div>
 </section>
 <!--/ Scroll - horizontal and vertical table -->
+@endcan
 
 
 
 @endsection
 
 @section('Script-Area')
+<script src="{{asset('Backend/assets/js/scripts/forms/form-select2.js')}}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/dataTables.responsive.min.js') }}"></script>
@@ -115,7 +111,31 @@
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js') }}"></script>
     <!-- END: Page Vendor JS-->
 
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="{{ asset('Backend/assets/js/scripts/datatables/datatable.js') }}"></script>
+    <script src="{{asset('Backend/assets/js/scripts/forms/form-select2.js')}}"></script>
+    <script>
+        $("#allotworkshop").submit(function(e) {
+            e.preventDefault();
+            var form = $(this);
+            var actionUrl = form.attr('action');
+            $.ajax({
+                type: "POST",
+                url: actionUrl,
+                data: form.serialize(),
+                success: function(response) {
+                    if (response.status == 200)
+                    {
+                        swal("Good job!","Workshop Assigned successfully!", "success");
+                        console.log(response);
+                    } else
+                    {
+                        swal("Snap!", "Server Error", "error");
+                        console.log(response);
+                    }
+                }
+            });
+        });
 
+    </script>
 @endsection

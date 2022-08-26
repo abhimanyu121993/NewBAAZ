@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Workshop;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
@@ -106,11 +107,23 @@ class OrderHistoryController extends Controller
 
     public function pendingOrders()
     {
-        // $users = User::role('RM')->get();
+        $userrole = Auth::user()->roles[0]->name;
+        Log::info('role'.json_encode($userrole));
         $workshops = Workshop::all();
-        $pendingorders = Order::orWhere('order_status','pending')
+        if($userrole == 'Superadmin') {
+            $pendingorders = Order::orWhere('order_status','pending')
             ->orWhere('order_status', NULL)
             ->paginate(20);
+        //Log::info('pendingorders'.json_encode($pendingorders));
+        }
+        elseif($userrole == 'RM') {
+            $pendingorders = Order::Where('assigned_workshop',)
+                ->orWhere('order_status','pending')
+                ->orWhere('order_status', NULL)
+                ->paginate(20);
+        //Log::info('pendingorders'.json_encode($pendingorders));
+        }
+
         return view('Backend.pending_orders', compact('pendingorders', 'workshops'));
     }
 

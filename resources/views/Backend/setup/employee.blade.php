@@ -6,6 +6,7 @@
 @endsection
 
 @section('Content-Area')
+@can('Employee_create')
     <div class="card">
         <div class="card-header">
             <h3>
@@ -95,7 +96,9 @@
             </form>
         </div>
     </div>
+@endcan
 
+@can('Employee_read')
     <div class="card">
         <div class="card-header">
             <h3>Manage Employees</h3>
@@ -112,7 +115,9 @@
                         <th>Email</th>
                         <th>Role</th>
                         <th>Aadhar</th>
-                        <th>Action</th>
+                        @canany(['Employee_edit', 'Employee_delete'])
+                            <th>Action</th>
+                        @endcan
                     </tr>
 
                 </thead>
@@ -130,6 +135,7 @@
                             <td>{{ $employee->email }}</td>
                             <td>{{ $employee->roles[0]->name ?? '' }}</td>
                             <td>{{ $employee->aadharid }}</td>
+                            @canany(['Employee_edit', 'Employee_delete'])
                             <td>
                                 <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
                                     <div class="mb-1 breadcrumb-right">
@@ -139,30 +145,40 @@
                                                 aria-expanded="false"><i data-feather="grid"></i></button>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 @php $eid=Crypt::encrypt($employee->id); @endphp
+                                                @can('Employee_edit')
                                                 <a class="dropdown-item" href="{{ route('Backend.authuser.edit', $eid) }}"><i
                                                         class="me-1" data-feather="check-square"></i><span
-                                                        class="align-middle">Edit</span></a>
-                                                        <a class="dropdown-item" href=""
-                                                        onclick="event.preventDefault();document.getElementById('delete-form-{{ $eid }}').submit();"><i
-                                                            class="me-1" data-feather="message-square"></i><span
-                                                            class="align-middle">Delete</span></a>
+                                                        class="align-middle">Edit</span>
+                                                </a>
+                                                @endcan
+                                                @can('Employee_delete')
+                                                <a class="dropdown-item" href=""
+                                                onclick="event.preventDefault();document.getElementById('delete-form-{{ $eid }}').submit();"><i
+                                                    class="me-1" data-feather="message-square"></i><span
+                                                    class="align-middle">Delete</span>
+                                                </a>
+                                                @endcan
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </td>
+                            @endcan
                         </tr>
+                        @can('Employee_delete')
                         <form id="delete-form-{{ $eid }}" action="{{ route('Backend.authuser.destroy', $eid) }}"
                             method="post" style="display: none;">
                             @method('DELETE')
                             @csrf
                         </form>
+                        @endcan
                     @endforeach
 
                 </tbody>
             </table>
         </div>
     </div>
+@endcan
 @endsection
 
 

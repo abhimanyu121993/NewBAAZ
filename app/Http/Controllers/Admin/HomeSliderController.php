@@ -126,10 +126,10 @@ class HomeSliderController extends Controller
                 $sliderpic='hslider-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
                 $request->pic->move(public_path('upload/homeslider/'),$sliderpic);
                 $oldpic=HomeSlider::find($id)->pluck('image')[0];
-                    unlink(public_path($oldpic));
-                    HomeSlider::find($id)->update(['image'=>$sliderpic]);
+                unlink(public_path($oldpic));
+                HomeSlider::find($id)->update(['image'=>'upload/homeslider/'.$sliderpic]);
             }
-            $res= HomeSlider::find($id)->update(['link'=>$request->link,'image'=>'upload/homeslider/'.$sliderpic]);
+            $res= HomeSlider::find($id)->update(['link'=>$request->link]);
 
             if($res)
             {

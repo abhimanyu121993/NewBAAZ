@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AreaController;
 use App\Http\Controllers\Admin\AuthUserController;
+use App\Http\Controllers\Admin\BatteryTypeController;
 use App\Http\Controllers\Admin\ModelController;
 use App\Http\Controllers\Admin\FuelTypeController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\DemandingServiceController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\HomeSliderController;
+use App\Http\Controllers\Admin\ModelServiceMapController;
 use App\Http\Controllers\Admin\OrderHistoryController;
 use App\Http\Controllers\Admin\OtherProductController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -63,6 +65,10 @@ Route::group(['prefix'=>'Backend','as'=>'Backend.'],function(){
     Route::resource('demandingservice',DemandingServiceController::class);
     Route::resource('servicecharge',ServiceChargeController::class);
     Route::resource('otherproduct',OtherProductController::class);
+
+    Route::post('allot-workshop',[WorkshopController::class,'allotWorkshop'])->name('allotWorkshop');
+    Route::resource('modelservicemap',ModelServiceMapController::class);
+    Route::resource('batterytype',BatteryTypeController::class);
 
 });
 

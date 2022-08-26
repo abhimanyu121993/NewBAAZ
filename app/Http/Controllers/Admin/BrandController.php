@@ -130,9 +130,9 @@ class BrandController extends Controller
                 $request->pic->move(public_path('upload/brands/'),$brandpic);
                 $oldpic=Brand::find($id)->pluck('image')[0];
                     unlink(public_path($oldpic));
-                    Brand::find($id)->update(['image'=>$brandpic]);
+                    Brand::find($id)->update(['image'=>'upload/brands/'.$brandpic]);
             }
-            $res= Brand::find($id)->update(['name'=>$request->bname,'image'=>'upload/brands/'.$brandpic]);
+            $res= Brand::find($id)->update(['name'=>$request->bname]);
 
             if($res)
             {

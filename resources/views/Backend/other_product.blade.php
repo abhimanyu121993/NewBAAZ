@@ -6,6 +6,7 @@
 @endsection
 
 @section('Content-Area')
+@can('Other_product_create')
     <div class="card">
         <div class="card-header">
             <h3>
@@ -43,7 +44,9 @@
             </form>
         </div>
     </div>
+@endcan
 
+@can('Other_product_read')
     <div class="card">
         <div class="card-header">
             <h3>Manage Add-on Product</h3>
@@ -55,7 +58,9 @@
                         <th>Sr.No</th>
                         <th>Name</th>
                         <th>Created at</th>
-                        <th>Action</th>
+                        @canany(['Other_product_edit', 'Other_product_delete'])
+                            <th>Action</th>
+                        @endcan
                     </tr>
 
                 </thead>
@@ -65,6 +70,7 @@
                             <td>{{ $loop->index + 1 }}</td>
                             <td>{{ $product->name }}</td>
                             <td>{{ $product->created_at }}</td>
+                            @canany(['Other_product_edit', 'Other_product_delete'])
                             <td>
                                 <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
                                     <div class="mb-1 breadcrumb-right">
@@ -74,30 +80,40 @@
                                                 aria-expanded="false"><i data-feather="grid"></i></button>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 @php $cid=Crypt::encrypt($product->id); @endphp
+                                                @can('Other_product_edit')
                                                 <a class="dropdown-item" href="{{ route('Backend.otherproduct.edit', $cid) }}"><i
                                                         class="me-1" data-feather="check-square"></i><span
-                                                        class="align-middle">Edit</span></a>
-                                                        <a class="dropdown-item" href=""
-                                                        onclick="event.preventDefault();document.getElementById('delete-form-{{ $cid }}').submit();"><i
-                                                            class="me-1" data-feather="message-square"></i><span
-                                                            class="align-middle">Delete</span></a>
+                                                        class="align-middle">Edit</span>
+                                                </a>
+                                                @endcan
+                                                @can('Other_product_delete')
+                                                <a class="dropdown-item" href=""
+                                                onclick="event.preventDefault();document.getElementById('delete-form-{{ $cid }}').submit();"><i
+                                                    class="me-1" data-feather="message-square"></i><span
+                                                    class="align-middle">Delete</span>
+                                                </a>
+                                                @endcan
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </td>
+                            @endcan
                         </tr>
+                        @can('Other_product_delete')
                         <form id="delete-form-{{ $cid }}" action="{{ route('Backend.otherproduct.destroy', $cid) }}"
                             method="post" style="display: none;">
                             @method('DELETE')
                             @csrf
                         </form>
+                        @endcan
                     @endforeach
 
                 </tbody>
             </table>
         </div>
     </div>
+@endcan
 
 @endsection
 

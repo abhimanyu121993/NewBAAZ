@@ -6,6 +6,7 @@
 @endsection
 
 @section('Content-Area')
+@can('Home_slider_create')
     <div class="card">
         <div class="card-header">
             <h3>
@@ -53,7 +54,9 @@
             </form>
         </div>
     </div>
+@endcan
 
+@can('Home_slider_read')
     <div class="card">
         <div class="card-header">
             <h3>Manage Sliders</h3>
@@ -65,7 +68,9 @@
                         <th>Sr.No</th>
                         <th>Image</th>
                         <th>Link</th>
-                        <th>Action</th>
+                        @canany(['Home_slider_edit', 'Home_slider_delete'])
+                            <th>Action</th>
+                        @endcan
                     </tr>
 
                 </thead>
@@ -79,6 +84,7 @@
                                     style="height:60px;width:150px;" />
                             </td>
                             <td>{{ $slider->link }}</td>
+                            @canany(['Home_slider_edit', 'Home_slider_delete'])
                             <td>
                                 <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
                                     <div class="mb-1 breadcrumb-right">
@@ -88,30 +94,41 @@
                                                 aria-expanded="false"><i data-feather="grid"></i></button>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 @php $sid=Crypt::encrypt($slider->id); @endphp
+                                                @can('Home_slider_edit')
                                                 <a class="dropdown-item" href="{{ route('Backend.homeslider.edit', $sid) }}"><i
                                                         class="me-1" data-feather="check-square"></i><span
-                                                        class="align-middle">Edit</span></a>
-                                                        <a class="dropdown-item" href=""
-                                                        onclick="event.preventDefault();document.getElementById('delete-form-{{ $sid }}').submit();"><i
-                                                            class="me-1" data-feather="message-square"></i><span
-                                                            class="align-middle">Delete</span></a>
+                                                        class="align-middle">Edit</span>
+                                                </a>
+                                                @endcan
+                                                @can('Home_slider_delete')
+                                                <a class="dropdown-item" href=""
+                                                onclick="event.preventDefault();document.getElementById('delete-form-{{ $sid }}').submit();"><i
+                                                    class="me-1" data-feather="message-square"></i><span
+                                                    class="align-middle">Delete</span>
+                                                </a>
+                                                @endcan
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </td>
+                            @endcan
                         </tr>
-                        <form id="delete-form-{{ $sid }}" action="{{ route('Backend.homeslider.destroy', $sid) }}"
+                        @can('Home_slider_delete')
+                            <form id="delete-form-{{ $sid }}" action="{{ route('Backend.homeslider.destroy', $sid) }}"
                             method="post" style="display: none;">
                             @method('DELETE')
                             @csrf
-                        </form>
+                            </form>
+                        @endcan
+
                     @endforeach
 
                 </tbody>
             </table>
         </div>
     </div>
+@endcan
 @endsection
 
 

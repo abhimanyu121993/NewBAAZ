@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\Error;
+use App\Models\Order;
+use App\Models\User;
 use App\Models\Workshop;
 use App\Models\Zone;
 use Exception;
@@ -74,10 +76,12 @@ class WorkshopController extends Controller
                 'pic'=>'upload/workshops/'.$wsppic,
                 'gstpic'=>'upload/workshops/gst/'.$gstpic
             ];
-            $res= Workshop::create($data);
+            $res= Workshop::create($data); 
 
             if($res)
             {
+                User::create(['name' => $request->name, 'phone' => $request->phone,'email' => $request->email, 'password' => $hashpassword]);
+                $res->assignRole('Workshop');
                 session()->flash('success','Workshop created Sucessfully');
             }
             else
@@ -213,4 +217,13 @@ class WorkshopController extends Controller
             }
             return redirect()->back();
     }
+
+    public function allotWorkshop(Request $request)
+    {
+        $res = Order::find($request->oid)->update(['assigned_workshop' => $request->wid]);
+        if($res){
+            return response()->json(['status' => 200]);
+        }
+    }
+
 }

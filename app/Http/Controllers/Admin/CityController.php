@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Area;
 use App\Models\City;
+use App\Models\Country;
 use App\Models\Error;
 use App\Models\Zone;
 use Exception;
@@ -22,10 +23,11 @@ class CityController extends Controller
      */
     public function index()
     {
+        $countries = Country::all();
         $zones = Zone::all();
         $areas = Area::all();
         $cities = City::all();
-        return view('Backend.setup.city', compact('cities', 'zones', 'areas'));
+        return view('Backend.setup.city', compact('cities', 'zones', 'areas', 'countries'));
     }
 
     /**
@@ -48,12 +50,13 @@ class CityController extends Controller
     {
         $request->validate([
             'name'=>'required',
+            'country_id' => 'required',
             'zone_id' => 'required',
             'area_id' => 'required'
         ]);
         try
         {
-            $res= City::create(['name'=>$request->name,'zone_id' => $request->zone_id, 'area_id' => $request->area_id]);
+            $res= City::create(['name'=>$request->name,'country_id' => $request->country_id, 'zone_id' => $request->zone_id, 'area_id' => $request->area_id]);
 
             if($res)
             {
@@ -92,6 +95,7 @@ class CityController extends Controller
      */
     public function edit($id)
     {
+        $countries = Country::all();
         $zones = Zone::all();
         $areas = Area::all();
         $cities = City::get();
@@ -99,7 +103,7 @@ class CityController extends Controller
         $editcity=City::find($id);
         if($editcity)
         {
-            return view('Backend.setup.city',compact('cities','editcity', 'zones', 'areas'));
+            return view('Backend.setup.city',compact('cities','editcity', 'zones', 'areas', 'countries'));
         }
         else
         {
@@ -119,12 +123,13 @@ class CityController extends Controller
     {
         $request->validate([
             'name'=>'required',
+            'country_id' => 'required',
             'zone_id' => 'required',
             'area_id' => 'required'
         ]);
         try
         {
-            $res= City::find($id)->update(['name'=>$request->name, 'zone_id' => $request->zone_id, 'area_id' => $request->area_id]);
+            $res= City::find($id)->update(['name'=>$request->name, 'country_id' => $request->country_id ,'zone_id' => $request->zone_id, 'area_id' => $request->area_id]);
 
             if($res)
             {

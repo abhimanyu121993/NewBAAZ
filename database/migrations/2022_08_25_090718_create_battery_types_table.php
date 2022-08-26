@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cities', function (Blueprint $table) {
+        Schema::create('battery_types', function (Blueprint $table) {
             $table->id();
-            $table->string('country_id');
-            $table->string('zone_id');
-            $table->string('area_id');
             $table->string('name');
+            $table->string('image');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cities');
+        Schema::dropIfExists('battery_types');
     }
 };

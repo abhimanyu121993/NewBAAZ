@@ -6,6 +6,7 @@
 @endsection
 
 @section('Content-Area')
+@can('Fuel_type_create')
     <div class="card">
         <div class="card-header">
             <h3>
@@ -41,7 +42,7 @@
                 <div class="row">
                     <div class="col-sm-2">
                         <button type="submit"
-                            class="btn btn-primary waves-effect waves-float waves-light">{{ isset($fueltypeedit) ? 'Edit' : 'Add' }}</button>
+                            class="btn btn-primary waves-effect waves-float waves-light">{{ isset($fueltypeedit) ? 'Update' : 'Add' }}</button>
                     </div>
                     @if (isset($fueltypeedit))
                         <div class="col-sm-6">
@@ -53,7 +54,9 @@
             </form>
         </div>
     </div>
+@endcan
 
+@can('Fuel_type_read')
     <div class="card">
         <div class="card-header">
             <h3>Manage Fuel Type</h3>
@@ -65,7 +68,9 @@
                         <th>Sr.No</th>
                         <th>Fuel Type Name</th>
                         <th>Image</th>
-                        <th>Action</th>
+                        @canany(['Fuel_type_edit', 'Fuel_type_delete'])
+                            <th>Action</th>
+                        @endcan
                     </tr>
 
                 </thead>
@@ -76,7 +81,9 @@
                             <td>{{ $i++ }}</td>
                             <td>{{ $ft->name }}</td>
                             <td><img src="{{ asset( $ft->image) }}" class="me-75 bg-light-danger"
-                                    style="height:60px;width:100px;" /></td>
+                                    style="height:60px;width:100px;" />
+                            </td>
+                            @canany(['Fuel_type_edit', 'Fuel_type_delete'])
                             <td>
                                 <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
                                     <div class="mb-1 breadcrumb-right">
@@ -86,30 +93,42 @@
                                                 aria-expanded="false"><i data-feather="grid"></i></button>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 @php $ftid=Crypt::encrypt($ft->id); @endphp
+                                                @can('Fuel_type_edit')
                                                 <a class="dropdown-item" href="{{ route('Backend.fueltype.edit', $ftid) }}"><i
                                                         class="me-1" data-feather="check-square"></i><span
-                                                        class="align-middle">Edit</span></a>
-                                                        <a class="dropdown-item" href=""
-                                                        onclick="event.preventDefault();document.getElementById('delete-form-{{ $ftid }}').submit();"><i
-                                                            class="me-1" data-feather="message-square"></i><span
-                                                            class="align-middle">Delete</span></a>
+                                                        class="align-middle">Edit</span>
+                                                </a>
+                                                @endcan
+                                                @can('Fuel_type_delete')
+                                                <a class="dropdown-item" href=""
+                                                onclick="event.preventDefault();document.getElementById('delete-form-{{ $ftid }}').submit();"><i
+                                                    class="me-1" data-feather="message-square"></i><span
+                                                    class="align-middle">Delete</span>
+                                                </a>
+                                                @endcan
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </td>
+                            @endcan
                         </tr>
+                        @can('Fuel_type_delete')
                         <form id="delete-form-{{ $ftid }}" action="{{ route('Backend.fueltype.destroy', $ftid) }}"
                             method="post" style="display: none;">
                             @method('DELETE')
                             @csrf
                         </form>
+                        @endcan
                     @endforeach
 
                 </tbody>
             </table>
         </div>
     </div>
+@endcan
+
 @endsection
 
 

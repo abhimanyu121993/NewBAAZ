@@ -7,6 +7,7 @@
 @endsection
 
 @section('Content-Area')
+@can('Model_create')
     <div class="card">
         <div class="card-header">
             <h3>
@@ -69,7 +70,9 @@
             </form>
         </div>
     </div>
+@endcan
 
+@can('Model_read')
     <div class="card">
         <div class="card-header">
             <h3>Manage Models</h3>
@@ -82,7 +85,9 @@
                         <th>Brand Name</th>
                         <th>Model Name</th>
                         <th>Image</th>
-                        <th>Action</th>
+                        @canany(['Model_edit', 'Model_delete'])
+                            <th>Action</th>
+                        @endcan
                     </tr>
 
                 </thead>
@@ -94,7 +99,9 @@
                             <td>{{ $md->brand->name }}</td>
                             <td>{{ $md->name }}</td>
                             <td><img src="{{ asset($md->image) }}" class="me-75 bg-light-danger"
-                                    style="height:60px;width:150px;" /></td>
+                                    style="height:60px;width:150px;" />
+                            </td>
+                            @canany(['Model_edit', 'Model_delete'])
                             <td>
                                 <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
                                     <div class="mb-1 breadcrumb-right">
@@ -104,24 +111,33 @@
                                                 aria-expanded="false"><i data-feather="grid"></i></button>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 @php $mid=Crypt::encrypt($md->id); @endphp
+                                                @can('Model_edit')
                                                 <a class="dropdown-item" href="{{ route('Backend.model.edit', $mid) }}"><i
                                                         class="me-1" data-feather="check-square"></i><span
-                                                        class="align-middle">Edit</span></a>
-                                                        <a class="dropdown-item" href=""
-                                                        onclick="event.preventDefault();document.getElementById('delete-form-{{ $mid }}').submit();"><i
-                                                            class="me-1" data-feather="message-square"></i><span
-                                                            class="align-middle">Delete</span></a>
+                                                        class="align-middle">Edit</span>
+                                                </a>
+                                                @endcan
+                                                @can('Model_delete')
+                                                <a class="dropdown-item" href=""
+                                                onclick="event.preventDefault();document.getElementById('delete-form-{{ $mid }}').submit();"><i
+                                                    class="me-1" data-feather="message-square"></i><span
+                                                    class="align-middle">Delete</span>
+                                                </a>
+                                                @endcan
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </td>
+                            @endcan
                         </tr>
+                        @can('Model_delete')
                         <form id="delete-form-{{ $mid }}" action="{{ route('Backend.model.destroy', $mid) }}"
                             method="post" style="display: none;">
                             @method('DELETE')
                             @csrf
                         </form>
+                        @endcan
                     @endforeach
 
                 </tbody>
@@ -131,6 +147,8 @@
             {!! $models->links('pagination::bootstrap-5') !!}
         </div>
     </div>
+@endcan
+
 @endsection
 
 
