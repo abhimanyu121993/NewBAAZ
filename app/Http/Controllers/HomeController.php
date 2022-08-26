@@ -61,11 +61,11 @@ class HomeController extends Controller
         ]);
         try
         {
-            $model = Brand::find($req->company_id)->models;
+            $model = Brand::find($req->company_id);
             if ($model)
             {
                 $result = [
-                    'data' => $model,
+                    'data' => $model->models,
                     'message' => 'Brand model details found',
                     'status' => 200,
                     'error' => NULL
@@ -169,11 +169,11 @@ class HomeController extends Controller
         ]);
         try
         {
-            $services = Category::find($req->category_id)->services;
+            $services = Category::find($req->category_id);
             if ($services)
             {
                 $result = [
-                    'data' => $services,
+                    'data' => $services->services,
                     'message' => 'Services found',
                     'status' => 200,
                     'error' => NULL
