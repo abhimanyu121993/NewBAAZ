@@ -95,6 +95,44 @@ class UserController extends Controller
         }
     }
 
+    public function editProfile(Request $req)
+    {
+        $req->validate([
+            'user_id' => 'required',
+        ]);
+        try
+        {
+            $user = Customer::where('id',$req->user_id)->first();
+            if ($user)
+            {
+                $result = [
+                    'data' => $user,
+                    'message' => 'User data fetched successfully',
+                    'status' => 200,
+                    'error' => NULL
+                ];
+            }
+            else
+            {
+                $result = [
+                    'data' => NULL,
+                    'message' => 'User not found',
+                    'status' => 200,
+                    'error' => [
+                        'message' => 'Server Error',
+                        'code' => 305,
+                    ]
+                ];
+            }
+            return response()->json($result);
+        }
+        catch (Exception $ex)
+        {
+            $url=URL::current();
+            Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
+        }
+    }
+
     public function userVehicleMap(Request $req)
     {
         $req->validate([

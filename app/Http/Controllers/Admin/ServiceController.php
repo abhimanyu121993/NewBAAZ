@@ -9,6 +9,8 @@ use App\Models\Service;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 
@@ -51,12 +53,11 @@ class ServiceController extends Controller
             'desc' => 'nullable',
             'pic'=>'nullable|image'
         ]);
-        $servicepic='branddummy.jpg';
         try
         {
             if($request->hasFile('pic'))
             {
-                $servicepic='model-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
+                $servicepic='service-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
                 $request->pic->move(public_path('upload/service/'),$servicepic);
             }
             $res= Service::create(['cid'=> $request->cid ,'name'=>$request->sname,'price'=>$request->sprice,'desc'=>$request->desc,'image'=>'upload/service/'.$servicepic]);
@@ -102,6 +103,7 @@ class ServiceController extends Controller
         $services = Service::latest()->paginate(20);
         $id=Crypt::decrypt($id);
         $serviceedit=Service::find($id);
+        Log::info('service edit'.json_encode($serviceedit));
         if($serviceedit)
         {
             return view('Backend.service',compact('category','serviceedit','services'));
@@ -129,17 +131,19 @@ class ServiceController extends Controller
             'desc' => 'nullable',
             'pic'=>'nullable|image'
         ]);
-        $servicepic='branddummy.jpg';
         try
         {
             if($request->hasFile('pic'))
             {
-                $servicepic='model-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
+                $servicepic='service-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
+                Log::info('servicepic'.$servicepic);
                 $request->pic->move(public_path('upload/service/'),$servicepic);
                 $oldpic=Service::find($id)->pluck('image')[0];
-                    unlink(public_path($oldpic));
+               // return asset($oldpic);
+                File::delete(public_path($oldpic));
+                Service::find($id)->update(['image'=>'upload/service/'.$servicepic]);
             }
-            $res= Service::create(['cid'=> $request->cid ,'name'=>$request->sname,'price'=>$request->sprice,'desc'=>$request->desc,'image'=>'upload/service/'.$servicepic]);
+            $res= Service::find($id)->update(['cid'=> $request->cid ,'name'=>$request->sname,'price'=>$request->sprice,'desc'=>$request->desc]);
 
             if($res)
             {

@@ -27,6 +27,7 @@ Route::post('user-login', [AuthController::class, 'userLogin']);
 //User Routes
 Route::post('show-profile', [UserController::class, 'showProfile']);
 Route::post('update-profile', [UserController::class, 'updateProfile']);
+Route::post('edit-profile', [UserController::class, 'editProfile']);
 
 
 //Home Routes

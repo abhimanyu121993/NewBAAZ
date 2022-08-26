@@ -37,18 +37,12 @@
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="desc">Category Name</label>
                         <select class="select2 form-select" id="select2-basic"  name='cid' required>
-                        @if(isset($serviceedit))
-                              <option value='{{$serviceedit->id}}'>{{$serviceedit->category->name}}</option>
-                        @else
-                        <option selected disabled value="">--Select Category--</option>
-                        @endif
 
+                        <option disabled value="">--Select Category--</option>
                             @foreach ($category as $cat)
-                                <option value="{{$cat->id}}">{{$cat->name}}</option>
+                                <option {{ !isset($serviceedit) ? '': ($serviceedit->category->id == $cat->id ? 'selected' : '') }} value="{{$cat->id}}">{{$cat->name}}</option>
                             @endforeach
                         </select>
-                        <div class="valid-feedback">Looks good!</div>
-                        <div class="invalid-feedback">.</div>
                     </div>
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="pic">Service Name</label>
@@ -77,7 +71,7 @@
                 <div class="row">
                     <div class="col-sm-2">
                         <button type="submit"
-                            class="btn btn-primary waves-effect waves-float waves-light">{{ isset($serviceedit) ? 'Edit' : 'Add' }}</button>
+                            class="btn btn-primary waves-effect waves-float waves-light">{{ isset($serviceedit) ? 'Update' : 'Add' }}</button>
                     </div>
                     @if (isset($serviceedit))
                         <div class="col-sm-6">
@@ -117,7 +111,7 @@
                     @foreach ($services as $service)
                         <tr>
                             <td>{{ $i++ }}</td>
-                            <td>{{ $service->category->name }}</td>
+                            <td>{{ $service->category->name ?? ''}}</td>
                             <td>{{ $service->name }}</td>
                             <td>{{ $service->price }}</td>
                             <td>{!! $service->desc !!}</td>
