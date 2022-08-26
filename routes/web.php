@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\OtherProductController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\ServiceChargeController;
+use App\Http\Controllers\Admin\SlotController;
 use App\Http\Controllers\Admin\WorkshopController;
 use App\Http\Controllers\Admin\ZoneController;
 use App\Http\Middleware\AuthLogin;
@@ -69,6 +70,7 @@ Route::group(['prefix'=>'Backend','as'=>'Backend.'],function(){
     Route::post('allot-workshop',[WorkshopController::class,'allotWorkshop'])->name('allotWorkshop');
     Route::resource('modelservicemap',ModelServiceMapController::class);
     Route::resource('batterytype',BatteryTypeController::class);
+    Route::resource('slot',SlotController::class);
 
 });
 

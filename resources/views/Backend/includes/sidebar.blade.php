@@ -172,7 +172,7 @@
                 </li>
             @endcanany
 
-            @canany(['Workshop', 'Employee', 'Country', 'Zone', 'Area', 'City'])
+            @canany(['Workshop', 'Employee', 'Country', 'Zone', 'Area', 'City', 'Battery_type', 'Slot'])
                 <li class="nav-item has-sub" style=""><a class="d-flex align-items-center" href="#"><i data-feather="settings"></i><span class="menu-title text-truncate" data-i18n="Invoice">Business Setup</span></a>
                     <ul class="menu-content">
 
@@ -240,6 +240,16 @@
                                         stroke-linejoin="round" class="feather feather-circle">
                                         <circle cx="12" cy="12" r="10"></circle>
                                     </svg><span class="menu-item text-truncate" data-i18n="List">Battery Type</span></a>
+                            </li>
+                        @endcan
+
+                        @can('Slot')
+                            <li><a class="d-flex align-items-center" href="{{ route('Backend.slot.index') }}"><svg
+                                        xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="feather feather-circle">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                    </svg><span class="menu-item text-truncate" data-i18n="List">Slot</span></a>
                             </li>
                         @endcan
 

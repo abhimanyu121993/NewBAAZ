@@ -11,6 +11,7 @@ use App\Models\HomeSlider;
 use App\Models\OfferBanner;
 use App\Models\Service;
 use App\Models\Slider;
+use App\Models\Slot;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -253,6 +254,41 @@ class HomeController extends Controller
                 $result = [
                     'data' => NULL,
                     'message' => 'Company details not found',
+                    'status' => 200,
+                    'error' => [
+                        'message' => 'Server Error',
+                        'code' => 305,
+                    ]
+                ];
+            }
+            return response()->json($result);
+        }
+        catch (Exception $ex)
+        {
+            $url=URL::current();
+            Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
+        }
+    }
+
+    public function fetchSlot()
+    {
+        try
+        {
+            $slot = Slot::get();
+            if ($slot)
+            {
+                $result = [
+                    'data' => $slot,
+                    'message' => 'Slot details found',
+                    'status' => 200,
+                    'error' => NULL
+                ];
+            }
+            else
+            {
+                $result = [
+                    'data' => NULL,
+                    'message' => 'Slot details not found',
                     'status' => 200,
                     'error' => [
                         'message' => 'Server Error',
