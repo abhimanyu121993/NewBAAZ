@@ -114,6 +114,7 @@
                             <td>{{ $mm->fuel_type->name ?? ''}}</td>
                             <td>{{ $mm->price ?? '' }}</td>
                             <td>{{ $mm->discounted_price ?? ''}}</td>
+
                             @canany(['Model_map_edit', 'Model_map_delete'])
                             <td>
                                 <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
