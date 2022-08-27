@@ -74,6 +74,7 @@ Route::group(['prefix'=>'Backend','as'=>'Backend.'],function(){
     Route::get('jobcard/{id}',[OrderHistoryController::class,'jobcard'])->name('jobcard');
     Route::post('order-jobcard',[OrderHistoryController::class,'orderJobcard'])->name('orderJobcard');
 
+    Route::get('order-service-detail',[OrderHistoryController::class,'orderServiceDetail'])->name('orderServiceDetail');
 });
 
 

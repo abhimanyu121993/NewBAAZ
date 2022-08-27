@@ -8,6 +8,9 @@ use App\Models\Error;
 use App\Models\Jobcard;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\OtherProduct;
+use App\Models\Service;
+use App\Models\ServiceCharge;
 use App\Models\User;
 use App\Models\Workshop;
 use Exception;
@@ -63,9 +66,9 @@ class OrderHistoryController extends Controller
         try
         {
             $id=Crypt::decrypt($id);
-            $oid = $id;
-            $orders = Order::where('id', $id)->first();
-            return view('Backend.userorderdetail', compact('orders', 'oid'));
+            $order = Order::find($id);
+            $orderDetails = Order::where('id', $id)->first();
+            return view('Backend.userorderdetail', compact('orderDetails', 'order'));
         }
         catch (Exception $ex)
         {
@@ -214,5 +217,13 @@ class OrderHistoryController extends Controller
             Session::flash('error','Server Error ');
         }
             return redirect()->back();
+    }
+
+    public function orderServiceDetail()
+    {
+        $services = Service::all();
+        $serviceCharges = ServiceCharge::all();
+        $otherProducts = OtherProduct::all();
+        return view('Backend.order_service_detail', compact('services', 'serviceCharges', 'otherProducts'));
     }
 }

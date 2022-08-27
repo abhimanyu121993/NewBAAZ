@@ -25,18 +25,18 @@
 
                 </thead>
                 <tbody>
-                    @if($orders)
-                        @foreach ($orders->order_details as $order )
+                    @if($orderDetails)
+                        @foreach ($orderDetails->order_details as $orderd )
                         <tr>
-                            <td><img src="{{asset($order->servicetype->image ?? '')}}" class="me-75 bg-light-danger"
+                            <td><img src="{{asset($orderd->servicetype->image ?? '')}}" class="me-75 bg-light-danger"
                                 style="height:35px;width:35px;" /></td>
-                            <td>{{ $order->servicetype->name ?? '' }}</td>
-                            <td>{{ $order->servicetype->price ?? '' }}</td>
+                            <td>{{ $orderd->servicetype->name ?? '' }}</td>
+                            <td>{{ $orderd->servicetype->price ?? '' }}</td>
                         </tr>
                         <tr>
-                            @if($order->)
-                            <td><a href="#" class="btn btn-success">Service</a></td>
-                            <td><a href="{{ route('Backend.jobcard', $oid) }}" class="btn btn-primary">Job Card</a></td>
+                            <td><a href="{{ route('Backend.orderServiceDetail', $order->id) }}" class="btn btn-success">Service</a></td>
+
+                            <td><a href="{{ route('Backend.jobcard', $order->id) }}" class="btn btn-primary">Job Card</a></td>
                         </tr>
                         @endforeach
                     @else

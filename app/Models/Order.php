@@ -33,6 +33,6 @@ class Order extends Model
 
     public function jobcard()
     {
-        return $this->belongsTo(Order::class, 'order_id' );
+        return $this->hasOne(Jobcard::class, 'order_id' );
     }
 }
