@@ -96,7 +96,7 @@
                     @foreach ($models as $md)
                         <tr>
                             <td>{{ $i++ }}</td>
-                            <td>{{ $md->brand->name }}</td>
+                            <td>{{ $md->brand->name ?? ''}}</td>
                             <td>{{ $md->name }}</td>
                             <td><img src="{{ asset($md->image) }}" class="me-75 bg-light-danger"
                                     style="height:60px;width:150px;" />

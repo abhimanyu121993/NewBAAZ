@@ -30,4 +30,9 @@ class Order extends Model
     {
         return $this->belongsTo(OrderStatus::class, 'order_status');
     }
+
+    public function jobcard()
+    {
+        return $this->belongsTo(Order::class, 'order_id' );
+    }
 }

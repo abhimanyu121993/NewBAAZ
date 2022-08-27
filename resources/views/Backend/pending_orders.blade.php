@@ -48,7 +48,7 @@
                                        @foreach ($pendingorders as $order)
                                             <tr>
                                                 <td>{{ $loop->index + 1 }}</td>
-                                                @php $oid=Crypt::encrypt($order->order_id); @endphp
+                                                @php $oid=Crypt::encrypt($order->id); @endphp
                                                 <td><a href="{{ route('Backend.orderhistory.show', $oid) }}">BAAZ-{{ $order->order_id }}</a></td>
                                                 <td>{{ $order->user->name ?? 'BAAZ Customer' }}</td>
                                                 <td>{{ $order->slot_detail->name ?? ''}}</td>
@@ -60,7 +60,7 @@
                                                     @csrf
                                                     <td>
                                                         <input type="hidden" name="oid" value="{{ $order->id ?? '' }}" />
-                                                        <select style="width:200px;" class="form-select" id="select2-basic" name='wid' required>
+                                                        <select style="width:200px;" class="select2 form-select" id="select2-basic" name='wid' required>
                                                             <option selected disabled value="">--Select Workshop--</option>
                                                             @foreach ($workshops as $shop)
                                                                 <option {{ !isset($order) ? '': ($order->assigned_workshop == $shop->id ? 'selected' : '') }} value="{{$shop->id}}">{{$shop->name}}</option>
@@ -113,6 +113,7 @@
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="{{ asset('Backend/assets/js/scripts/datatables/datatable.js') }}"></script>
+    <script src="{{asset('BackEnd/assets/vendors/js/forms/select/select2.full.min.js')}}"></script>
     <script src="{{asset('Backend/assets/js/scripts/forms/form-select2.js')}}"></script>
     <script>
         $("#allotworkshop").submit(function(e) {

@@ -53,7 +53,7 @@
                                                 <td>{{ $order->user->name ?? 'BAAZ Customer' }}</td>
                                                 <td>{{ $order->slot_detail->name ?? ''}}</td>
                                                 <td>{{ $order->user->mobileno ?? ''}}</td>
-                                                <td>{{ $order->order_status_detail->name }}</td>
+                                                <td>{{ $order->order_status_detail->name ?? ''}}</td>
                                                 <td>{{ $order->created_at }}</td>
                                                 @canany(['Confirmed_orders_edit', 'Confirmed_orders_delete'])
                                                 <form id="allotworkshop" action="{{ route('Backend.allotWorkshop') }}" method="POST">

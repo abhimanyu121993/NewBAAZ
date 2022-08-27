@@ -71,6 +71,8 @@ Route::group(['prefix'=>'Backend','as'=>'Backend.'],function(){
     Route::resource('modelservicemap',ModelServiceMapController::class);
     Route::resource('batterytype',BatteryTypeController::class);
     Route::resource('slot',SlotController::class);
+    Route::get('jobcard/{id}',[OrderHistoryController::class,'jobcard'])->name('jobcard');
+    Route::post('order-jobcard',[OrderHistoryController::class,'orderJobcard'])->name('orderJobcard');
 
 });
 
