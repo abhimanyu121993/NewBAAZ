@@ -109,9 +109,9 @@
                     @foreach ($modelmaps as $mm)
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
-                            <td>{{ $mm->model->name }}</td>
-                            <td>{{ $mm->service->name }}</td>
-                            <td>{{ $mm->fuel_type->name }}</td>
+                            <td>{{ $mm->model->name ?? ''}}</td>
+                            <td>{{ $mm->service->name ?? ''}}</td>
+                            <td>{{ $mm->fuel_type->name ?? ''}}</td>
                             <td>{{ $mm->price }}</td>
                             <td>{{ $mm->discounted_price }}</td>
                             @canany(['Model_map_edit', 'Model_map_delete'])
