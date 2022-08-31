@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('service_charges', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('price');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -43,11 +43,12 @@ class ServiceChargeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required'
+            'name'=>'required',
+            'price' => 'required'
         ]);
         try
         {
-            $res= ServiceCharge::create(['name'=>$request->name]);
+            $res= ServiceCharge::create(['name'=>$request->name, 'price' => $request->price]);
 
             if($res)
             {
@@ -110,11 +111,12 @@ class ServiceChargeController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name'=>'required'
+            'name'=>'required',
+            'price' => 'required'
         ]);
         try
         {
-            $res= ServiceCharge::find($id)->update(['name'=>$request->name]);
+            $res= ServiceCharge::find($id)->update(['name'=>$request->name, 'price' => $request->price]);
 
             if($res)
             {

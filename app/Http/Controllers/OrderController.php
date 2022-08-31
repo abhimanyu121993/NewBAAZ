@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Error;
+use App\Models\ModelServiceMap;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Exception;
@@ -17,9 +18,11 @@ class OrderController extends Controller
     {
         $req->validate([
             'user_id' => 'required',
-            'slot' => 'required'
+            'slot' => 'required',
+            'model_id' => 'required',
+            'service_type' => 'required',
+            'payment_mode' => 'required'
         ]);
-
         try
         {
             $n = Order::max('order_id');
@@ -32,22 +35,20 @@ class OrderController extends Controller
                 $order_no=1;
             }
             $order_no=sprintf('%05d',$order_no);
-            $order = Order::create(['user_id' => $req->user_id, 'order_id' => $order_no, 'slot' => $req->slot]);
+            $order = Order::create(['user_id' => $req->user_id, 'order_id' => $order_no, 'slot' => $req->slot, 'order_status' => 1, 'payment_mode' => $req->payment_mode]);
             $ttamt = 0;
             if ($order)
             {
-                $service_type=json_decode($req->service_type);
-                $price=json_decode( $req->price);
-                for ($i = 0; $i < count($service_type); $i++)
-                {
-                    $oddtl = OrderDetail::create([
-                        'order_id' => $order->id,
-                        'service_type' =>$service_type[$i],
-                        'price' =>$price[$i],
-                    ]);
-                    $ttamt += $price[$i];
-                }
+                $modelmap = ModelServiceMap::where('model_id',$req->model_id)->where('service_id', $req->service_type)->first();
+                $oddtl = OrderDetail::create([
+                    'order_id' => $order->id,
+                    'model_id' => $req->model_id,
+                    'service_type' =>$req->service_type,
+                    'price' =>$modelmap->discounted_price ?? 0,
+                ]);
+                $ttamt += $modelmap->discounted_price ?? 0;
                 $ordeup=Order::where('id',$oddtl->id)->update(['total_amount' => round($ttamt,2)]);
+                Log::info('ordeup'.json_encode($ordeup));
             }
             if ($ordeup)
             {
@@ -91,6 +92,44 @@ class OrderController extends Controller
                 $result = [
                     'data' => $orders,
                     'message' => 'Order history details',
+                    'status' => 200,
+                    'error' => NULL
+                ];
+            }
+            else
+            {
+                $result = [
+                    'data' => NULL,
+                    'message' => 'Order history not found',
+                    'status' => 200,
+                    'error' => [
+                        'message' => 'Server Error',
+                        'code' => 305,
+                    ]
+                ];
+            }
+            return response()->json($result);
+        }
+        catch (Exception $ex)
+        {
+            $url=URL::current();
+            Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
+        }
+    }
+
+    public function singleUserOrderHistory(Request $req)
+    {
+        $req->validate([
+            'user_id' => 'required'
+        ]);
+        try
+        {
+            $orders = Order::with('order_details')->where('user_id',$req->user_id)->get();
+            if ($orders)
+            {
+                $result = [
+                    'data' => $orders,
+                    'message' => 'Order history found',
                     'status' => 200,
                     'error' => NULL
                 ];

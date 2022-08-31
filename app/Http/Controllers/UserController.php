@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BrandModel;
 use App\Models\Customer;
 use App\Models\Error;
 use App\Models\TestUser;
@@ -143,12 +144,14 @@ class UserController extends Controller
 
         try
         {
+            $model = BrandModel::find($req->model_id);
             $batchno = $req->user_id.'-'.time().'-'.rand(1,99);
             $data = [
                 'userid' => $req->user_id,
                 'modelid' => $req->model_id,
                 'fueltype' => $req->fuel_type_id,
-                'batchno' => $batchno
+                'batchno' => $batchno,
+                'model_image' => $model->image
             ];
             $uservehiclemap = UserVehicleMap::create($data) ;
             if ($uservehiclemap)
@@ -312,43 +315,4 @@ class UserController extends Controller
         }
     }
 
-    // public function registerTestUser(Request $req)
-    // {
-    //     try
-    //     {
-    //         $testuser = TestUser::create([
-    //             'name' => $req->name,
-    //             'phone' => $req->phone,
-    //             'email' => $req->email,
-    //             'password' => $req->password
-    //         ]);
-    //         if ($testuser)
-    //         {
-    //             $result = [
-    //                 'data' => $testuser,
-    //                 'message' => 'Data inserted successfully',
-    //                 'status' => 200,
-    //                 'error' => NULL
-    //             ];
-    //         }
-    //         else
-    //         {
-    //             $result = [
-    //                 'data' => NULL,
-    //                 'message' => 'Data inserted successfully',
-    //                 'status' => 200,
-    //                 'error' => [
-    //                     'message' => 'Server Error',
-    //                     'code' => 305,
-    //                 ]
-    //             ];
-    //         }
-    //         return response()->json($result);
-    //     }
-    //     catch (Exception $ex)
-    //     {
-    //         $url=URL::current();
-    //         Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
-    //     }
-    // }
 }

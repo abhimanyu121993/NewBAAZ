@@ -10,18 +10,18 @@
     <div class="card">
         <div class="card-header">
             <h3>
-                @if (!isset($editjobcard))
-                    Order Jobcard
+                @if (!isset($jobcard))
+                    Jobcard
                 @else
-                    Update Order Jobcard
+                    Update Jobcard
                 @endif
             </h3>
         </div>
         <div class="card-body">
             <form class="needs-validation"
-                action="{{ route('Backend.orderJobcard') }}"
+                action="{{ isset($jobcard) ? route('Backend.jobcard.update', $jobcard->id) : route('Backend.jobcard.store') }}"
                 method='post' enctype="multipart/form-data">
-                @if (isset($modeledit))
+                @if (isset($jobcard))
                     @method('patch')
                 @endif
                 @csrf
@@ -30,99 +30,99 @@
                     <input type="hidden" name="order_id" value="{{$oid}}" />
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="pic">Registered Vehicle Number</label>
-                        <input type="text" name='regno' class="form-control " value="{{ isset($serviceedit) ? $serviceedit->name : '' }}" placeholder="Registered Vehicle Number" />
+                        <input type="text" name='regno' class="form-control " value="{{ isset($jobcard) ? $jobcard->regno : '' }}" placeholder="Registered Vehicle Number" />
                     </div>
 
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="pic">Odometer Reading</label>
-                        <input type="text" name='odometer_reading' class="form-control " value="{{ isset($serviceedit) ? $serviceedit->name : '' }}" placeholder="Odometer Reading" />
+                        <input type="text" name='odometer_reading' class="form-control " value="{{ isset($jobcard) ? $jobcard->odometer_reading : '' }}" placeholder="Odometer Reading" />
                     </div>
 
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="pic">Year Of Manufacturing</label>
-                        <input type="text" name='manufacturing_year' class="form-control " value="{{ isset($serviceedit) ? $serviceedit->name : '' }}" placeholder="Year of manufacturing" />
+                        <input type="text" name='manufacturing_year' class="form-control " value="{{ isset($jobcard) ? $jobcard->manufacturing_year : '' }}" placeholder="Year of manufacturing" />
                     </div>
 
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="desc">Gender</label>
                         <select class="form-select" name='gender' required>
                         <option selected disabled value="">--Select Gender--</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->gender == 'male' ? 'selected' : '') }} value="male">Male</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->gender == 'female' ? 'selected' : '') }} value="female">Female</option>
                         </select>
                     </div>
 
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="pic">Mechanic</label>
-                        <input type="text" name='mechanic_name' class="form-control " value="{{ isset($serviceedit) ? $serviceedit->name : '' }}" placeholder="Mechanic Name" />
+                        <input type="text" name='mechanic_name' class="form-control " value="{{ isset($jobcard) ? $jobcard->mechanic_name : '' }}" placeholder="Mechanic Name" />
                     </div>
 
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="desc">Arrival Mode</label>
                         <select class="form-select" name='arrival_mode' required>
                         <option selected disabled value="">--Select Arrival Mode--</option>
-                            <option value="pickup_drop">Pickup & Drop</option>
-                            <option value="walkin">Walkin</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->arrival_mode == 'pickup_drop' ? 'selected' : '') }} value="pickup_drop">Pickup & Drop</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->arrival_mode == 'walkin' ? 'selected' : '') }} value="walkin">Walkin</option>
                         </select>
                     </div>
 
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="pic">Walkin date</label>
-                        <input type="date" name='walkin_date' class="form-control " value="{{ isset($serviceedit) ? $serviceedit->name : '' }}"  />
+                        <input type="date" name='walkin_date' class="form-control " value="{{ isset($jobcard) ? $jobcard->walkin_date : '' }}"  />
                     </div>
 
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="pic">Walkin Time</label>
-                        <input type="time" name='walkin_time' class="form-control " value="{{ isset($serviceedit) ? $serviceedit->name : '' }}"/>
+                        <input type="time" name='walkin_time' class="form-control " value="{{ isset($jobcard) ? $jobcard->walkin_time : '' }}"/>
                     </div>
 
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="pic">Name</label>
-                        <input type="text" name='cust_name' class="form-control " value="{{ isset($serviceedit) ? $serviceedit->name : '' }}" placeholder="Customer Name" />
+                        <input type="text" name='cust_name' class="form-control " value="{{ isset($jobcard) ? $jobcard->cust_name : '' }}" placeholder="Customer Name" />
                     </div>
 
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="pic">Mobile</label>
-                        <input type="text" name='cust_phone' class="form-control " value="{{ isset($serviceedit) ? $serviceedit->name : '' }}" placeholder="Customer Mobile Number" />
+                        <input type="text" name='cust_phone' class="form-control " value="{{ isset($jobcard) ? $jobcard->cust_phone : '' }}" placeholder="Customer Mobile Number" />
                     </div>
 
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="pic">Email</label>
-                        <input type="text" name='cust_email' class="form-control " value="{{ isset($serviceedit) ? $serviceedit->name : '' }}" placeholder="Customer Email" />
+                        <input type="text" name='cust_email' class="form-control " value="{{ isset($jobcard) ? $jobcard->cust_email : '' }}" placeholder="Customer Email" />
                     </div>
 
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="pic">Address</label>
-                        <input type="text" name='cust_address' class="form-control " value="{{ isset($serviceedit) ? $serviceedit->name : '' }}" placeholder="Customer Address" />
+                        <input type="text" name='cust_address' class="form-control " value="{{ isset($jobcard) ? $jobcard->cust_address : '' }}" placeholder="Customer Address" />
                     </div>
 
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="desc">Fuel Level</label>
                         <select class="form-select" name='fuel_level' required>
                         <option selected disabled value="">--Select Fuel Level--</option>
-                            <option value="0">0%</option>
-                            <option value="10">10%</option>
-                            <option value="20">20%</option>
-                            <option value="30">30%</option>
-                            <option value="40">40%</option>
-                            <option value="50">50%</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->fuel_level == '0' ? 'selected' : '') }} value="0">0%</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->fuel_level == '10' ? 'selected' : '') }} value="10">10%</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->fuel_level == '20' ? 'selected' : '') }} value="20">20%</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->fuel_level == '30' ? 'selected' : '') }} value="30">30%</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->fuel_level == '40' ? 'selected' : '') }} value="40">40%</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->fuel_level == '50' ? 'selected' : '') }} value="50">50%</option>
                         </select>
                     </div>
 
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="pic">Floor Mat</label>
-                        <input type="text" name='floor_mat' class="form-control " value="{{ isset($serviceedit) ? $serviceedit->name : '' }}" placeholder="Floor Mat" />
+                        <input type="text" name='floor_mat' class="form-control " value="{{ isset($jobcard) ? $jobcard->floor_mat : '' }}" placeholder="Floor Mat" />
                     </div>
 
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="desc">Wheel Cap</label>
                         <select class="form-select" name='wheel_cap' required>
                         <option selected disabled value="">--Select Wheel Cap--</option>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->wheel_cap == '0' ? 'selected' : '') }} value="0">0</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->wheel_cap == '1' ? 'selected' : '') }} value="1">1</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->wheel_cap == '2' ? 'selected' : '') }} value="2">2</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->wheel_cap == '3' ? 'selected' : '') }} value="3">3</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->wheel_cap == '4' ? 'selected' : '') }} value="4">4</option>
                         </select>
                     </div>
 
@@ -130,11 +130,11 @@
                         <label class="form-label" for="desc">Head Rest</label>
                         <select class="form-select" name='head_rest' required>
                         <option selected disabled value="">--Select Head Rest--</option>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->head_rest == '0' ? 'selected' : '') }} value="0">0</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->head_rest == '1' ? 'selected' : '') }} value="1">1</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->head_rest == '2' ? 'selected' : '') }} value="2">2</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->head_rest == '3' ? 'selected' : '') }} value="3">3</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->head_rest == '4' ? 'selected' : '') }} value="4">4</option>
                         </select>
                     </div>
 
@@ -142,11 +142,11 @@
                         <label class="form-label" for="desc">Mud Flap</label>
                         <select class="form-select" name='mud_flap' required>
                         <option selected disabled value="">--Select Mud Flap--</option>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->mud_flap == '0' ? 'selected' : '') }} value="0">0</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->mud_flap == '1' ? 'selected' : '') }} value="1">1</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->mud_flap == '2' ? 'selected' : '') }} value="2">2</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->mud_flap == '3' ? 'selected' : '') }} value="3">3</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->mud_flap == '4' ? 'selected' : '') }} value="4">4</option>
                         </select>
                     </div>
 
@@ -155,7 +155,7 @@
                         <select class="select2 form-select" id="select2-basic"  name='battery_id' required>
                         <option selected disabled value="">--Select Battery Type--</option>
                             @foreach ($batterytypes as $battery)
-                                <option value="{{$battery->id}}">{{$battery->name}}</option>
+                                <option {{ !isset($jobcard) ? '': ($jobcard->battery_id == $battery->id ? 'selected' : '') }} value="{{$battery->id}}">{{$battery->name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -164,11 +164,11 @@
                         <label class="form-label" for="desc">Interior Inventry Check</label>
                         <select class="form-select" name='interior_inventory' required>
                         <option selected disabled value="">--Select Inventory--</option>
-                            <option value="perfume">Perfume</option>
-                            <option value="idol">Idol</option>
-                            <option value="fog_lamp">Fog Lamp</option>
-                            <option value="usb">USB</option>
-                            <option value="lighter">Lighter</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->interior_inventory == 'perfume' ? 'selected' : '') }} value="perfume">Perfume</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->interior_inventory == 'idol' ? 'selected' : '') }} value="idol">Idol</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->interior_inventory == 'fog_lamp' ? 'selected' : '') }} value="fog_lamp">Fog Lamp</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->interior_inventory == 'usb' ? 'selected' : '') }} value="usb">USB</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->interior_inventory == 'lighter' ? 'selected' : '') }} value="lighter">Lighter</option>
                         </select>
                     </div>
 
@@ -176,11 +176,11 @@
                         <label class="form-label" for="desc">Document</label>
                         <select class="form-select" name='document' required>
                         <option selected disabled value="">--Select Document--</option>
-                            <option value="rc">RC</option>
-                            <option value="puc">PUC</option>
-                            <option value="insurance">Insurance</option>
-                            <option value="road_tax">Road Tax</option>
-                            <option value="passenger_tax">Passenger Tax</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->document == 'rc' ? 'selected' : '') }} value="rc">RC</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->document == 'puc' ? 'selected' : '') }} value="puc">PUC</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->document == 'insurance' ? 'selected' : '') }} value="insurance">Insurance</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->document == 'road_tax' ? 'selected' : '') }} value="road_tax">Road Tax</option>
+                            <option {{ !isset($jobcard) ? '': ($jobcard->document == 'passenger_tax' ? 'selected' : '') }} value="passenger_tax">Passenger Tax</option>
                         </select>
                     </div>
 
@@ -188,7 +188,7 @@
                 <div class="row">
                     <div class="col-sm-2">
                         <button type="submit"
-                            class="btn btn-primary waves-effect waves-float waves-light">{{ isset($modeledit) ? 'Update' : 'Add' }}</button>
+                            class="btn btn-primary waves-effect waves-float waves-light">{{ isset($jobcard) ? 'Update' : 'Add' }}</button>
                     </div>
                 </div>
 

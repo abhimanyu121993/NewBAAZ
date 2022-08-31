@@ -14,6 +14,7 @@ use App\Models\Slider;
 use App\Models\Slot;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
@@ -165,11 +166,19 @@ class HomeController extends Controller
     public function services(Request $req)
     {
         $req->validate([
-            'category_id' => 'required'
+            'category_id' => 'required',
+            'model_id' => 'required'
         ]);
         try
         {
-            $services = Category::find($req->category_id);
+            $services = DB::table('categories as c')
+                ->select('msm.service_id as service_id', 'msm.price as service_price', 's.name as service_name', 's.image as service_image')
+                ->join('services as s', 's.cid', 'c.id')
+                ->join('model_service_maps as msm', 'msm.service_id', 's.id')
+                ->join('brand_models as bm', 'bm.id', 'msm.model_id')
+                ->where('c.id', $req->category_id)
+                ->where('msm.model_id', $req->model_id)
+                ->get();
             if ($services)
             {
                 $result = [

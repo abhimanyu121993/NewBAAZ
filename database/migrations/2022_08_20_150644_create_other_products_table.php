@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('other_products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('price');
             $table->softDeletes();
             $table->timestamps();
         });

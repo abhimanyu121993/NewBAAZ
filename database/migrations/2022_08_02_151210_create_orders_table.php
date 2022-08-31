@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('slot')->nullable();
             $table->decimal('total_amount',10,2)->nullable();
             $table->string('order_status')->nullable();
+            $table->string('wokshop_status')->nullable();
             $table->string('assigned_workshop')->nullable();
             $table->string('payment_mode')->nullable();
             $table->string('transaction_id')->nullable();

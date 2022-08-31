@@ -6,18 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class BrandModel extends Model
+class WorkshopOrder extends Model
 {
     use HasFactory, SoftDeletes;
     protected $guarded = [];
 
-    public function brand()
+    public function workshop_order_details()
     {
-        return $this->belongsTo(Brand::class, 'bid');
-    }
-
-    public function model_map()
-    {
-        return $this->hasMany(ModelServiceMap::class,'model_id');
+        return $this->hasMany(WorkshopOrderDetail::class, 'workshop_order_id');
     }
 }

@@ -43,11 +43,12 @@ class OtherProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required'
+            'name'=>'required',
+            'price' => 'required'
         ]);
         try
         {
-            $res= OtherProduct::create(['name'=>$request->name]);
+            $res= OtherProduct::create(['name'=>$request->name, 'price' => $request->price]);
 
             if($res)
             {
@@ -110,11 +111,12 @@ class OtherProductController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name'=>'required'
+            'name' => 'required',
+            'price' => 'required'
         ]);
         try
         {
-            $res= OtherProduct::find($id)->update(['name'=>$request->name]);
+            $res= OtherProduct::find($id)->update(['name'=>$request->name, 'price' => $request->price]);
 
             if($res)
             {

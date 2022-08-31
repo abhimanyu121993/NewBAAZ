@@ -130,7 +130,7 @@ class OrderHistoryController extends Controller
             $pendingorders = Order::Where('assigned_workshop', $userid)
                 ->Where('order_status',1)
                 ->paginate(20);
-        //Log::info('pendingorders'.json_encode($pendingorders));
+        Log::info('pendingorders'.json_encode($pendingorders));
         return view('Backend.pending_orders', compact('pendingorders'));
         }
     }
@@ -155,75 +155,4 @@ class OrderHistoryController extends Controller
         }
     }
 
-    public function jobcard($id)
-    {
-        Log::info('orderjobcard'.$id);
-        $batterytypes = BatteryType::all();
-        $oid = $id;
-        //$jobcard = Jobcard::find($id);
-        return view('Backend.jobcard', compact('batterytypes', 'oid'));
-    }
-
-    public function orderJobcard(Request $request)
-    {
-        Log::info('orderjobcard'.json_encode($request->all()));
-        // $request->validate([
-        //     'name'=>'required',
-        //     'country_id' => 'required',
-        //     'zone_id' => 'required',
-        //     'area_id' => 'required'
-        // ]);
-        try
-        {
-            $data = [
-                'order_id' => $request->order_id,
-                'regno' => $request->regno,
-                'odometer_reading' => $request->odometer_reading,
-                'manufacturing_year' => $request->manufacturing_year,
-                'gender' => $request->gender,
-                'mechanic_name' => $request->mechanic_name,
-                'arrival_mode' => $request->arrival_mode,
-                'walkin_date' => $request->walkin_date,
-                'walkin_time' => $request->walkin_time,
-                'cust_name' => $request->cust_name,
-                'cust_phone' => $request->cust_phone,
-                'cust_email' => $request->cust_email,
-                'cust_address' => $request->cust_address,
-                'fuel_level' => $request->fuel_level,
-                'floor_mat' => $request->floor_mat,
-                'wheel_cap' => $request->wheel_cap,
-                'head_rest' => $request->head_rest,
-                'mud_flap' => $request->mud_flap,
-                'battery_id' => $request->battery_id,
-                'interior_inventory' => $request->interior_inventory,
-                'document' => $request->document,
-                'status' => 1
-            ];
-            $res= Jobcard::create($data);
-
-            if($res)
-            {
-                session()->flash('success','Jobcard Added Sucessfully');
-            }
-            else
-            {
-                session()->flash('error','Jobcard not added ');
-            }
-        }
-        catch(Exception $ex)
-        {
-            $url=URL::current();
-            Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
-            Session::flash('error','Server Error ');
-        }
-            return redirect()->back();
-    }
-
-    public function orderServiceDetail()
-    {
-        $services = Service::all();
-        $serviceCharges = ServiceCharge::all();
-        $otherProducts = OtherProduct::all();
-        return view('Backend.order_service_detail', compact('services', 'serviceCharges', 'otherProducts'));
-    }
 }

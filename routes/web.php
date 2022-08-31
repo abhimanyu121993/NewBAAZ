@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\DemandingServiceController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\HomeSliderController;
+use App\Http\Controllers\Admin\JobcardController;
 use App\Http\Controllers\Admin\ModelServiceMapController;
 use App\Http\Controllers\Admin\OrderHistoryController;
 use App\Http\Controllers\Admin\OtherProductController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\ServiceChargeController;
 use App\Http\Controllers\Admin\SlotController;
 use App\Http\Controllers\Admin\WorkshopController;
+use App\Http\Controllers\Admin\WorkshopOrderController;
 use App\Http\Controllers\Admin\ZoneController;
 use App\Http\Middleware\AuthLogin;
 use Illuminate\Support\Facades\Artisan;
@@ -71,10 +73,21 @@ Route::group(['prefix'=>'Backend','as'=>'Backend.'],function(){
     Route::resource('modelservicemap',ModelServiceMapController::class);
     Route::resource('batterytype',BatteryTypeController::class);
     Route::resource('slot',SlotController::class);
-    Route::get('jobcard/{id}',[OrderHistoryController::class,'jobcard'])->name('jobcard');
-    Route::post('order-jobcard',[OrderHistoryController::class,'orderJobcard'])->name('orderJobcard');
+    Route::resource('jobcard',JobcardController::class);
+    // Route::get('jobcard/{id}',[OrderHistoryController::class,'jobcard'])->name('jobcard');
+    // Route::post('order-jobcard',[OrderHistoryController::class,'orderJobcard'])->name('orderJobcard');
 
-    Route::get('order-service-detail',[OrderHistoryController::class,'orderServiceDetail'])->name('orderServiceDetail');
+    Route::get('order-service-detail/{id}',[WorkshopOrderController::class,'orderServiceDetail'])->name('orderServiceDetail');
+
+    Route::post('addworkshoporder',[WorkshopOrderController::class, 'addWorkshopOrder'])->name('addWorkshopOrder');
+    Route::post('addworkshoplabour',[WorkshopOrderController::class, 'addWorkshopLabour'])->name('addWorkshopLabour');
+    Route::post('addworkshopspare',[WorkshopOrderController::class, 'addWorkshopSpare'])->name('addWorkshopSpare');
+
+    Route::get('del-service/{id}',[WorkshopOrderController::class, 'delService'])->name('delService');
+    Route::get('edp-work',[WorkshopOrderController::class, 'edpWork'])->name('edpWork');
+    Route::get('invoice/{id}',[WorkshopOrderController::class, 'invoice'])->name('invoice');
+    Route::get('baaz-invoice/{id}',[WorkshopOrderController::class, 'baazInvoice'])->name('baazInvoice');
+
 });
 
 

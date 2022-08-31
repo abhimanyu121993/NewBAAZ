@@ -31,7 +31,7 @@
                         <label class="form-label" for="desc">Brand Name</label>
                         <select class="select2 form-select" id="select2-basic"  name='bid' required>
                         @if(isset($modeledit))
-                              <option value='{{$modeledit->id}}'>{{$modeledit->brand->name}}</option>
+                              <option value='{{$modeledit->id ?? ''}}'>{{$modeledit->brand->name ?? ''}}</option>
                         @else
                         <option selected disabled value="">--Select Brand--</option>
                         @endif
@@ -82,9 +82,8 @@
                 <thead>
                     <tr>
                         <th>Sr.No</th>
-                        <th>Brand Name</th>
-                        <th>Model Name</th>
                         <th>Image</th>
+                        <th>Model Name</th>
                         @canany(['Model_edit', 'Model_delete'])
                             <th>Action</th>
                         @endcan
@@ -96,24 +95,36 @@
                     @foreach ($models as $md)
                         <tr>
                             <td>{{ $i++ }}</td>
-                            <td>{{ $md->brand->name ?? ''}}</td>
-                            <td>{{ $md->name }}</td>
-                            <td><img src="{{ asset($md->image) }}" class="me-75 bg-light-danger"
-                                    style="height:60px;width:150px;" />
+                            <td>
+                                <img src="{{ asset($md->image) }}" class="me-75 bg-light-danger"
+                                style="height:80px;width:150px;" />
                             </td>
+                            <td>{{ $md->name }}</td>
                             @canany(['Model_edit', 'Model_delete'])
                             <td>
                                 <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
                                     <div class="mb-1 breadcrumb-right">
-                                        <div class="dropdown">
+                                        <div>
+
+                                        </div>
+                                            @php $mid=Crypt::encrypt($md->id); @endphp
+                                            @can('Model_edit')
+                                            {{-- <a class="dropdown-item" href="{{ route('Backend.modelservicemap.show', $mid) }}"><i
+                                                    class="me-1" data-feather="edit"></i><span
+                                                    class="align-middle">Edit</span>
+                                            </a> --}}
+                                            <a href="{{ route('Backend.modelservicemap.show', $mid) }}" class="btn-icon btn btn-primary btn-round btn-sm"
+                                                type="button"><i data-feather="edit"></i></a>
+                                            @endcan
+                                        {{-- <div class="dropdown">
                                             <button class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle"
                                                 type="button" data-bs-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"><i data-feather="grid"></i></button>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 @php $mid=Crypt::encrypt($md->id); @endphp
                                                 @can('Model_edit')
-                                                <a class="dropdown-item" href="{{ route('Backend.model.edit', $mid) }}"><i
-                                                        class="me-1" data-feather="check-square"></i><span
+                                                <a class="dropdown-item" href="{{ route('Backend.modelservicemap.show', $mid) }}"><i
+                                                        class="me-1" data-feather="edit"></i><span
                                                         class="align-middle">Edit</span>
                                                 </a>
                                                 @endcan
@@ -125,7 +136,7 @@
                                                 </a>
                                                 @endcan
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </td>

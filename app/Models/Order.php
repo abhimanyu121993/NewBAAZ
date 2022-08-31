@@ -35,4 +35,9 @@ class Order extends Model
     {
         return $this->hasOne(Jobcard::class, 'order_id' );
     }
+
+    public function workshop_order()
+    {
+        return $this->hasOne(WorkshopOrder::class, 'order_id' );
+    }
 }

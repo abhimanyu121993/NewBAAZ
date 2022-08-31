@@ -11,14 +11,20 @@
         <div class="col-sm-4">
             <div class="card">
                 <div class="card-body">
-                    <form class="needs-validation" action="#" method='post'>
+                    <form class="needs-validation" action="{{ route('Backend.addWorkshopOrder') }}" method='post'>
+                        @csrf
+                        <input type="hidden" name="order_id" value="{{ $order->id }}" />
+                        <input type="hidden" name="order_no" value="{{ $order->order_id }}" />
+                        <input type="hidden" name="workshop_id" value="{{ $order->assigned_workshop }}" />
+                        <input type="hidden" name="service_type" value="Service" />
+                        <input type="hidden" name="model_id" value="{{ $order->order_details[0]->model_id }}" />
                         <div class="row">
                             <div class="col-md-12 mb-1">
                                 <label class="form-label" for="desc">Add Order</label>
                                 <select class="select2 form-select" id="select2-basic" name='service_id' required>
                                     <option selected disabled value="">--Select Service--</option>
                                     @foreach ($services as $service)
-                                        <option value="{{ $service->id }}">{{ $service->name }}</option>
+                                        <option value="{{ $service->service_id }}">{{ $service->service_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -36,7 +42,12 @@
         <div class="col-sm-4">
             <div class="card">
                 <div class="card-body">
-                    <form class="needs-validation" action="#" method='post'>
+                    <form class="needs-validation" action="{{ route('Backend.addWorkshopLabour') }}" method='post'>
+                        @csrf
+                        <input type="hidden" name="order_id" value="{{ $order->id }}" />
+                        <input type="hidden" name="order_no" value="{{ $order->order_id }}" />
+                        <input type="hidden" name="workshop_id" value="{{ $order->assigned_workshop }}" />
+                        <input type="hidden" name="service_type" value="ServiceCharge" />
                         <div class="row">
                             <div class="col-md-12 mb-1">
                                 <label class="form-label" for="desc">Add Labour</label>
@@ -49,6 +60,15 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-md-12 mb-1">
+                                <label class="form-label" for="basic-addon-name">Labour Charge</label>
+
+                                <input type="text" id="basic-addon-name" name='labour_price' class="form-control"
+                                        placeholder="Labour Charge" required />
+                            </div>
+                        </div>
+
+                        <div class="row">
                             <div class="col-sm-2">
                                 <button type="submit"
                                     class="btn btn-primary waves-effect waves-float waves-light">Add</button>
@@ -61,8 +81,14 @@
         <div class="col-sm-4">
             <div class="card">
                 <div class="card-body">
-                    <form class="needs-validation" action="#" method='post'>
+                    <form class="needs-validation" action="{{ route('Backend.addWorkshopSpare') }}" method='post'>
+                        @csrf
                         <div class="row">
+                            <input type="hidden" name="order_id" value="{{ $order->id }}" />
+                            <input type="hidden" name="order_no" value="{{ $order->order_id }}" />
+                            <input type="hidden" name="workshop_id" value="{{ $order->assigned_workshop }}" />
+                            <input type="hidden" name="service_type" value="OtherProduct" />
+
                             <div class="col-md-12 mb-1">
                                 <label class="form-label" for="desc">Add Spare</label>
                                 <select class="select2 form-select" id="select2-basic" name='spare_id' required>
@@ -71,6 +97,14 @@
                                         <option value="{{ $otherProduct->id }}">{{ $otherProduct->name }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mb-1">
+                                <label class="form-label" for="basic-addon-name">Spare Charge</label>
+
+                                <input type="text" id="basic-addon-name" name='spare_price' class="form-control"
+                                        placeholder="Spare Charge" required />
                             </div>
                         </div>
                         <div class="row">
@@ -86,77 +120,105 @@
     </div>
     <div class="card">
         <div class="card-header">
-            <h3>Order Details</h3>
+            <h3>Service Charges</h3>
         </div>
         <div class="card-body">
             <table class="datatables-basic table datatable table-responsive">
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>MRP</th>
+                        <th>Price</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Minor Car Service</td>
-                        <td>5000</td>
-                        <td><a class="btn btn-danger">Delete</a></td>
-                    </tr>
+                    @if ($serviceDetails)
+                        @foreach ($serviceDetails->workshop_order_details as $sd)
+                            @if ($sd->type == 'Service')
+                                <tr>
+                                    <td>{{ $sd->service_charge->name ?? '' }}</td>
+                                    <td>{{ $sd->service_charge->price ?? '' }}</td>
+                                    @php $sid = Crypt::encrypt($sd->id); @endphp
+                                    <td><a href="{{ route('Backend.delService', $sid) }}" class="btn btn-danger"><i
+                                                data-feather="trash-2"></i></a></td>
+                                </tr>
+                            @endif
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="100%" class="text-center">No data found</td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
         </div>
-        <hr/>
+        <hr />
         <div class="card-header">
-            <h3>Labour Details</h3>
+            <h3>Labour Charges</h3>
         </div>
         <div class="card-body">
             <table class="datatables-basic table datatable table-responsive">
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Qty</th>
-                        <th>MRP</th>
+                        <th>Price</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Minor Car Service</td>
-                        <td>1</td>
-                        <td>5000</td>
-                        <td><a class="btn btn-danger">Delete</a></td>
-                    </tr>
+                    @if ($serviceDetails)
+                        @foreach ($serviceDetails->workshop_order_details->where('type', 'ServiceCharge') as $sd)
+                            <tr>
+                                <td>{{ $sd->labour_charge->name ?? '' }}</td>
+                                <td>{{ $sd->amount ?? '' }}</td>
+                                @php $sid = Crypt::encrypt($sd->id); @endphp
+                                <td><a href="{{ route('Backend.delService', $sid) }}" class="btn btn-danger"><i
+                                            data-feather="trash-2"></i></a></td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="100%" class="text-center">No data found</td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
         </div>
-        <hr/>
+        <hr />
         <div class="card-header">
-            <h3>Spare Details</h3>
+            <h3>Spare Charges</h3>
         </div>
         <div class="card-body">
             <table class="datatables-basic table datatable table-responsive">
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Qty</th>
-                        <th>MRP</th>
+                        <th>Price</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Minor Car Service</td>
-                        <td>1</td>
-                        <td>5000</td>
-                        <td><a class="btn btn-danger">Delete</a></td>
-                    </tr>
+                    @if ($serviceDetails)
+                        @foreach ($serviceDetails->workshop_order_details->where('type', 'OtherProduct') as $sd)
+                            <tr>
+                                <td>{{ $sd->spare_charge->name ?? '' }}</td>
+                                <td>{{ $sd->amount ?? '' }}</td>
+                                @php $sid = Crypt::encrypt($sd->id); @endphp
+                                <td><a href="{{ route('Backend.delService', $sid) }}" class="btn btn-danger"><i
+                                            data-feather="trash-2"></i></a></td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="100%" class="text-center">No data found</td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
         </div>
-        <hr/>
+        <hr />
         <div class="card-body mt-5 pe-5" style="text-align: right;">
-           <h3>Total Amount - 500</h3>
+            <h3>Total Amount - {{ isset($order->workshop_order->total_amount)?$order->workshop_order->total_amount : 0 }}</h3>
         </div>
     </div>
 @endsection

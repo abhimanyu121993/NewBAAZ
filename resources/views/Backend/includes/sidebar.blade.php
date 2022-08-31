@@ -72,7 +72,7 @@
                             </li>
                         @endcan
 
-                        @can('Model')
+                        {{-- @can('Model')
                             <li><a class="d-flex align-items-center" href="{{ route('Backend.modelservicemap.index') }}"><svg
                                         xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -80,7 +80,7 @@
                                         <circle cx="12" cy="12" r="10"></circle>
                                     </svg><span class="menu-item text-truncate" data-i18n="List">Model Service Map</span></a>
                             </li>
-                        @endcan
+                        @endcan --}}
 
                         @can('Fuel_type')
                             <li><a class="d-flex align-items-center" href="{{ route('Backend.fueltype.index') }}"><svg
@@ -142,6 +142,13 @@
                 <li class="nav-item"><a class="d-flex align-items-center"
                         href="{{ route('Backend.homeslider.index') }}"><i data-feather="sliders"></i><span
                             class="menu-title text-truncate" data-i18n="User List">Home Slider</span></a>
+                </li>
+            @endcan
+
+            @can('Home_slider')
+                <li class="nav-item"><a class="d-flex align-items-center"
+                        href="{{ route('Backend.edpWork') }}"><i data-feather="sliders"></i><span
+                            class="menu-title text-truncate" data-i18n="User List">EDP Work</span></a>
                 </li>
             @endcan
 

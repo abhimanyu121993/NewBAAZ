@@ -27,21 +27,12 @@
                 @endif
                 @csrf
                 <div class="row">
-                    <div class="col-md-6 mb-1">
-                        <label class="form-label" for="desc">Model Name</label>
-                        <select class="select2 form-select" id="select2-basic"  name='model_id' required>
-
-                        <option disabled value="">--Select Model--</option>
-                            @foreach ($models as $model)
-                                <option {{ !isset($editmodelmap) ? '': ($editmodelmap->model->id == $model->id ? 'selected' : '') }} value="{{$model->id}}">{{$model->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    <input type="hidden" value="{{$model_id}}" name="model_id" />
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="desc">Service Name</label>
-                        <select class=" form-select" id="select2-basic"  name='service_id' required>
+                        <select class="select2 form-select" id="select2-basic"  name='service_id' required>
 
-                        <option disabled value="">--Select Service--</option>
+                        <option selected disabled value="">--Select Service--</option>
                             @foreach ($services as $service)
                                 <option {{ !isset($editmodelmap) ? '': ($editmodelmap->service->id == $service->id ? 'selected' : '') }} value="{{$service->id}}">{{$service->name}}</option>
                             @endforeach
@@ -51,9 +42,9 @@
                         <label class="form-label" for="desc">Fuel Type</label>
                         <select class="form-select" id="select2-basic"  name='fuel_id' required>
 
-                        <option disabled value="">--Select Type--</option>
+                        <option selected disabled value="">--Select Type--</option>
                             @foreach ($fueltypes as $fuel)
-                                <option {{ !isset($editmodelmap) ? '': ($editmodelmap->fuel_type->id == $fuel->id ? 'selected' : '') }} value="{{$fuel->id}}">{{$fuel->name}}</option>
+                                <option {{ !isset($editmodelmap) ? '': ($editmodelmap->fuel_type->id == $fuel->id ? 'selected' : '') }} value="{{$fuel->id ?? ''}}">{{$fuel->name ?? ''}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -106,7 +97,8 @@
 
                 </thead>
                 <tbody>
-                    @foreach ($modelmaps as $mm)
+                    @if($modelmaps)
+                        @foreach ($modelmaps as $mm)
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
                             <td>{{ $mm->model->name ?? ''}}</td>
@@ -152,7 +144,12 @@
                             @csrf
                             </form>
                         @endcan
-                    @endforeach
+                        @endforeach
+                    @else
+                    <tr>
+                        <td colspan="100%" class="text-center">Model map not available for this model</td>
+                    </tr>
+                    @endif
 
                 </tbody>
             </table>

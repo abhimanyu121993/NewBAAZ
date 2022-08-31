@@ -50,10 +50,10 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 mb-1">
+                    {{-- <div class="col-md-6 mb-1">
                         <label class="form-label" for="pic">Service Price</label>
                         <input type="number" name='sprice' class="form-control " value="{{ isset($serviceedit) ? $serviceedit->price : '' }}" placeholder="Service Price" />
-                    </div>
+                    </div> --}}
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="pic">Image Thumbnail</label>
                         <input type="file" name='pic' id="pic" class="form-control " aria-label="pic"
@@ -97,7 +97,7 @@
                         <th>Sr.No</th>
                         <th>Category Name</th>
                         <th>Service Name</th>
-                        <th>Price</th>
+                        {{-- <th>Price</th> --}}
                         <th>Description</th>
                         <th>Image</th>
                         @canany(['Services_edit', 'Services_delete'])
@@ -113,7 +113,7 @@
                             <td>{{ $i++ }}</td>
                             <td>{{ $service->category->name ?? ''}}</td>
                             <td>{{ $service->name }}</td>
-                            <td>{{ $service->price }}</td>
+                            {{-- <td>{{ $service->price }}</td> --}}
                             <td>{!! $service->desc !!}</td>
                             <td><img src="{{ asset( $service->image) }}" class="me-75 bg-light-danger"
                                     style="height:60px;width:150px;" /></td>

@@ -19,7 +19,7 @@
 <nav
     class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl">
     <div class="navbar-container d-flex content" style="background-color: @php echo $rolecolor @endphp;">
-
+        
         <ul class="nav navbar-nav align-items-center ms-auto">
             <li class="nav-item dropdown dropdown-language"><a class="nav-link dropdown-toggle" id="dropdown-flag"
                     href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i

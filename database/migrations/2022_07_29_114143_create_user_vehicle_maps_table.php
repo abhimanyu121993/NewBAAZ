@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('modelid');
             $table->string('fueltype');
             $table->string('batchno');
+            $table->string('model_image');
             $table->softDeletes();
             $table->timestamps();
         });

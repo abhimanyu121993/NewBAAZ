@@ -33,11 +33,17 @@
                             <td>{{ $orderd->servicetype->name ?? '' }}</td>
                             <td>{{ $orderd->servicetype->price ?? '' }}</td>
                         </tr>
+                        @role('Superadmin|Workshop')
                         <tr>
-                            <td><a href="{{ route('Backend.orderServiceDetail', $order->id) }}" class="btn btn-success">Service</a></td>
+                            @if ($order->jobcard)
+                                @if ($order->jobcard->status == 1)
+                                    <td><a href="{{ route('Backend.orderServiceDetail', $order->id) }}" class="btn btn-success">Service</a></td>
+                                @endif
+                            @endif
 
-                            <td><a href="{{ route('Backend.jobcard', $order->id) }}" class="btn btn-primary">Job Card</a></td>
+                            <td><a href="{{ route('Backend.jobcard.edit', $order->id) }}" class="btn btn-primary">Job Card</a></td>
                         </tr>
+                        @endrole
                         @endforeach
                     @else
                         <tr>

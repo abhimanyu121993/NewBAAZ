@@ -12,6 +12,7 @@ use App\Models\ServiceCharge;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 
@@ -86,7 +87,11 @@ class ModelServiceMapController extends Controller
      */
     public function show($id)
     {
-        //
+        $model_id = Crypt::decrypt($id);
+        $fueltypes = FuelType::all();
+        $services = Service::all();
+        $modelmaps = ModelServiceMap::where('model_id', $model_id)->get();
+        return view('Backend.modelservicemap', compact('modelmaps','fueltypes', 'services', 'model_id'));
     }
 
     /**
@@ -97,15 +102,17 @@ class ModelServiceMapController extends Controller
      */
     public function edit($id)
     {
-        $id = Crypt::decrypt($id);
+        $model_id = Crypt::decrypt($id);
+        Log::info('edit called'.$model_id);
         $fueltypes = FuelType::all();
         $services = Service::all();
-        $models = BrandModel::all();
-        $modelmaps = ModelServiceMap::all();
-        $editmodelmap = ModelServiceMap::find($id);
+        $editmodelmap = ModelServiceMap::find($model_id);
+        Log::info('editmodelmap'.json_encode($editmodelmap));
+        $modelmaps = ModelServiceMap::where('model_id', $editmodelmap->model_id)->get();
+        Log::info('modelmaps'.json_encode($modelmaps));
         if($editmodelmap)
         {
-            return view('Backend.modelservicemap', compact('modelmaps','models','fueltypes', 'services', 'editmodelmap'));
+            return view('Backend.modelservicemap', compact('modelmaps','fueltypes', 'services', 'editmodelmap', 'model_id'));
         }
         else
         {
@@ -123,8 +130,8 @@ class ModelServiceMapController extends Controller
      */
     public function update(Request $request, $id)
     {
+        Log::info("update".json_encode($request->all()));
         $request->validate([
-            'model_id'=>'required',
             'service_id'=>'required',
             'fuel_id' => 'required',
             'price' => 'required',
@@ -132,7 +139,7 @@ class ModelServiceMapController extends Controller
         ]);
         try
         {
-            $res= ModelServiceMap::find($id)->update(['model_id'=>$request->model_id,'service_id' => $request->service_id, 'fuel_id' => $request->fuel_id, 'price' => $request->price, 'discounted_price' => $request->dprice]);
+            $res= ModelServiceMap::find($id)->update(['service_id' => $request->service_id, 'fuel_id' => $request->fuel_id, 'price' => $request->price, 'discounted_price' => $request->dprice]);
 
             if($res)
             {

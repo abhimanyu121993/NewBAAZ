@@ -48,3 +48,4 @@ Route::post('order-history', [OrderController::class, 'orderHistory']);
 
 //Route::post('register-testuser', [UserController::class, 'registerTestUser']);
 Route::post('fetch-slot', [HomeController::class, 'fetchSlot']);
+Route::post('single-user-order-history', [OrderController::class, 'singleUserOrderHistory']);
