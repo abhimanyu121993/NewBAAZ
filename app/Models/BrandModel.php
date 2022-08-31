@@ -13,7 +13,7 @@ class BrandModel extends Model
 
     public function brand()
     {
-        return $this->belongsTo(Brand::class, 'bid');
+        return $this->belongsTo(Brand::class, 'bid','id');
     }
 
     public function model_map()

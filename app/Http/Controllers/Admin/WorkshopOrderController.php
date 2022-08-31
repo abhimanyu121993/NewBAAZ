@@ -160,8 +160,8 @@ class WorkshopOrderController extends Controller
     public function baazInvoice($id)
     {
         $order = Order::find($id);
-        $services = Service::getServiceDetail($order->order_details[0]->model_id);
-        return view('Backend.baaz_invoice', compact('services'));
+        $serviceDetails = $order->workshop_order;
+        return view('Backend.baaz_invoice', compact('serviceDetails', 'order'));
     }
 
 

@@ -87,6 +87,7 @@ Route::group(['prefix'=>'Backend','as'=>'Backend.'],function(){
     Route::get('edp-work',[WorkshopOrderController::class, 'edpWork'])->name('edpWork');
     Route::get('invoice/{id}',[WorkshopOrderController::class, 'invoice'])->name('invoice');
     Route::get('baaz-invoice/{id}',[WorkshopOrderController::class, 'baazInvoice'])->name('baazInvoice');
+    Route::get('change-password',[AuthUserController::class, 'changePassword'])->name('authuser.changepassword');
 
 });
 

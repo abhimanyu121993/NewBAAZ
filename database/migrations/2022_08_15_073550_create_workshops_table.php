@@ -15,15 +15,16 @@ return new class extends Migration
     {
         Schema::create('workshops', function (Blueprint $table) {
             $table->id();
-            $table->string('userid');
-            $table->string('name');
-            $table->string('owner_name');
-            $table->string('phone');
-            $table->string('email');
-            $table->string('password');
-            $table->string('gst');
-            $table->string('pic');
-            $table->string('gstpic');
+            $table->string('userid')->nullable();
+            $table->string('name')->nullable();
+            $table->string('owner_name')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
+            $table->string('password')->nullable();
+            $table->string('address')->nullable();
+            $table->string('gst')->nullable();
+            $table->string('pic')->nullable();
+            $table->string('gstpic')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

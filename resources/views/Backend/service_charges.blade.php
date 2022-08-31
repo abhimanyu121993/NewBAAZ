@@ -33,13 +33,6 @@
                             value="{{ isset($editservice) ? $editservice->name : '' }}" placeholder="Service Charge Name"
                             aria-label="Name" aria-describedby="basic-addon-name" required />
                     </div>
-                    <div class="col-md-6 mb-1">
-                        <label class="form-label" for="basic-addon-name">Service Charge Price</label>
-
-                        <input type="text" id="basic-addon-name" name='price' class="form-control"
-                            value="{{ isset($editservice) ? $editservice->price : '' }}" placeholder="Service Charge Price"
-                            aria-label="Name" aria-describedby="basic-addon-name" required />
-                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-2">
@@ -64,7 +57,6 @@
                     <tr>
                         <th>Sr.No</th>
                         <th>Name</th>
-                        <th>Price</th>
                         <th>Created at</th>
                         @canany(['Service_charge_edit', 'Service_charge_delete'])
                             <th>Action</th>
@@ -77,7 +69,6 @@
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
                             <td>{{ $service->name }}</td>
-                            <td>{{ $service->price }}</td>
                             <td>{{ $service->created_at }}</td>
                             @canany(['Service_charge_edit', 'Service_charge_delete'])
                             <td>

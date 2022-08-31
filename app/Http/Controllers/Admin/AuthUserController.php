@@ -105,7 +105,7 @@ class AuthUserController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('Backend.user-profile');
     }
 
     /**
@@ -214,5 +214,10 @@ class AuthUserController extends Controller
                 Session::flash('error','Server Error ');
             }
             return redirect()->back();
+    }
+
+    public function changePassword()
+    {
+        return view('Backend.change-password');
     }
 }

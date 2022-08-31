@@ -95,29 +95,28 @@
         </div>
         <div class="container">
             </center>
-            <table style="width:100%; margin:0 auto;">
+            <table>
                 <tbody>
-                    <tr>
-                        <td style="float:left;" colspan="4">
+                    <div class="row">
+                        <div class="col">
+                            <h3 style="color:#010360">{{ $order->workshop_order->workshop->name ?? '' }}</h3>
+                            <p style="color: black; padding: 0px !important;margin:0px !important">{{ $order->workshop_order->workshop->address ?? '' }}</p>
+                            {{-- <p style="color: black; "> LUCKNOW 226010 </p> --}}
+                        </div>
+                        <div class="col">
+                            <b>GSTIN:</b>-09DZNPK225R1ZJ<br>
+                            <b>State:</b>-09-Uttar Pradesh<br>
+                            <b>PAN:</b>-DZNPK2252R</span><br>
+                        </div>
+                        <div class="col">
                             <h3 style="color:#010360">BAAZ CAR SERVICES</h3>
                             <p>SECTOR-E LDA COLONY,<br>
                                 KANPUR ROAD,LUCKNOW,<br>
                                 Uttar Pradesh 226012 <br>
                                 9889488880 <br>
                                 info@baazservices.com</p>
-                        </td>
-
-                        <td style="float:left; margin-left: 15%;" colspan="4"><b>GSTIN:</b>-09DZNPK225R1ZJ<br>
-                            <b>State:</b>-09-Uttar Pradesh<br>
-                            <b>PAN:</b>-DZNPK2252R</span><br>
-                        </td>
-                        <td style="float:left;margin-left: 15%;">
-                            <b>Invoice Date 22/22/2022</b><br>
-                            <b> Order No. 22554478 </b>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                        </div>
+                    </div>
         </div>
         <hr>
         <div class="container">
@@ -128,11 +127,11 @@
                 </div>
                 <div class="col">
                     <b>Car:-</b>
-                    <p>Bolt Diesel</p>
+                    <p>{{ $order->order_details[0]->model->brand->name}} {{ $order->order_details[0]->model->name ?? '' }}</p>
                 </div>
                 <div class="col">
                     <b>Shipping Address:-</b>
-                    <p></p>
+                    <p>{{ $order->user->userad[0]->address ?? '' }}</p>
                 </div>
             </div>
         </div>
@@ -141,17 +140,18 @@
             <div class="row">
                 <div class="col d-flex">
                     <b> Place of Supply:</b>
-                    <p>09-Uttar Pradesh</p>
+                    <p>{{ $order->user->userad[0]->city ?? '' }} {{ $order->user->userad[0]->state ?? '' }}</p>
 
                 </div>
+                <div class="col d-flex"></div>
                 <div class="col d-flex">
                     <b> Due Date:-</b>
-                    <p>2022-22-22</p>
+                    <p>{{ \Carbon\Carbon::parse($order->created_at)->format('d/m/Y')}}</p>
                 </div>
             </div>
         </div>
         <hr>
-        <h2 style="text-align:center;">Service Charges</h2>
+        <h2 style="text-align:center;color:#010360;">Service Charges</h2>
         <table class="table" style="width:100%; margin:0 auto; ">
             <thead>
                 <tr>
@@ -163,16 +163,16 @@
             </thead>
             <tbody>
                 @if ($serviceDetails)
-                @foreach ($serviceDetails->workshop_order_details as $sd)
-                    @if ($sd->type == 'Service')
-                        <tr>
-                            <td>{{ $loop->index+1 }}</td>
-                            <td>{{ $sd->service_charge->name ?? '' }}</td>
-                            <td>{{ $sd->service_charge->price ?? '' }}</td>
-                            <td>{{ $sd->service_charge->price ?? '' }}</td>
-                        </tr>
-                    @endif
-                @endforeach
+                    @foreach ($serviceDetails->workshop_order_details as $sd)
+                        @if ($sd->type == 'Service')
+                            <tr>
+                                <td>{{ $loop->index + 1 }}</td>
+                                <td>{{ $sd->service_charge->name ?? '' }}</td>
+                                <td>{{ $sd->service_charge->price ?? '' }}</td>
+                                <td>{{ $sd->service_charge->price ?? '' }}</td>
+                            </tr>
+                        @endif
+                    @endforeach
                 @else
                     <tr>
                         <td colspan="100%" class="text-center">No data found</td>
@@ -181,7 +181,7 @@
             </tbody>
         </table>
         <br>
-        <h2 style="text-align:center; margin-top: 12px;">Labour Charges
+        <h2 style="text-align:center; margin-top: 12px;color:#010360;">Labour Charges
         </h2>
         <table class="table" style="width:100%; margin:0 auto; ">
             <thead>
@@ -195,22 +195,22 @@
             </thead>
             <tbody>
                 @if ($serviceDetails)
-                        @foreach ($serviceDetails->workshop_order_details->where('type', 'ServiceCharge') as $sd)
-                            <tr>
-                                <td>{{ $loop->index+1 }}</td>
-                                <td>{{ $sd->labour_charge->name ?? '' }}</td>
-                                <td>{{ $sd->amount ?? '' }}</td>
-                                <td>{{ $sd->amount ?? '' }}</td>
-                            </tr>
-                        @endforeach
-                    @else
+                    @foreach ($serviceDetails->workshop_order_details->where('type', 'ServiceCharge') as $sd)
                         <tr>
-                            <td colspan="100%" class="text-center">No data found</td>
+                            <td>{{ $loop->index + 1 }}</td>
+                            <td>{{ $sd->labour_charge->name ?? '' }}</td>
+                            <td>1</td>
+                            <td>{{ $sd->amount ?? '' }}</td>
                         </tr>
-                    @endif
+                    @endforeach
+                @else
+                    <tr>
+                        <td colspan="100%" class="text-center">No data found</td>
+                    </tr>
+                @endif
             </tbody>
         </table><br>
-        <h2 style="text-align:center; margin-top: 12px;">Spare Charges
+        <h2 style="text-align:center; margin-top: 12px;color:#010360;">Spare Charges
         </h2>
         <table class="table" style="width:100%; margin:0 auto; ">
             <thead>
@@ -224,19 +224,19 @@
             </thead>
             <tbody>
                 @if ($serviceDetails)
-                        @foreach ($serviceDetails->workshop_order_details->where('type', 'OtherProduct') as $sd)
-                            <tr>
-                                <td>{{ $loop->index+1 }}</td>
-                                <td>{{ $sd->spare_charge->name ?? '' }}</td>
-                                <td>{{ $sd->amount ?? '' }}</td>
-                                <td>{{ $sd->amount ?? '' }}</td>
-                            </tr>
-                        @endforeach
-                    @else
+                    @foreach ($serviceDetails->workshop_order_details->where('type', 'OtherProduct') as $sd)
                         <tr>
-                            <td colspan="100%" class="text-center">No data found</td>
+                            <td>{{ $loop->index + 1 }}</td>
+                            <td>{{ $sd->spare_charge->name ?? '' }}</td>
+                            <td>1</td>
+                            <td>{{ $sd->amount ?? '' }}</td>
                         </tr>
-                    @endif
+                    @endforeach
+                @else
+                    <tr>
+                        <td colspan="100%" class="text-center">No data found</td>
+                    </tr>
+                @endif
             </tbody>
         </table>
         <table class="table" style="width:100%; margin:0 auto;">
@@ -245,7 +245,9 @@
                     <div class="col"><br>
 
                         {{-- <div class="d-flex"><b>DISCOUNT</b>&nbsp;&nbsp;&nbsp;<p>&#8377 39</p><br></div> --}}
-                        <div class="d-flex"><b>Total Amount </b>&nbsp;&nbsp;<p>&#8377 {{ isset($order->workshop_order->total_amount)?$order->workshop_order->total_amount : 0 }}</p>
+                        <div class="d-flex"><b>Total Amount </b>&nbsp;&nbsp;<p>&#8377
+                                {{ isset($order->workshop_order->total_amount) ? $order->workshop_order->total_amount : 0 }}
+                            </p>
                         </div>
 
                     </div>
@@ -282,10 +284,6 @@
             </div>
         </table>
     </div>
-
-
-
-
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>

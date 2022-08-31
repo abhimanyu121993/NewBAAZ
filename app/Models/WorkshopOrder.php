@@ -15,4 +15,9 @@ class WorkshopOrder extends Model
     {
         return $this->hasMany(WorkshopOrderDetail::class, 'workshop_order_id');
     }
+
+    public function workshop()
+    {
+        return $this->belongsTo(Workshop::class, 'workshop_id');
+    }
 }

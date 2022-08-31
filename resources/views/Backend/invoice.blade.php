@@ -108,12 +108,12 @@
                         </td>
 
                         <td style="float:left; margin-left: 15%;" colspan="4"><b>GSTIN:</b>-09DZNPK225R1ZJ<br>
-                            <b>State:</b>-09-Uttar Pradesh<br>
+                            <b>State:</b>-Uttar Pradesh<br>
                             <b>PAN:</b>-DZNPK2252R</span><br>
                         </td>
                         <td style="float:left;margin-left: 15%;">
-                            <b>Invoice Date 22/22/2022</b><br>
-                            <b> Order No. 22554478 </b>
+                            <b>Invoice Date : {{ \Carbon\Carbon::parse($order->created_at)->format('d/m/Y')}} </b><br>
+                            <b> Order No. {{ isset($order) ? $order->order_id : '' }} </b>
                         </td>
                     </tr>
                 </tbody>
@@ -128,11 +128,11 @@
                 </div>
                 <div class="col">
                     <b>Car:-</b>
-                    <p>Bolt Diesel</p>
+                    <p>{{ $order->order_details[0]->model->brand->name}} {{ $order->order_details[0]->model->name ?? '' }}</p>
                 </div>
                 <div class="col">
                     <b>Shipping Address:-</b>
-                    <p></p>
+                    <p>{{ $order->user->userad[0]->address ?? '' }}</p>
                 </div>
             </div>
         </div>
@@ -141,12 +141,12 @@
             <div class="row">
                 <div class="col d-flex">
                     <b> Place of Supply:</b>
-                    <p>09-Uttar Pradesh</p>
+                    <p>{{ $order->user->userad[0]->city ?? '' }} {{ $order->user->userad[0]->state ?? '' }}</p>
 
                 </div>
-                <div class="col d-flex">
+                <div class="col d-flex pull-right">
                     <b> Due Date:-</b>
-                    <p>2022-22-22</p>
+                    <p>{{ \Carbon\Carbon::parse($order->created_at)->format('d/m/Y')}}</p>
                 </div>
             </div>
         </div>
@@ -199,7 +199,7 @@
                             <tr>
                                 <td>{{ $loop->index+1 }}</td>
                                 <td>{{ $sd->labour_charge->name ?? '' }}</td>
-                                <td>{{ $sd->amount ?? '' }}</td>
+                                <td>1</td>
                                 <td>{{ $sd->amount ?? '' }}</td>
                             </tr>
                         @endforeach
@@ -228,7 +228,7 @@
                             <tr>
                                 <td>{{ $loop->index+1 }}</td>
                                 <td>{{ $sd->spare_charge->name ?? '' }}</td>
-                                <td>{{ $sd->amount ?? '' }}</td>
+                                <td>1</td>
                                 <td>{{ $sd->amount ?? '' }}</td>
                             </tr>
                         @endforeach

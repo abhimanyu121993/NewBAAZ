@@ -182,7 +182,7 @@ class HomeController extends Controller
             if ($services)
             {
                 $result = [
-                    'data' => $services->services,
+                    'data' => $services,
                     'message' => 'Services found',
                     'status' => 200,
                     'error' => NULL

@@ -159,16 +159,16 @@
                         @can('Pending_orders')
                             <li class="nav-item"><a class="d-flex align-items-center"
                                     href="{{ route('Backend.pendingOrders') }}"><i data-feather="file-text"></i><span
-                                        class="menu-title text-truncate" data-i18n="User List">Pending Orders</span></a>
+                                        class="menu-title text-truncate" data-i18n="User List">Confirmed Orders</span></a>
                             </li>
                         @endcan
 
-                        @can('Confirmed_orders')
+                        {{-- @can('Confirmed_orders')
                             <li class="nav-item"><a class="d-flex align-items-center"
                                     href="{{ route('Backend.confirmedOrders') }}"><i data-feather="file-text"></i><span
                                         class="menu-title text-truncate" data-i18n="User List">Confirmed Orders</span></a>
                             </li>
-                        @endcan
+                        @endcan --}}
 
                         @can('Order_history')
                             <li class="nav-item"><a class="d-flex align-items-center"
