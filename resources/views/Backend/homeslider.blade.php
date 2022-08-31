@@ -27,11 +27,13 @@
                 @csrf
                 <div class="row">
                     <div class="col-md-6 mb-1">
-                        <label class="form-label" for="basic-addon-name">Slider Link</label>
-
-                        <input type="text" id="basic-addon-name" name='link' class="form-control"
-                            value="{{ isset($slideredit) ? $slideredit->link : '' }}" placeholder="Enter Link"
-                            aria-label="Name" aria-describedby="basic-addon-name" required />
+                        <label class="form-label" for="desc">Category Name</label>
+                        <select class="select2 form-select" id="select2-basic"  name='category_id' required>
+                        <option selected disabled value="">--Select Category--</option>
+                            @foreach ($categories as $category)
+                                <option {{ !isset($slideredit) ? '': ($slideredit->category_id == $category->id ? 'selected' : '') }} value="{{$category->id}}">{{$category->name}}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="pic">Image Thumbnail</label>
@@ -67,7 +69,7 @@
                     <tr>
                         <th>Sr.No</th>
                         <th>Image</th>
-                        <th>Link</th>
+                        <th>Category Name</th>
                         @canany(['Home_slider_edit', 'Home_slider_delete'])
                             <th>Action</th>
                         @endcan
@@ -83,7 +85,7 @@
                                 <img src="{{ asset( $slider->image) }}" class="me-75 bg-light-danger"
                                     style="height:60px;width:150px;" />
                             </td>
-                            <td>{{ $slider->link }}</td>
+                            <td>{{ $slider->category->name ?? '' }}</td>
                             @canany(['Home_slider_edit', 'Home_slider_delete'])
                             <td>
                                 <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">

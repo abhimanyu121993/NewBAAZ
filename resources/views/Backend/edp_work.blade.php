@@ -57,7 +57,7 @@
                                                 <td>{{ $order->user->mobileno ?? ''}}</td>
                                                 <td><a href="{{ route('Backend.jobcard.edit', $order->order_details[0]->id) }}">View Jobcard</a></td>
                                                 <td><a href="{{ route('Backend.invoice', $order->id) }}" target="_blank">View Invoice</a></td>
-                                                <td><a href="{{ route('Backend.invoice', $order->id) }}">View Baaz Invoice</a></td>
+                                                <td><a href="{{ route('Backend.baazInvoice', $order->id) }}">View Baaz Invoice</a></td>
                                                 <td>{{ $order->order_status_detail->name ?? '' }}</td>
                                             </tr>
                                        @endforeach

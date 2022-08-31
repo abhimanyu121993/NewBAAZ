@@ -151,6 +151,8 @@ class UserController extends Controller
                 'modelid' => $req->model_id,
                 'fueltype' => $req->fuel_type_id,
                 'batchno' => $batchno,
+                'brand_name' => $model->brand->name,
+                'model_name' => $model->name,
                 'model_image' => $model->image
             ];
             $uservehiclemap = UserVehicleMap::create($data) ;

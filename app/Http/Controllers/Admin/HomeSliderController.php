@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Error;
 use App\Models\HomeSlider;
 use Exception;
@@ -20,8 +21,9 @@ class HomeSliderController extends Controller
      */
     public function index()
     {
+        $categories = Category::all();
         $sliders = HomeSlider::get();
-        return view('Backend.homeslider', compact('sliders'));
+        return view('Backend.homeslider', compact('sliders', 'categories'));
     }
 
     /**
@@ -43,7 +45,7 @@ class HomeSliderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'link'=>'nullable',
+            'category_id'=>'required',
             'pic'=>'image'
         ]);
         try
@@ -53,7 +55,7 @@ class HomeSliderController extends Controller
                 $sliderpic='hslider-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
                 $request->pic->move(public_path('upload/homeslider/'),$sliderpic);
             }
-            $res= HomeSlider::create(['link'=>$request->link,'image'=>'upload/homeslider/'.$sliderpic]);
+            $res= HomeSlider::create(['category_id'=>$request->category_id,'image'=>'upload/homeslider/'.$sliderpic]);
 
             if($res)
             {
@@ -92,12 +94,13 @@ class HomeSliderController extends Controller
      */
     public function edit($id)
     {
+        $categories = Category::all();
         $sliders = HomeSlider::get();
         $id=Crypt::decrypt($id);
         $slideredit=HomeSlider::find($id);
         if($slideredit)
         {
-            return view('Backend.homeslider',compact('sliders','slideredit'));
+            return view('Backend.homeslider',compact('sliders','slideredit', 'categories'));
         }
         else
         {
@@ -116,7 +119,7 @@ class HomeSliderController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'link'=>'nullable',
+            'category_id'=>'required',
             'pic'=>'image'
         ]);
         try
@@ -129,7 +132,7 @@ class HomeSliderController extends Controller
                 unlink(public_path($oldpic));
                 HomeSlider::find($id)->update(['image'=>'upload/homeslider/'.$sliderpic]);
             }
-            $res= HomeSlider::find($id)->update(['link'=>$request->link]);
+            $res= HomeSlider::find($id)->update(['category_id'=>$request->category_id]);
 
             if($res)
             {

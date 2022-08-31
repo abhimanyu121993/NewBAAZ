@@ -153,9 +153,7 @@ class WorkshopOrderController extends Controller
     public function invoice($id)
     {
         $order = Order::find($id);
-        Log::info('order'.json_encode($order));
         $serviceDetails = $order->workshop_order;
-        Log::info('serviceDetails'.json_encode($serviceDetails));
         return view('Backend.invoice', compact('serviceDetails', 'order'));
     }
 
