@@ -134,6 +134,48 @@ class UserController extends Controller
         }
     }
 
+    public function editUpdateProfile(Request $req)
+    {
+        $req->validate([
+            'user_id' => 'required',
+            'name' => 'required',
+            'gender' => 'nullable',
+            'dob' => 'nullable',
+            'email' => 'nullable'
+        ]);
+        try
+        {
+            $user = Customer::find($req->user_id)->update(['name' => $req->name, 'gender' => $req->gender, 'dob' => $req->dob, 'email' => $req->email]);
+            if ($user)
+            {
+                $result = [
+                    'data' => $user,
+                    'message' => 'User data Updated successfully',
+                    'status' => 200,
+                    'error' => NULL
+                ];
+            }
+            else
+            {
+                $result = [
+                    'data' => NULL,
+                    'message' => 'User not updated',
+                    'status' => 200,
+                    'error' => [
+                        'message' => 'Server Error',
+                        'code' => 305,
+                    ]
+                ];
+            }
+            return response()->json($result);
+        }
+        catch (Exception $ex)
+        {
+            $url=URL::current();
+            Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
+        }
+    }
+
     public function userVehicleMap(Request $req)
     {
         $req->validate([
