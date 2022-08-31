@@ -27,7 +27,7 @@
                         <label class="form-label" for="basic-addon-name">Current Password</label>
 
                         <input type="text" id="basic-addon-name" name='empid' class="form-control"
-                            value="{{ isset($editproduct) ? $editproduct->name : '' }}" placeholder="Employee Id" disabled required />
+                            value="{{ isset($editproduct) ? $editproduct->name : '' }}" placeholder="Current Password" required />
                     </div>                    
                 </div>
                 <div class="row">
@@ -35,7 +35,7 @@
                         <label class="form-label" for="basic-addon-name">New Password</label>
 
                         <input type="text" id="basic-addon-name" name='empid' class="form-control"
-                            value="{{ isset($editproduct) ? $editproduct->name : '' }}" placeholder="Employee Id" disabled required />
+                            value="{{ isset($editproduct) ? $editproduct->name : '' }}" placeholder="New Password" required />
                     </div>                    
                 </div>
                 <div class="row">
@@ -43,13 +43,13 @@
                         <label class="form-label" for="basic-addon-name">Confirm New Password</label>
 
                         <input type="text" id="basic-addon-name" name='empid' class="form-control"
-                            value="{{ isset($editproduct) ? $editproduct->name : '' }}" placeholder="Employee Id" disabled required />
+                            value="{{ isset($editproduct) ? $editproduct->name : '' }}" placeholder="Confirm New Password" required />
                     </div>                    
                 </div>
                 <div class="row">
                     <div class="col-sm-2">
                         <button type="submit"
-                            class="btn btn-primary waves-effect waves-float waves-light">{{ isset($editproduct) ? 'Update' : 'Add' }}</button>
+                            class="btn btn-primary waves-effect waves-float waves-light">Update</button>
                     </div>
                 </div>
 

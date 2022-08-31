@@ -29,6 +29,9 @@
                     <div class="col-md-4 mb-1 justify-content-start">
                         <h3>{{ Auth::user()->name }}</h3>
                     </div>
+                    <div class="col-md-4 mb-1 justify-content-start">
+                        Role : <h3>{{ Auth::user()->roles[0]->name }}</h3>
+                    </div>
 
                 </div>
                 <div class="row">
@@ -36,20 +39,20 @@
                         <label class="form-label" for="basic-addon-name">Employee Id</label>
 
                         <input type="text" id="basic-addon-name" name='empid' class="form-control"
-                            value="{{ isset($editproduct) ? $editproduct->name : '' }}" placeholder="Employee Id" disabled required />
+                            value="{{ Auth::user()->empid }}" placeholder="Employee Id" disabled required />
                     </div>
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="basic-addon-name">Name</label>
 
                         <input type="text" id="basic-addon-name" name='name' class="form-control"
-                            value="{{ isset($editproduct) ? $editproduct->name : '' }}" placeholder="Name"
+                            value="{{ Auth::user()->name }}" placeholder="Name"
                             aria-label="Name" aria-describedby="basic-addon-name" required />
                     </div>
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="basic-addon-name">Email</label>
 
                         <input type="email" id="basic-addon-name" name='email' class="form-control"
-                            value="{{ isset($editproduct) ? $editproduct->name : '' }}" placeholder="Email"
+                            value="{{ Auth::user()->email }}" placeholder="Email"
                             aria-label="Name" aria-describedby="basic-addon-name" required />
                     </div>
                     
@@ -57,24 +60,15 @@
                         <label class="form-label" for="basic-addon-name">Phone</label>
 
                         <input type="text" id="basic-addon-name" name='phone' class="form-control"
-                            value="{{ isset($editproduct) ? $editproduct->name : '' }}" placeholder="Phone"
+                            value="{{ Auth::user()->mobileno }}" placeholder="Phone"
                             aria-label="Name" aria-describedby="basic-addon-name" required />
                     </div>
-
-                    <div class="col-md-6 mb-1">
-                        <label class="form-label" for="basic-addon-name">Aadhar Id</label>
-
-                        <input type="text" id="basic-addon-name" name='aadharid' class="form-control"
-                            value="{{ isset($editproduct) ? $editproduct->name : '' }}" placeholder="Aadhar Id"
-                            aria-label="Name" aria-describedby="basic-addon-name" required />
-                    </div>
-                    
                     
                 </div>
                 <div class="row">
                     <div class="col-sm-2">
                         <button type="submit"
-                            class="btn btn-primary waves-effect waves-float waves-light">{{ isset($editproduct) ? 'Update' : 'Add' }}</button>
+                            class="btn btn-primary waves-effect waves-float waves-light">Update</button>
                     </div>
                 </div>
 
