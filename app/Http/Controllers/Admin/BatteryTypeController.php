@@ -8,6 +8,7 @@ use App\Models\Error;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
@@ -127,7 +128,7 @@ class BatteryTypeController extends Controller
                 $batterypic='battery-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
                 $request->pic->move(public_path('upload/batterytype/'),$batterypic);
                 $oldpic=BatteryType::find($id)->pluck('image')[0];
-                unlink(public_path($oldpic));
+                File::delete(public_path($oldpic));
                 BatteryType::find($id)->update(['image'=>$batterypic]);
             }
             $res= BatteryType::find($id)->update(['name'=>$request->name]);

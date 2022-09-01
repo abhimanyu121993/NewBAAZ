@@ -13,6 +13,7 @@ use App\Models\Zone;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -177,7 +178,7 @@ class WorkshopController extends Controller
                 $wsppic='wosp-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
                 $request->pic->move(public_path('upload/workshops/'),$wsppic);
                 $oldpic=User::find($id)->pluck('pic')[0];
-                unlink(public_path($oldpic));
+                File::delete(public_path($oldpic));
                 $picpath = 'upload/workshops/'.$wsppic;
                 User::find($id)->update(['pic' => $picpath]);
             }
@@ -186,7 +187,7 @@ class WorkshopController extends Controller
                 $gstpic='GST-'.$request->name.time().'-'.rand(0,99).'.'.$request->gstpic->extension();
                 $request->gstpic->move(public_path('upload/workshops/gst/'),$gstpic);
                 $oldpic=User::find($id)->pluck('gstpic')[0];
-                unlink(public_path($oldpic));
+                File::delete(public_path($oldpic));
                 $gstpicpath = 'upload/workshops/gst/'.$wsppic;
                 User::find($id)->update(['gstpic' => $gstpicpath]);
             }

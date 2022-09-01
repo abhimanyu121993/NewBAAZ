@@ -15,15 +15,16 @@
         </div>
         <div class="card-body">
             <form class="needs-validation"
-                action="{{ isset($editproduct) ? route('Backend.otherproduct.update', $editproduct->id) : route('Backend.otherproduct.store') }}"
+                action="{{route('Backend.authuser.updateProfile') }}"
                 method='post' enctype="multipart/form-data">
                 @if (isset($editproduct))
                     @method('patch')
                 @endif
                 @csrf
+                <input type="hidden" name="id" value="{{ Auth::user()->id }}" />
                 <div class="row">
                     <div class="col-md-3 mb-1">
-                        <img src="{{ asset('upload/bazz_logo.png') }}" class="me-75 bg-light-danger"
+                        <img src="{{ asset(Auth::user()->pic) }}" class="me-75 bg-light-danger"
                             style="height:100px;width:150px;" />
                     </div>
                     <div class="col-md-4 mb-1 justify-content-start">
@@ -55,15 +56,20 @@
                             value="{{ Auth::user()->email }}" placeholder="Email"
                             aria-label="Name" aria-describedby="basic-addon-name" required />
                     </div>
-                    
+
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="basic-addon-name">Phone</label>
 
                         <input type="text" id="basic-addon-name" name='phone' class="form-control"
                             value="{{ Auth::user()->mobileno }}" placeholder="Phone"
-                            aria-label="Name" aria-describedby="basic-addon-name" required />
+                            aria-label="Name" aria-describedby="basic-addon-name"/>
                     </div>
-                    
+                    <div class="col-md-6 mb-1">
+                        <label class="form-label" for="pic">Image Thumbnail</label>
+                        <input type="file" name='pic' id="pic" class="form-control " aria-label="pic"
+                            aria-describedby="pic" />
+                    </div>
+
                 </div>
                 <div class="row">
                     <div class="col-sm-2">

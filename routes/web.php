@@ -88,6 +88,8 @@ Route::group(['prefix'=>'Backend','as'=>'Backend.'],function(){
     Route::get('invoice/{id}',[WorkshopOrderController::class, 'invoice'])->name('invoice');
     Route::get('baaz-invoice/{id}',[WorkshopOrderController::class, 'baazInvoice'])->name('baazInvoice');
     Route::get('change-password',[AuthUserController::class, 'changePassword'])->name('authuser.changepassword');
+    Route::post('update-profile',[AuthUserController::class, 'updateProfile'])->name('authuser.updateProfile');
+    Route::post('update-password',[AuthUserController::class, 'updatePassword'])->name('authuser.updatePassword');
 
 });
 

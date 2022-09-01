@@ -150,7 +150,7 @@ class UserController extends Controller
             {
                 $result = [
                     'data' => $user,
-                    'message' => 'User data Updated successfully',
+                    'message' => 'User data updated successfully',
                     'status' => 200,
                     'error' => NULL
                 ];

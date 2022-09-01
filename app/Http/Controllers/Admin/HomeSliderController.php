@@ -9,6 +9,7 @@ use App\Models\HomeSlider;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 
@@ -129,7 +130,7 @@ class HomeSliderController extends Controller
                 $sliderpic='hslider-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
                 $request->pic->move(public_path('upload/homeslider/'),$sliderpic);
                 $oldpic=HomeSlider::find($id)->pluck('image')[0];
-                unlink(public_path($oldpic));
+                File::delete(public_path($oldpic));
                 HomeSlider::find($id)->update(['image'=>'upload/homeslider/'.$sliderpic]);
             }
             $res= HomeSlider::find($id)->update(['category_id'=>$request->category_id]);

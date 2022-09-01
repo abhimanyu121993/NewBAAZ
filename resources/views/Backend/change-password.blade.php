@@ -15,36 +15,32 @@
         </div>
         <div class="card-body">
             <form class="needs-validation"
-                action="{{ isset($editproduct) ? route('Backend.otherproduct.update', $editproduct->id) : route('Backend.otherproduct.store') }}"
+                action="{{ route('Backend.authuser.updatePassword') }}"
                 method='post' enctype="multipart/form-data">
-                @if (isset($editproduct))
-                    @method('patch')
-                @endif
                 @csrf
-               
                 <div class="row">
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="basic-addon-name">Current Password</label>
 
-                        <input type="text" id="basic-addon-name" name='empid' class="form-control"
-                            value="{{ isset($editproduct) ? $editproduct->name : '' }}" placeholder="Current Password" required />
-                    </div>                    
+                        <input type="text" id="basic-addon-name" name='current_password' class="form-control"
+                            value="" placeholder="Current Password" required />
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="basic-addon-name">New Password</label>
 
-                        <input type="text" id="basic-addon-name" name='empid' class="form-control"
-                            value="{{ isset($editproduct) ? $editproduct->name : '' }}" placeholder="New Password" required />
-                    </div>                    
+                        <input type="text" id="basic-addon-name" name='new_password' class="form-control"
+                            value="" placeholder="New Password" required />
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="basic-addon-name">Confirm New Password</label>
 
-                        <input type="text" id="basic-addon-name" name='empid' class="form-control"
-                            value="{{ isset($editproduct) ? $editproduct->name : '' }}" placeholder="Confirm New Password" required />
-                    </div>                    
+                        <input type="text" id="basic-addon-name" name='cnew_password' class="form-control"
+                            value="" placeholder="Confirm New Password" required />
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-2">

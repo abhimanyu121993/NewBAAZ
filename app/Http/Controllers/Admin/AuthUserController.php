@@ -9,6 +9,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -156,7 +157,7 @@ class AuthUserController extends Controller
                 $emppic='emp-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
                 $request->pic->move(public_path('upload/employees/'),$emppic);
                 $oldpic=User::find($id)->pluck('pic')[0];
-                    unlink(public_path($oldpic));
+                File::delete(public_path($oldpic));
                 User::find($id)->update(['pic' => 'upload/employees/'.$emppic]);
             }
             $data = [
@@ -219,5 +220,85 @@ class AuthUserController extends Controller
     public function changePassword()
     {
         return view('Backend.change-password');
+    }
+
+    public function updateProfile(Request $request)
+    {
+        Log::info('update'.json_encode($request->all()));
+        $request->validate([
+            'name'=>'required',
+            'phone'=>'nullable',
+            'email'=>'required',
+            'pic'=>'image'
+        ]);
+        try
+        {
+            if($request->hasFile('pic'))
+            {
+                $emppic='emp-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
+                $request->pic->move(public_path('upload/employees/'),$emppic);
+                $oldpic=User::find($request->id)->pluck('pic')[0];
+                File::delete(public_path($oldpic));
+                User::find($request->id)->update(['pic' => 'upload/employees/'.$emppic]);
+            }
+            $data = [
+                'name' => $request->name,
+                'phone' => $request->phone,
+                'email' => $request->email
+            ];
+            $res = User::find($request->id)->update($data);
+            if($res)
+            {
+                session()->flash('success','User updated Sucessfully');
+            }
+            else
+            {
+                session()->flash('error','User not updated ');
+            }
+        }
+        catch(Exception $ex)
+        {
+            $url=URL::current();
+            Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
+            Session::flash('error','Server Error ');
+        }
+            return redirect()->back();
+    }
+
+    public function updatePassword(Request $request)
+    {
+        dd($request->all());
+        $request->validate([
+            'current_password'=>'required',
+            'new_password'=>'required',
+            'cnew_password'=>'required'
+        ]);
+        try
+        {
+            if($request->new_password == $request->cnew_password)
+            {
+
+            }
+            else
+            {
+                session()->flash('error','P did not matched ');
+            }
+            // $res = User::find($request->id)->update($data);
+            // if($res)
+            // {
+            //     session()->flash('success','User updated Sucessfully');
+            // }
+            // else
+            // {
+            //     session()->flash('error','User not updated ');
+            // }
+        }
+        catch(Exception $ex)
+        {
+            $url=URL::current();
+            Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
+            Session::flash('error','Server Error ');
+        }
+            return redirect()->back();
     }
 }
