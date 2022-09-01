@@ -267,7 +267,6 @@ class AuthUserController extends Controller
 
     public function updatePassword(Request $request)
     {
-        dd($request->all());
         $request->validate([
             'current_password'=>'required',
             'new_password'=>'required',
@@ -277,21 +276,32 @@ class AuthUserController extends Controller
         {
             if($request->new_password == $request->cnew_password)
             {
-
+                $user = User::find($request->id);
+                if(Hash::check($request->current_password, $user->password))
+                {
+                    $res = User::find($request->id)->update(['password' => Hash::make($request->new_password)]);
+                    if($res)
+                    {
+                        session()->flash('success','Password changed Sucessfully');
+                        return redirect()->back();
+                    }
+                    else
+                    {
+                        session()->flash('error','Password not changed ');
+                        return redirect()->back();
+                    }
+                }
+                else
+                {
+                    session()->flash('error','Incorrect current password');
+                    return redirect()->back();
+                }
             }
             else
             {
-                session()->flash('error','P did not matched ');
+                session()->flash('error','Password did not matched ');
+                return redirect()->back();
             }
-            // $res = User::find($request->id)->update($data);
-            // if($res)
-            // {
-            //     session()->flash('success','User updated Sucessfully');
-            // }
-            // else
-            // {
-            //     session()->flash('error','User not updated ');
-            // }
         }
         catch(Exception $ex)
         {

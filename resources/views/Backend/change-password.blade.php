@@ -18,6 +18,7 @@
                 action="{{ route('Backend.authuser.updatePassword') }}"
                 method='post' enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="id" value="{{ Auth::user()->id }}" />
                 <div class="row">
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="basic-addon-name">Current Password</label>
