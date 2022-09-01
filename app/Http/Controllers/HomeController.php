@@ -179,6 +179,7 @@ class HomeController extends Controller
                 ->where('c.id', $req->category_id)
                 ->where('msm.model_id', $req->model_id)
                 ->get();
+            // return $services;
             if ($services)
             {
                 $result = [
