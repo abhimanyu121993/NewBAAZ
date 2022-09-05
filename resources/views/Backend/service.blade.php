@@ -38,7 +38,7 @@
                         <label class="form-label" for="desc">Category Name</label>
                         <select class="select2 form-select" id="select2-basic"  name='cid' required>
 
-                        <option disabled value="">--Select Category--</option>
+                        <option selected disabled value="">--Select Category--</option>
                             @foreach ($category as $cat)
                                 <option {{ !isset($serviceedit) ? '': ($serviceedit->category->id == $cat->id ? 'selected' : '') }} value="{{$cat->id}}">{{$cat->name}}</option>
                             @endforeach

@@ -49,7 +49,6 @@ class ServiceController extends Controller
         $request->validate([
             'cid' => 'required',
             'sname'=>'required',
-            'sprice'=>'required',
             'desc' => 'nullable',
             'pic'=>'nullable|image'
         ]);
@@ -127,7 +126,6 @@ class ServiceController extends Controller
         $request->validate([
             'cid' => 'required',
             'sname'=>'required',
-            'sprice'=>'required',
             'desc' => 'nullable',
             'pic'=>'nullable|image'
         ]);
@@ -143,7 +141,7 @@ class ServiceController extends Controller
                 File::delete(public_path($oldpic));
                 Service::find($id)->update(['image'=>'upload/service/'.$servicepic]);
             }
-            $res= Service::find($id)->update(['cid'=> $request->cid ,'name'=>$request->sname,'price'=>$request->sprice,'desc'=>$request->desc]);
+            $res= Service::find($id)->update(['cid'=> $request->cid ,'name'=>$request->sname,'desc'=>$request->desc]);
 
             if($res)
             {

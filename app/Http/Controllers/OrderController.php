@@ -6,6 +6,7 @@ use App\Models\Error;
 use App\Models\ModelServiceMap;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use \PDF;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -147,6 +148,46 @@ class OrderController extends Controller
                 ];
             }
             return response()->json($result);
+        }
+        catch (Exception $ex)
+        {
+            $url=URL::current();
+            Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
+        }
+    }
+
+    public function userInvoiceLink(Request $req)
+    {
+        $req->validate([
+            'user_id' => 'required'
+        ]);
+        try
+        {
+            $orders = Order::where('user_id',$req->user_id)->get();
+            $serviceDetails = $orders->workshop_order;
+            $pdf = PDF::loadView('Backend.invoice',['serviceDetails' => $serviceDetails, 'order' => $orders]);
+            if ($pdf)
+            {
+                $result = [
+                    'data' => $pdf,
+                    'message' => 'User Invoice found',
+                    'status' => 200,
+                    'error' => NULL
+                ];
+            }
+            else
+            {
+                $result = [
+                    'data' => NULL,
+                    'message' => 'user not found',
+                    'status' => 200,
+                    'error' => [
+                        'message' => 'Server Error',
+                        'code' => 305,
+                    ]
+                ];
+            }
+            return $pdf->stream('invoice.pdf', array('Attachment'=>0));
         }
         catch (Exception $ex)
         {
