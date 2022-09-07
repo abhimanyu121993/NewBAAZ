@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->string('cid')->nullable();
             $table->string('name')->nullable();
+            $table->string('cid')->nullable();
             $table->longtext('desc')->nullable();
             $table->string('image')->nullable();
             $table->softDeletes();

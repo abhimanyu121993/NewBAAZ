@@ -6,7 +6,7 @@ use App\Models\Error;
 use App\Models\ModelServiceMap;
 use App\Models\Order;
 use App\Models\OrderDetail;
-use \PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -165,11 +165,12 @@ class OrderController extends Controller
         {
             $orders = Order::where('user_id',$req->user_id)->get();
             $serviceDetails = $orders->workshop_order;
-            $pdf = PDF::loadView('Backend.invoice',['serviceDetails' => $serviceDetails, 'order' => $orders]);
+            $pdf = Pdf::loadView('Backend.invoice', ['serviceDetails' => $serviceDetails, 'order' => $orders]);
+            //$pdf = PDF::loadView('Backend.invoice',['serviceDetails' => $serviceDetails, 'order' => $orders]);
             if ($pdf)
             {
                 $result = [
-                    'data' => $pdf,
+                    'data' => $pdf->download('invoice.pdf'),
                     'message' => 'User Invoice found',
                     'status' => 200,
                     'error' => NULL
@@ -187,7 +188,7 @@ class OrderController extends Controller
                     ]
                 ];
             }
-            return $pdf->stream('invoice.pdf', array('Attachment'=>0));
+            return $result;
         }
         catch (Exception $ex)
         {

@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('model_service_maps', function (Blueprint $table) {
             $table->id();
-            $table->string('model_id');
-            $table->string('fuel_id');
-            $table->string('service_id');
-            $table->string('price');
-            $table->string('discounted_price');
+            $table->string('model_id')->nullable();
+            $table->string('fuel_id')->nullable();
+            $table->unsignedBigInteger('service_id')->nullable();
+            $table->string('price')->nullable();
+            $table->string('discounted_price')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

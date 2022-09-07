@@ -24,7 +24,7 @@ class ServiceController extends Controller
     public function index()
     {
         $category = Category::get();
-        $services = Service::latest()->paginate(20);
+        $services = Service::all();
         return view('Backend.service', compact('category','services'));
     }
 
@@ -99,7 +99,7 @@ class ServiceController extends Controller
     public function edit($id)
     {
         $category = Category::get();
-        $services = Service::latest()->paginate(20);
+        $services = Service::all();
         $id=Crypt::decrypt($id);
         $serviceedit=Service::find($id);
         Log::info('service edit'.json_encode($serviceedit));

@@ -24,7 +24,7 @@ class ModelController extends Controller
     public function index()
     {
         $brands = Brand::get();
-        $models = BrandModel::latest()->paginate(20);
+        $models = BrandModel::all();
         return view('Backend.model', compact('models','brands'));
     }
 
@@ -89,7 +89,7 @@ class ModelController extends Controller
     public function edit($id)
     {
         $brands = Brand::get();
-        $models = BrandModel::latest()->paginate(20);
+        $models = BrandModel::all();
         $id=Crypt::decrypt($id);
         $modeledit=BrandModel::find($id);
         if($modeledit)
