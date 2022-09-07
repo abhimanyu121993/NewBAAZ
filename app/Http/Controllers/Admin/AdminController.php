@@ -26,7 +26,7 @@ class AdminController extends Controller
         if(Auth::attempt(['email' => $req->email, 'password' => $req->password], $req->remember_me))
         {
             session()->flash('success','Welcome Admin !');
-            return redirect('/Backend/dashboard');
+            return redirect('Backend/dashboard');
         }
         else {
             session()->flash('error','Invalid Username or Password !');
