@@ -131,28 +131,28 @@ class OrderHistoryController extends Controller
                 ->Where('order_status',1)
                 ->paginate(20);
         Log::info('pendingorders'.json_encode($pendingorders));
-        return view('Backend.pending_orders', compact('pendingorders'));
+        return view('Backend.pending_orders', compact('pendingorders', 'workshops'));
         }
     }
 
-    public function confirmedOrders()
-    {
-        $userrole = Auth::user()->roles[0]->name;
-        $userid = Auth::user()->id;
-        $workshops = User::role('Workshop')->get();
-        if($userrole == 'Superadmin') {
-            $confirmedorders = Order::Where('order_status',2)
-            ->paginate(20);
-        //Log::info('pendingorders'.json_encode($pendingorders));
-        return view('Backend.confirmed_orders', compact('confirmedorders', 'workshops'));
-        }
-        elseif($userrole == 'Workshop') {
-            $confirmedorders = Order::Where('assigned_workshop', $userid)
-                ->Where('order_status',2)
-                ->paginate(20);
-        //Log::info('pendingorders'.json_encode($pendingorders));
-        return view('Backend.confirmed_orders', compact('confirmedorders'));
-        }
-    }
+    // public function confirmedOrders()
+    // {
+    //     $userrole = Auth::user()->roles[0]->name;
+    //     $userid = Auth::user()->id;
+    //     $workshops = User::role('Workshop')->get();
+    //     if($userrole == 'Superadmin') {
+    //         $confirmedorders = Order::Where('order_status',2)
+    //         ->paginate(20);
+    //     //Log::info('pendingorders'.json_encode($pendingorders));
+    //     return view('Backend.confirmed_orders', compact('confirmedorders', 'workshops'));
+    //     }
+    //     elseif($userrole == 'Workshop') {
+    //         $confirmedorders = Order::Where('assigned_workshop', $userid)
+    //             ->Where('order_status',1)
+    //             ->paginate(20);
+    //     Log::info('confirmedorders'.json_encode($confirmedorders));
+    //     return view('Backend.confirmed_orders', compact('confirmedorders'));
+    //     }
+    // }
 
 }
