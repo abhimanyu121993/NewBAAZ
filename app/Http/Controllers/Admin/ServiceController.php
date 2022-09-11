@@ -55,6 +55,7 @@ class ServiceController extends Controller
         Log::info('store'.json_encode($request->all()));
         try
         {
+            $servicepic = "upload/default_image.png";
             if($request->hasFile('pic'))
             {
                 $servicepic='service-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
