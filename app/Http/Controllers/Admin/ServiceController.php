@@ -46,22 +46,23 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
         $request->validate([
             'cid' => 'required',
             'sname'=>'required',
             'desc' => 'nullable',
             'pic'=>'nullable|image'
         ]);
+        Log::info('store'.json_encode($request->all()));
         try
         {
             if($request->hasFile('pic'))
             {
                 $servicepic='service-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
                 $request->pic->move(public_path('upload/service/'),$servicepic);
+
             }
             $res= Service::create(['cid'=> $request->cid ,'name'=>$request->sname,'desc'=>$request->desc,'image'=>'upload/service/'.$servicepic]);
-
+            Log::info('res'.json_encode($res));
             if($res)
             {
                 session()->flash('success','Service Added Sucessfully');
