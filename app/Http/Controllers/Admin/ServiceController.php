@@ -46,6 +46,7 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         $request->validate([
             'cid' => 'required',
             'sname'=>'required',
@@ -59,7 +60,7 @@ class ServiceController extends Controller
                 $servicepic='service-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
                 $request->pic->move(public_path('upload/service/'),$servicepic);
             }
-            $res= Service::create(['cid'=> $request->cid ,'name'=>$request->sname,'price'=>$request->sprice,'desc'=>$request->desc,'image'=>'upload/service/'.$servicepic]);
+            $res= Service::create(['cid'=> $request->cid ,'name'=>$request->sname,'desc'=>$request->desc,'image'=>'upload/service/'.$servicepic]);
 
             if($res)
             {
@@ -102,7 +103,6 @@ class ServiceController extends Controller
         $services = Service::all();
         $id=Crypt::decrypt($id);
         $serviceedit=Service::find($id);
-        Log::info('service edit'.json_encode($serviceedit));
         if($serviceedit)
         {
             return view('Backend.service',compact('category','serviceedit','services'));
