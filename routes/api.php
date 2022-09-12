@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
@@ -44,5 +45,7 @@ Route::post('fetch-home-slider', [HomeController::class, 'homeSlider']);
 Route::post('fetch-offer-banner', [HomeController::class, 'offerBanner']);
 Route::post('order-placed', [OrderController::class, 'orderPlaced']);
 Route::post('order-history', [OrderController::class, 'orderHistory']);
-
+Route::post('show-cart',[CartController::class,'showCart']);
+Route::post('add-cart',[CartController::class,'addToCart']);
+Route::post('del-cart',[CartController::class,'deleteCart']);
 //Route::post('register-testuser', [UserController::class, 'registerTestUser']);
