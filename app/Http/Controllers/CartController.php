@@ -80,11 +80,14 @@ class CartController extends Controller
     }
     public function deleteCart(Request $req)
     {
+        $req->validate([
+            'user_id' => 'required'
+        ]);
         try {
             $res = Cart::find($req->user_id)->delete();
             if ($res) {
                 $result = [
-                    'data' => $res,
+                    'data' => NULL,
                     'message' => 'Cart deleted sucessfully',
                     'status' => 200,
                     'error' => NULL
