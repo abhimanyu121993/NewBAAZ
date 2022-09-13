@@ -21,7 +21,7 @@ class OrderController extends Controller
             'user_id' => 'required',
             'slot' => 'required',
             'model_id' => 'required',
-            'service_type' => 'required',
+            'service_id' => 'required',
             'payment_mode' => 'required'
         ]);
         try
@@ -40,22 +40,24 @@ class OrderController extends Controller
             $ttamt = 0;
             if ($order)
             {
-                $modelmap = ModelServiceMap::where('model_id',$req->model_id)->where('service_id', $req->service_type)->first();
-                $oddtl = OrderDetail::create([
-                    'order_id' => $order->id,
-                    'model_id' => $req->model_id,
-                    'service_type' =>$req->service_type,
-                    'price' =>$modelmap->discounted_price ?? 0,
-                ]);
-                $ttamt += $modelmap->discounted_price ?? 0;
-                $ordeup=Order::where('id',$oddtl->id)->update(['total_amount' => round($ttamt,2)]);
-                Log::info('ordeup'.json_encode($ordeup));
+                foreach($req->service_id as $sid){
+                    $modelmap = ModelServiceMap::where('model_id',$req->model_id)->where('service_id', $sid)->first();
+                    OrderDetail::create([
+                        'order_id' => $order->id,
+                        'model_id' => $req->model_id,
+                        'service_type' =>$sid,
+                        'price' =>round($modelmap->discounted_price ?? 0, 2),
+                    ]);
+                    $ttamt += $modelmap->discounted_price ?? 0;
+                    $ordeup=Order::where('id',$order->id)->update(['total_amount' => round($ttamt,2)]);
+                }
             }
             if ($ordeup)
             {
-                $order->order_details[0]->servicetype;
+                Log::info('orders 2'.json_encode($order));
+                Log::info('order details'.json_encode($order->order_details));
                 $result = [
-                    'data' => $order,
+                    'data' => $order->order_details,
                     'message' => 'Order placed succesfully',
                     'status' => 200,
                     'error' => NULL
