@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('modelid');
             $table->string('fueltype');
             $table->string('batchno');
+            $table->string('brand_name');
+            $table->string('model_name');
+            $table->string('model_image');
             $table->softDeletes();
             $table->timestamps();
         });

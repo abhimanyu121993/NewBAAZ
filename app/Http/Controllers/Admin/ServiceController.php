@@ -9,6 +9,8 @@ use App\Models\Service;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 
@@ -22,7 +24,7 @@ class ServiceController extends Controller
     public function index()
     {
         $category = Category::get();
-        $services = Service::latest()->paginate(20);
+        $services = Service::all();
         return view('Backend.service', compact('category','services'));
     }
 
@@ -47,20 +49,21 @@ class ServiceController extends Controller
         $request->validate([
             'cid' => 'required',
             'sname'=>'required',
-            'sprice'=>'required',
             'desc' => 'nullable',
             'pic'=>'nullable|image'
         ]);
-        $servicepic='branddummy.jpg';
+        Log::info('store'.json_encode($request->all()));
         try
         {
+            $servicepic = "upload/default_image.png";
             if($request->hasFile('pic'))
             {
-                $servicepic='model-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
+                $servicepic='service-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
                 $request->pic->move(public_path('upload/service/'),$servicepic);
-            }
-            $res= Service::create(['cid'=> $request->cid ,'name'=>$request->sname,'price'=>$request->sprice,'desc'=>$request->desc,'image'=>'upload/service/'.$servicepic]);
 
+            }
+            $res= Service::create(['cid'=> $request->cid ,'name'=>$request->sname,'desc'=>$request->desc,'image'=>'upload/service/'.$servicepic]);
+            Log::info('res'.json_encode($res));
             if($res)
             {
                 session()->flash('success','Service Added Sucessfully');
@@ -99,7 +102,7 @@ class ServiceController extends Controller
     public function edit($id)
     {
         $category = Category::get();
-        $services = Service::latest()->paginate(20);
+        $services = Service::all();
         $id=Crypt::decrypt($id);
         $serviceedit=Service::find($id);
         if($serviceedit)
@@ -125,21 +128,22 @@ class ServiceController extends Controller
         $request->validate([
             'cid' => 'required',
             'sname'=>'required',
-            'sprice'=>'required',
             'desc' => 'nullable',
             'pic'=>'nullable|image'
         ]);
-        $servicepic='branddummy.jpg';
         try
         {
             if($request->hasFile('pic'))
             {
-                $servicepic='model-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
+                $servicepic='service-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
+                Log::info('servicepic'.$servicepic);
                 $request->pic->move(public_path('upload/service/'),$servicepic);
                 $oldpic=Service::find($id)->pluck('image')[0];
-                    unlink(public_path($oldpic));
+               // return asset($oldpic);
+                File::delete(public_path($oldpic));
+                Service::find($id)->update(['image'=>'upload/service/'.$servicepic]);
             }
-            $res= Service::create(['cid'=> $request->cid ,'name'=>$request->sname,'price'=>$request->sprice,'desc'=>$request->desc,'image'=>'upload/service/'.$servicepic]);
+            $res= Service::find($id)->update(['cid'=> $request->cid ,'name'=>$request->sname,'desc'=>$request->desc]);
 
             if($res)
             {

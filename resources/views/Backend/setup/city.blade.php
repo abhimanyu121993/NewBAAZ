@@ -7,6 +7,7 @@
 @endsection
 
 @section('Content-Area')
+@can('City_create')
     <div class="card">
         <div class="card-header">
             <h3>
@@ -26,6 +27,16 @@
                 @endif
                 @csrf
                 <div class="row">
+                    <div class="col-md-6 mb-1">
+                        <label class="form-label" for="desc">Country Name</label>
+                        <select class="select2 form-select" id="select2-basic"  name='country_id' required>
+
+                        <option disabled value="">--Select Country--</option>
+                            @foreach ($countries as $country)
+                                <option {{ !isset($editcity) ? '': ($editcity->zone->areas->countries->id == $country->id ? 'selected' : '') }} value="{{$country->id}}">{{$country->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="desc">Zone Name</label>
                         <select class="select2 form-select" id="select2-basic"  name='zone_id' required>
@@ -64,7 +75,9 @@
             </form>
         </div>
     </div>
+@endcan
 
+@can('City_read')
     <div class="card">
         <div class="card-header">
             <h3>Manage City</h3>
@@ -74,11 +87,14 @@
                 <thead>
                     <tr>
                         <th>Sr.No</th>
+                        <th>Country Name</th>
                         <th>Zone Name</th>
                         <th>Area Name</th>
                         <th>City Name</th>
                         <th>Created at</th>
-                        <th>Action</th>
+                        @canany(['City_edit', 'City_delete'])
+                            <th>Action</th>
+                        @endcan
                     </tr>
 
                 </thead>
@@ -86,10 +102,12 @@
                     @foreach ($cities as $city)
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
+                            <td>{{ $city->zone->countries->name }}</td>
                             <td>{{ $city->zone->name }}</td>
                             <td>{{ $city->area->name }}</td>
                             <td>{{ $city->name }}</td>
                             <td>{{ $city->created_at }}</td>
+                            @canany(['City_edit', 'City_delete'])
                             <td>
                                 <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
                                     <div class="mb-1 breadcrumb-right">
@@ -99,30 +117,40 @@
                                                 aria-expanded="false"><i data-feather="grid"></i></button>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 @php $cid=Crypt::encrypt($city->id); @endphp
+                                                @can('City_edit')
                                                 <a class="dropdown-item" href="{{ route('Backend.city.edit', $cid) }}"><i
                                                         class="me-1" data-feather="check-square"></i><span
-                                                        class="align-middle">Edit</span></a>
-                                                        <a class="dropdown-item" href=""
-                                                        onclick="event.preventDefault();document.getElementById('delete-form-{{ $cid }}').submit();"><i
-                                                            class="me-1" data-feather="message-square"></i><span
-                                                            class="align-middle">Delete</span></a>
+                                                        class="align-middle">Edit</span>
+                                                </a>
+                                                @endcan
+                                                @can('City_delete')
+                                                <a class="dropdown-item" href=""
+                                                onclick="event.preventDefault();document.getElementById('delete-form-{{ $cid }}').submit();"><i
+                                                    class="me-1" data-feather="message-square"></i><span
+                                                    class="align-middle">Delete</span>
+                                                </a>
+                                                @endcan
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </td>
+                            @endcan
                         </tr>
+                        @can('City_delete')
                         <form id="delete-form-{{ $cid }}" action="{{ route('Backend.city.destroy', $cid) }}"
                             method="post" style="display: none;">
                             @method('DELETE')
                             @csrf
                         </form>
+                        @endcan
                     @endforeach
 
                 </tbody>
             </table>
         </div>
     </div>
+@endcan
 
 @endsection
 

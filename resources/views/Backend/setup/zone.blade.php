@@ -7,6 +7,7 @@
 @endsection
 
 @section('Content-Area')
+@can('Zone_create')
     <div class="card">
         <div class="card-header">
             <h3>
@@ -54,7 +55,9 @@
             </form>
         </div>
     </div>
+@endcan
 
+@can('Zone_read')
     <div class="card">
         <div class="card-header">
             <h3>Manage Zone</h3>
@@ -67,7 +70,9 @@
                         <th>Country Name</th>
                         <th>Zone Name</th>
                         <th>Created at</th>
-                        <th>Action</th>
+                        @canany(['Zone_edit', 'Zone_delete'])
+                            <th>Action</th>
+                        @endcan
                     </tr>
 
                 </thead>
@@ -78,6 +83,7 @@
                             <td>{{ $zone->countries->name }}</td>
                             <td>{{ $zone->name }}</td>
                             <td>{{ $zone->created_at }}</td>
+                            @canany(['Zone_edit', 'Zone_delete'])
                             <td>
                                 <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
                                     <div class="mb-1 breadcrumb-right">
@@ -87,30 +93,40 @@
                                                 aria-expanded="false"><i data-feather="grid"></i></button>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 @php $zid=Crypt::encrypt($zone->id); @endphp
+                                                @can('Zone_edit')
                                                 <a class="dropdown-item" href="{{ route('Backend.zone.edit', $zid) }}"><i
                                                         class="me-1" data-feather="check-square"></i><span
-                                                        class="align-middle">Edit</span></a>
-                                                        <a class="dropdown-item" href=""
-                                                        onclick="event.preventDefault();document.getElementById('delete-form-{{ $zid }}').submit();"><i
-                                                            class="me-1" data-feather="message-square"></i><span
-                                                            class="align-middle">Delete</span></a>
+                                                        class="align-middle">Edit</span>
+                                                </a>
+                                                @endcan
+                                                @can('Zone_delete')
+                                                <a class="dropdown-item" href=""
+                                                onclick="event.preventDefault();document.getElementById('delete-form-{{ $zid }}').submit();"><i
+                                                    class="me-1" data-feather="message-square"></i><span
+                                                    class="align-middle">Delete</span>
+                                                </a>
+                                                @endcan
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </td>
+                            @endcan
                         </tr>
-                        <form id="delete-form-{{ $zid }}" action="{{ route('Backend.zone.destroy', $zid) }}"
+                        @can('Zone_delete')
+                            <form id="delete-form-{{ $zid }}" action="{{ route('Backend.zone.destroy', $zid) }}"
                             method="post" style="display: none;">
                             @method('DELETE')
                             @csrf
-                        </form>
+                            </form>
+                        @endcan
                     @endforeach
 
                 </tbody>
             </table>
         </div>
     </div>
+@endcan
 
 @endsection
 

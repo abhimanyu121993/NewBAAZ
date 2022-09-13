@@ -7,6 +7,7 @@
 @endsection
 
 @section('Content-Area')
+@can('Area_create')
     <div class="card">
         <div class="card-header">
             <h3>
@@ -27,6 +28,16 @@
                 @csrf
                 <div class="row">
                     <div class="col-md-6 mb-1">
+                        <label class="form-label" for="desc">Country Name</label>
+                        <select class="select2 form-select" id="select2-basic"  name='country_id' required>
+
+                        <option disabled value="">--Select Country--</option>
+                            @foreach ($countries as $country)
+                                <option {{ !isset($editarea) ? '': ($editarea->zones->countries->id == $country->id ? 'selected' : '') }} value="{{$country->id}}">{{$country->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-1">
                         <label class="form-label" for="desc">Zone Name</label>
                         <select class="select2 form-select" id="select2-basic"  name='zone_id' required>
 
@@ -36,6 +47,8 @@
                             @endforeach
                         </select>
                     </div>
+                <div class="row">
+
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="basic-addon-name">Area Name</label>
 
@@ -54,7 +67,9 @@
             </form>
         </div>
     </div>
+@endcan
 
+@can('Area_read')
     <div class="card">
         <div class="card-header">
             <h3>Manage Area</h3>
@@ -64,10 +79,13 @@
                 <thead>
                     <tr>
                         <th>Sr.No</th>
+                        <th>Country Name</th>
                         <th>Zone Name</th>
                         <th>Area Name</th>
                         <th>Created at</th>
-                        <th>Action</th>
+                        @canany(['Area_edit', 'Area_delete'])
+                            <th>Action</th>
+                        @endcan
                     </tr>
 
                 </thead>
@@ -75,9 +93,11 @@
                     @foreach ($areas as $area)
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
+                            <td>{{ $area->zones->countries->name }}</td>
                             <td>{{ $area->zones->name }}</td>
                             <td>{{ $area->name }}</td>
                             <td>{{ $area->created_at }}</td>
+                            @canany(['Area_edit', 'Area_delete'])
                             <td>
                                 <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
                                     <div class="mb-1 breadcrumb-right">
@@ -87,30 +107,40 @@
                                                 aria-expanded="false"><i data-feather="grid"></i></button>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 @php $aid=Crypt::encrypt($area->id); @endphp
+                                                @can('Area_edit')
                                                 <a class="dropdown-item" href="{{ route('Backend.area.edit', $aid) }}"><i
                                                         class="me-1" data-feather="check-square"></i><span
-                                                        class="align-middle">Edit</span></a>
-                                                        <a class="dropdown-item" href=""
-                                                        onclick="event.preventDefault();document.getElementById('delete-form-{{ $aid }}').submit();"><i
-                                                            class="me-1" data-feather="message-square"></i><span
-                                                            class="align-middle">Delete</span></a>
+                                                        class="align-middle">Edit</span>
+                                                </a>
+                                                @endcan
+                                                @can('Area_delete')
+                                                <a class="dropdown-item" href=""
+                                                onclick="event.preventDefault();document.getElementById('delete-form-{{ $aid }}').submit();"><i
+                                                    class="me-1" data-feather="message-square"></i><span
+                                                    class="align-middle">Delete</span>
+                                                </a>
+                                                @endcan
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </td>
+                            @endcan
                         </tr>
+                        @can('Area_delete')
                         <form id="delete-form-{{ $aid }}" action="{{ route('Backend.area.destroy', $aid) }}"
                             method="post" style="display: none;">
                             @method('DELETE')
                             @csrf
                         </form>
+                        @endcan
                     @endforeach
 
                 </tbody>
             </table>
         </div>
     </div>
+@endcan
 
 @endsection
 

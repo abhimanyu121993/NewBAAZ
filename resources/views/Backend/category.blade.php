@@ -6,6 +6,7 @@
 @endsection
 
 @section('Content-Area')
+@can('Category_create')
     <div class="card">
         <div class="card-header">
             <h3>
@@ -53,7 +54,9 @@
             </form>
         </div>
     </div>
+@endcan
 
+@can('Category_read')
     <div class="card">
         <div class="card-header">
             <h3>Manage Category</h3>
@@ -65,7 +68,9 @@
                         <th>Sr.No</th>
                         <th>Name</th>
                         <th>Image</th>
-                        <th>Action</th>
+                        @canany(['Category_edit', 'Category_delete'])
+                            <th>Action</th>
+                        @endcan
                     </tr>
 
                 </thead>
@@ -76,7 +81,9 @@
                             <td>{{ $i++ }}</td>
                             <td>{{ $cat->name }}</td>
                             <td><img src="{{ asset( $cat->image) }}" class="me-75 bg-light-danger"
-                                    style="height:60px;width:150px;" /></td>
+                                    style="height:60px;width:150px;" />
+                            </td>
+                            @canany(['Category_edit', 'Category_delete'])
                             <td>
                                 <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
                                     <div class="mb-1 breadcrumb-right">
@@ -86,30 +93,41 @@
                                                 aria-expanded="false"><i data-feather="grid"></i></button>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 @php $cid=Crypt::encrypt($cat->id); @endphp
+                                                @can('Category_edit')
                                                 <a class="dropdown-item" href="{{ route('Backend.category.edit', $cid) }}"><i
                                                         class="me-1" data-feather="check-square"></i><span
-                                                        class="align-middle">Edit</span></a>
-                                                        <a class="dropdown-item" href=""
-                                                        onclick="event.preventDefault();document.getElementById('delete-form-{{ $cid }}').submit();"><i
-                                                            class="me-1" data-feather="message-square"></i><span
-                                                            class="align-middle">Delete</span></a>
+                                                        class="align-middle">Edit</span>
+                                                </a>
+                                                @endcan
+                                                @can('Category_delete')
+                                                <a class="dropdown-item" href=""
+                                                onclick="event.preventDefault();document.getElementById('delete-form-{{ $cid }}').submit();"><i
+                                                    class="me-1" data-feather="message-square"></i><span
+                                                    class="align-middle">Delete</span>
+                                                </a>
+                                                @endcan
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </td>
+                            @endcan
                         </tr>
+                        @can('Category_delete')
                         <form id="delete-form-{{ $cid }}" action="{{ route('Backend.category.destroy', $cid) }}"
                             method="post" style="display: none;">
                             @method('DELETE')
                             @csrf
                         </form>
+                        @endcan
                     @endforeach
 
                 </tbody>
             </table>
         </div>
     </div>
+@endcan
+
 @endsection
 
 

@@ -5,17 +5,25 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AreaController;
 use App\Http\Controllers\Admin\AuthUserController;
+use App\Http\Controllers\Admin\BatteryTypeController;
 use App\Http\Controllers\Admin\ModelController;
 use App\Http\Controllers\Admin\FuelTypeController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\CountryController;
+use App\Http\Controllers\Admin\DemandingServiceController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\HomeSliderController;
+use App\Http\Controllers\Admin\JobcardController;
+use App\Http\Controllers\Admin\ModelServiceMapController;
 use App\Http\Controllers\Admin\OrderHistoryController;
+use App\Http\Controllers\Admin\OtherProductController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\ServiceChargeController;
+use App\Http\Controllers\Admin\SlotController;
 use App\Http\Controllers\Admin\WorkshopController;
+use App\Http\Controllers\Admin\WorkshopOrderController;
 use App\Http\Controllers\Admin\ZoneController;
 use App\Http\Middleware\AuthLogin;
 use Illuminate\Support\Facades\Artisan;
@@ -56,6 +64,33 @@ Route::group(['prefix'=>'Backend','as'=>'Backend.'],function(){
     //Orders
     Route::get('pending-orders',[OrderHistoryController::class,'pendingOrders'])->name('pendingOrders');
     Route::get('confirmed-orders',[OrderHistoryController::class,'confirmedOrders'])->name('confirmedOrders');
+
+    Route::resource('demandingservice',DemandingServiceController::class);
+    Route::resource('servicecharge',ServiceChargeController::class);
+    Route::resource('otherproduct',OtherProductController::class);
+
+    Route::post('allot-workshop',[WorkshopController::class,'allotWorkshop'])->name('allotWorkshop');
+    Route::resource('modelservicemap',ModelServiceMapController::class);
+    Route::resource('batterytype',BatteryTypeController::class);
+    Route::resource('slot',SlotController::class);
+    Route::resource('jobcard',JobcardController::class);
+    // Route::get('jobcard/{id}',[OrderHistoryController::class,'jobcard'])->name('jobcard');
+    // Route::post('order-jobcard',[OrderHistoryController::class,'orderJobcard'])->name('orderJobcard');
+
+    Route::get('order-service-detail/{id}',[WorkshopOrderController::class,'orderServiceDetail'])->name('orderServiceDetail');
+
+    Route::post('addworkshoporder',[WorkshopOrderController::class, 'addWorkshopOrder'])->name('addWorkshopOrder');
+    Route::post('addworkshoplabour',[WorkshopOrderController::class, 'addWorkshopLabour'])->name('addWorkshopLabour');
+    Route::post('addworkshopspare',[WorkshopOrderController::class, 'addWorkshopSpare'])->name('addWorkshopSpare');
+
+    Route::get('del-service/{id}',[WorkshopOrderController::class, 'delService'])->name('delService');
+    Route::get('edp-work',[WorkshopOrderController::class, 'edpWork'])->name('edpWork');
+    Route::get('invoice/{id}',[WorkshopOrderController::class, 'invoice'])->name('invoice');
+    Route::get('baaz-invoice/{id}',[WorkshopOrderController::class, 'baazInvoice'])->name('baazInvoice');
+    Route::get('change-password',[AuthUserController::class, 'changePassword'])->name('authuser.changepassword');
+    Route::post('update-profile',[AuthUserController::class, 'updateProfile'])->name('authuser.updateProfile');
+    Route::post('update-password',[AuthUserController::class, 'updatePassword'])->name('authuser.updatePassword');
+
 });
 
 

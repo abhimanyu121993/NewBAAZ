@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
@@ -27,6 +28,8 @@ Route::post('user-login', [AuthController::class, 'userLogin']);
 //User Routes
 Route::post('show-profile', [UserController::class, 'showProfile']);
 Route::post('update-profile', [UserController::class, 'updateProfile']);
+Route::post('edit-profile', [UserController::class, 'editProfile']);
+Route::post('edit-update-profile', [UserController::class, 'editUpdateProfile']);
 
 
 //Home Routes
@@ -44,5 +47,10 @@ Route::post('fetch-home-slider', [HomeController::class, 'homeSlider']);
 Route::post('fetch-offer-banner', [HomeController::class, 'offerBanner']);
 Route::post('order-placed', [OrderController::class, 'orderPlaced']);
 Route::post('order-history', [OrderController::class, 'orderHistory']);
-
+Route::post('show-cart',[CartController::class,'showCart']);
+Route::post('add-cart',[CartController::class,'addToCart']);
+Route::post('del-cart',[CartController::class,'deleteCart']);
 //Route::post('register-testuser', [UserController::class, 'registerTestUser']);
+Route::post('fetch-slot', [HomeController::class, 'fetchSlot']);
+Route::post('single-user-order-history', [OrderController::class, 'singleUserOrderHistory']);
+Route::post('user-invoice-download', [OrderController::class, 'userInvoiceLink']);

@@ -20,4 +20,9 @@ class City extends Model
     {
         return $this->belongsTo(Zone::class, 'zone_id');
     }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class, 'country_id');
+    }
 }

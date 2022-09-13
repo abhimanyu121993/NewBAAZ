@@ -1,5 +1,6 @@
 @extends('layouts.adminLayout')
 @section('Head-Area')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/vendors/css/vendors.min.css') }}">
     <link rel="stylesheet" type="text/css"
         href="{{ asset('Backend/assets/vendors/css/tables/datatable/dataTables.bootstrap5.min.css') }}">
@@ -13,14 +14,15 @@
 @endsection
 
 @section('Content-Area')
-   
+
+@can('Pending_orders_read')
  <!-- Scroll - horizontal and vertical table -->
  <section id="horizontal-vertical">
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Pending Orders</h4>
+                    <h4 class="card-title">Confirmed Orders</h4>
                 </div>
                 <div class="card-content">
                     <div class="card-body card-dashboard">
@@ -31,12 +33,15 @@
                                         <th>Sr.No.</th>
                                         <th>Order Id</th>
                                         <th>Name</th>
+                                        <th>Model</th>
                                         <th>Slots</th>
                                         <th>Phone</th>
                                         <th>Order Status</th>
-                                        <th>Assigned To</th>
                                         <th>Ordered at</th>
-                                        <th>Action</th>
+                                        @canany(['Pending_orders_edit', 'Pending_orders_delete'])
+                                            <th>Assigned To</th>
+                                            <th>Action</th>
+                                        @endcan
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -44,27 +49,32 @@
                                        @foreach ($pendingorders as $order)
                                             <tr>
                                                 <td>{{ $loop->index + 1 }}</td>
-                                                @php $oid=Crypt::encrypt($order->order_id); @endphp
+                                                @php $oid=Crypt::encrypt($order->id); @endphp
                                                 <td><a href="{{ route('Backend.orderhistory.show', $oid) }}">BAAZ-{{ $order->order_id }}</a></td>
                                                 <td>{{ $order->user->name ?? 'BAAZ Customer' }}</td>
-                                                <td>{{ $order->slot ?? ''}}</td>
+                                                <td>{{ $order->order_details[0]->model->name ?? ''}}</td>
+                                                <td>{{ $order->slot_detail->name ?? ''}}</td>
                                                 <td>{{ $order->user->mobileno ?? ''}}</td>
-                                                <td>{{ $order->order_status }}</td>
-                                                <td>
-                                                    <select class="select2 form-select" id="select2-basic"  name='rmid' required>
-                                                    
-                                                    <option selected disabled value="">Shop</option>
-                                                                                    
-                                                        @foreach ($workshops as $shop)
-                                                            <option value="{{$shop->id}}">{{$shop->name}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>
+                                                <td>{{ $order->order_status_detail->name ?? '' }}</td>
                                                 <td>{{ $order->created_at }}</td>
-                                                <td>
-                                                    <button class="btn-icon btn btn-primary btn-round btn-sm" 
-                                                     ><i data-feather="check-circle"></i></button>
-                                                </td>
+                                                @canany(['Pending_orders_edit', 'Pending_orders_delete'])
+                                                <form id="allotworkshop" action="{{ route('Backend.allotWorkshop') }}" method="POST">
+                                                    @csrf
+                                                    <td>
+                                                        <input type="hidden" name="oid" value="{{ $order->id ?? '' }}" />
+                                                        <select style="width:200px;" class="form-select" name='wid' required>
+                                                            <option selected disabled value="">--Select Workshop--</option>
+                                                            @foreach ($workshops as $shop)
+                                                                <option {{ !isset($order) ? '': ($order->assigned_workshop == $shop->id ? 'selected' : '') }} value="{{$shop->id}}">{{$shop->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <button type="submit" class="btn-icon btn btn-primary btn-round btn-sm"
+                                                         ><i data-feather="check-circle"></i></button>
+                                                    </td>
+                                                </form>
+                                                @endcan
                                             </tr>
                                        @endforeach
                                     @endif
@@ -78,6 +88,7 @@
     </div>
 </section>
 <!--/ Scroll - horizontal and vertical table -->
+@endcan
 
 
 
@@ -102,7 +113,34 @@
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js') }}"></script>
     <!-- END: Page Vendor JS-->
 
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="{{ asset('Backend/assets/js/scripts/datatables/datatable.js') }}"></script>
+    <script src="{{asset('BackEnd/assets/vendors/js/forms/select/select2.full.min.js')}}"></script>
+    <script src="{{asset('Backend/assets/js/scripts/forms/form-select2.js')}}"></script>
+    <script>
+        $("#allotworkshop").submit(function(e) {
+            e.preventDefault();
+            var form = $(this);
+            var actionUrl = form.attr('action');
+            $.ajax({
+                type: "POST",
+                url: actionUrl,
+                data: form.serialize(),
+                success: function(response) {
+                    console.log(response);
+                    if (response.status == 200)
+                    {
+                        alert('Assigned');
+                        swal("Good job!","Workshop Assigned successfully!", "success");
+                        console.log(response.status);
+                    } else
+                    {
+                        swal("Snap!", "Server Error", "error");
+                        console.log(response.status);
+                    }
+                }
+            });
+        });
 
+    </script>
 @endsection

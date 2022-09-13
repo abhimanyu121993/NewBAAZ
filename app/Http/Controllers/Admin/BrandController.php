@@ -8,6 +8,7 @@ use App\Models\Error;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
@@ -129,10 +130,10 @@ class BrandController extends Controller
                 $brandpic='brand-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
                 $request->pic->move(public_path('upload/brands/'),$brandpic);
                 $oldpic=Brand::find($id)->pluck('image')[0];
-                    unlink(public_path($oldpic));
-                    Brand::find($id)->update(['image'=>$brandpic]);
+                File::delete(public_path($oldpic));
+                Brand::find($id)->update(['image'=>'upload/brands/'.$brandpic]);
             }
-            $res= Brand::find($id)->update(['name'=>$request->bname,'image'=>'upload/brands/'.$brandpic]);
+            $res= Brand::find($id)->update(['name'=>$request->bname]);
 
             if($res)
             {

@@ -11,8 +11,10 @@ use App\Models\HomeSlider;
 use App\Models\OfferBanner;
 use App\Models\Service;
 use App\Models\Slider;
+use App\Models\Slot;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
@@ -60,11 +62,11 @@ class HomeController extends Controller
         ]);
         try
         {
-            $model = Brand::find($req->company_id)->models;
+            $model = Brand::find($req->company_id);
             if ($model)
             {
                 $result = [
-                    'data' => $model,
+                    'data' => $model->models,
                     'message' => 'Brand model details found',
                     'status' => 200,
                     'error' => NULL
@@ -164,11 +166,20 @@ class HomeController extends Controller
     public function services(Request $req)
     {
         $req->validate([
-            'category_id' => 'required'
+            'category_id' => 'required',
+            'model_id' => 'required'
         ]);
         try
         {
-            $services = Category::find($req->category_id)->services;
+            $services = DB::table('categories as c')
+                ->select('msm.service_id as service_id', 'msm.price as service_price', 's.name as service_name', 's.image as service_image', 's.desc as service_desc', 'msm.discounted_price as service_discounted_price')
+                ->join('services as s', 's.cid', 'c.id')
+                ->join('model_service_maps as msm', 'msm.service_id', 's.id')
+                ->join('brand_models as bm', 'bm.id', 'msm.model_id')
+                ->where('c.id', $req->category_id)
+                ->where('msm.model_id', $req->model_id)
+                ->get();
+            // return $services;
             if ($services)
             {
                 $result = [
@@ -253,6 +264,41 @@ class HomeController extends Controller
                 $result = [
                     'data' => NULL,
                     'message' => 'Company details not found',
+                    'status' => 200,
+                    'error' => [
+                        'message' => 'Server Error',
+                        'code' => 305,
+                    ]
+                ];
+            }
+            return response()->json($result);
+        }
+        catch (Exception $ex)
+        {
+            $url=URL::current();
+            Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
+        }
+    }
+
+    public function fetchSlot()
+    {
+        try
+        {
+            $slot = Slot::get();
+            if ($slot)
+            {
+                $result = [
+                    'data' => $slot,
+                    'message' => 'Slot details found',
+                    'status' => 200,
+                    'error' => NULL
+                ];
+            }
+            else
+            {
+                $result = [
+                    'data' => NULL,
+                    'message' => 'Slot details not found',
                     'status' => 200,
                     'error' => [
                         'message' => 'Server Error',

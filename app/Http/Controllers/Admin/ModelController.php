@@ -9,6 +9,7 @@ use App\Models\Error;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
@@ -23,7 +24,7 @@ class ModelController extends Controller
     public function index()
     {
         $brands = Brand::get();
-        $models = BrandModel::latest()->paginate(20);
+        $models = BrandModel::all();
         return view('Backend.model', compact('models','brands'));
     }
 
@@ -88,7 +89,7 @@ class ModelController extends Controller
     public function edit($id)
     {
         $brands = Brand::get();
-        $models = BrandModel::latest()->paginate(20);
+        $models = BrandModel::all();
         $id=Crypt::decrypt($id);
         $modeledit=BrandModel::find($id);
         if($modeledit)
@@ -124,7 +125,7 @@ class ModelController extends Controller
                 $modelpic='model-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
                 $request->pic->move(public_path('upload/models/'),$modelpic);
                 $oldpic=Brand::find($id)->pluck('image')[0];
-                    unlink(public_path($oldpic));
+                File::delete(public_path($oldpic));
             }
             $res= BrandModel::create(['bid'=> $request->bid ,'name'=>$request->mname,'image'=>'upload/models/'.$modelpic]);
 

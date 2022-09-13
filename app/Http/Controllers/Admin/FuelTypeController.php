@@ -8,6 +8,7 @@ use App\Models\FuelType;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
@@ -47,7 +48,6 @@ class FuelTypeController extends Controller
             'name'=>'required',
             'pic'=>'nullable|image'
         ]);
-        $fuelpic='branddummy.jpg';
         try
         {
             if($request->hasFile('pic'))
@@ -121,7 +121,6 @@ class FuelTypeController extends Controller
             'name'=>'required',
             'pic'=>'nullable|image'
         ]);
-        $brandpic='branddummy.jpg';
         try
         {
             if($request->hasFile('pic'))
@@ -129,10 +128,10 @@ class FuelTypeController extends Controller
                 $fuelpic='fueltype-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
                 $request->pic->move(public_path('upload/fueltype/'),$fuelpic);
                 $oldpic=FuelType::find($id)->pluck('image')[0];
-                    unlink(public_path($oldpic));
-                    FuelType::find($id)->update(['image'=>$fuelpic]);
+                File::delete(public_path($oldpic));
+                FuelType::find($id)->update(['image'=>$fuelpic]);
             }
-            $res= FuelType::find($id)->update(['name'=>$request->name,'image'=>'upload/fueltype/'.$fuelpic]);
+            $res= FuelType::find($id)->update(['name'=>$request->name]);
 
             if($res)
             {

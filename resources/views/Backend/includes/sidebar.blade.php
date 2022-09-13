@@ -1,23 +1,24 @@
-{{-- @role('Superadmin')
-@php
-    echo 'hello';
-@endphp
-@php $rolecolor='blue'; @endphp
-@elserole('Country Admin') 
-@php $rolecolor=''; @endphp 
-@elserole('Zonal Head') 
-@php $rolecolor=''; @endphp 
-@elserole('Area Head') 
-@php $rolecolor=''; @endphp 
-@elserole('City Head') 
-@php $rolecolor=''; @endphp 
-@elserole('RM') 
-@php $rolecolor='';@endphp
-@endrole --}}
+@role('Superadmin')
+    @php $rolecolor='#78244C'; @endphp
+    @elserole('Country Admin')
+    @php $rolecolor='#A64AC9'; @endphp
+    @elserole('Zonal Head')
+    @php $rolecolor='#29648A'; @endphp
+    @elserole('Area Head')
+    @php $rolecolor='#C2ABE2'; @endphp
+    @elserole('City Head')
+    @php $rolecolor='#5CDB95'; @endphp
+    @elserole('RM')
+    @php $rolecolor='#950740';@endphp
+    @elserole('Workshop')
+    @php $rolecolor='#832858';@endphp
+    @else
+    @php $rolecolor='#157DEC';@endphp
+@endrole
 
-<div class="main-menu menu-fixed menu-light menu-accordion menu-shadow"
-    style="background-color: @php  $rolecolor @endphp;" data-scroll-to-active="true">
-    <div class="navbar-header" style="background-color: @php  $rolecolor @endphp;">
+
+<div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
+    <div class="navbar-header" style="background-color: @php echo $rolecolor @endphp;">
         <ul class="nav navbar-nav flex-row">
             <li class="nav-item me-auto"><a class="navbar-brand p-0" href="#">
                     <img class="" alt="logo" height="40" width="60"
@@ -25,15 +26,16 @@
                     <h2 class="brand-text" style="color: #fca40b;">BAAZ</h2>
                 </a>
             </li>
-            <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i
+            <li class="nav-item nav-toggle" style="color: white;"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i
                         class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i
                         class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc"
                         data-ticon="disc"></i></a></li>
         </ul>
     </div>
     {{-- <div class="shadow-bottom"></div> --}}
-    <div class="main-menu-content" style="background-color: @php  $rolecolor @endphp;">
-        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+    <div class="main-menu-content" style="background-color: @php echo $rolecolor @endphp;">
+        <ul class="navigation navigation-main" id="main-menu-navigation"
+            style="background-color: @php echo $rolecolor @endphp;" data-menu="menu-navigation">
             <li class="nav-item"><a class="d-flex align-items-center" href="{{ route('Backend.dashboard') }}"><i
                         data-feather="home"></i><span class="menu-title text-truncate"
                         data-i18n="Dashboards">Dashboard</span></a>
@@ -69,6 +71,16 @@
                                     </svg><span class="menu-item text-truncate" data-i18n="List">Car Model</span></a>
                             </li>
                         @endcan
+
+                        {{-- @can('Model')
+                            <li><a class="d-flex align-items-center" href="{{ route('Backend.modelservicemap.index') }}"><svg
+                                        xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="feather feather-circle">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                    </svg><span class="menu-item text-truncate" data-i18n="List">Model Service Map</span></a>
+                            </li>
+                        @endcan --}}
 
                         @can('Fuel_type')
                             <li><a class="d-flex align-items-center" href="{{ route('Backend.fueltype.index') }}"><svg
@@ -133,29 +145,30 @@
                 </li>
             @endcan
 
+            @can('Home_slider')
+                <li class="nav-item"><a class="d-flex align-items-center"
+                        href="{{ route('Backend.edpWork') }}"><i data-feather="sliders"></i><span
+                            class="menu-title text-truncate" data-i18n="User List">EDP Work</span></a>
+                </li>
+            @endcan
+
             @canany(['Pending_orders', 'Confirmed_orders', 'Order_history'])
-                <li class="nav-item has-sub" style=""><a class="d-flex align-items-center" href="#"><svg
-                            xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="feather feather-folder-minus">
-                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-                            <line x1="9" y1="14" x2="15" y2="14"></line>
-                        </svg><span class="menu-title text-truncate" data-i18n="Invoice">Orders</span></a>
+                <li class="nav-item has-sub" style=""><a class="d-flex align-items-center" href="#"><span class="menu-title text-truncate" data-i18n="Invoice"><i data-feather="airplay"></i>Orders</span></a>
                     <ul class="menu-content">
 
                         @can('Pending_orders')
                             <li class="nav-item"><a class="d-flex align-items-center"
                                     href="{{ route('Backend.pendingOrders') }}"><i data-feather="file-text"></i><span
-                                        class="menu-title text-truncate" data-i18n="User List">Pending Orders</span></a>
+                                        class="menu-title text-truncate" data-i18n="User List">Confirmed Orders</span></a>
                             </li>
                         @endcan
 
-                        @can('Confirmed_orders')
+                        {{-- @can('Confirmed_orders')
                             <li class="nav-item"><a class="d-flex align-items-center"
                                     href="{{ route('Backend.confirmedOrders') }}"><i data-feather="file-text"></i><span
                                         class="menu-title text-truncate" data-i18n="User List">Confirmed Orders</span></a>
                             </li>
-                        @endcan
+                        @endcan --}}
 
                         @can('Order_history')
                             <li class="nav-item"><a class="d-flex align-items-center"
@@ -168,14 +181,8 @@
                 </li>
             @endcanany
 
-            @canany(['Workshop', 'Employee', 'Country', 'Zone', 'Area', 'City'])
-                <li class="nav-item has-sub" style=""><a class="d-flex align-items-center" href="#"><svg
-                            xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="feather feather-folder-minus">
-                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-                            <line x1="9" y1="14" x2="15" y2="14"></line>
-                        </svg><span class="menu-title text-truncate" data-i18n="Invoice">Business Setup</span></a>
+            @canany(['Workshop', 'Employee', 'Country', 'Zone', 'Area', 'City', 'Battery_type', 'Slot'])
+                <li class="nav-item has-sub" style=""><a class="d-flex align-items-center" href="#"><i data-feather="settings"></i><span class="menu-title text-truncate" data-i18n="Invoice">Business Setup</span></a>
                     <ul class="menu-content">
 
                         @can('Workshop')
@@ -235,18 +242,53 @@
                             </li>
                         @endcan
 
+                        @can('Battery_type')
+                            <li><a class="d-flex align-items-center" href="{{ route('Backend.batterytype.index') }}"><svg
+                                        xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="feather feather-circle">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                    </svg><span class="menu-item text-truncate" data-i18n="List">Battery Type</span></a>
+                            </li>
+                        @endcan
+
+                        @can('Slot')
+                            <li><a class="d-flex align-items-center" href="{{ route('Backend.slot.index') }}"><svg
+                                        xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="feather feather-circle">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                    </svg><span class="menu-item text-truncate" data-i18n="List">Slot</span></a>
+                            </li>
+                        @endcan
+
                     </ul>
                 </li>
             @endcanany
 
+            @can('Demanding_service')
+                <li class="nav-item"><a class="d-flex align-items-center"
+                    href="{{ route('Backend.demandingservice.index') }}"><i data-feather="aperture"></i><span
+                        class="menu-title text-truncate" data-i18n="User List">Demanding Services</span></a>
+                </li>
+            @endcan
+
+            @can('Service_charge')
+                <li class="nav-item"><a class="d-flex align-items-center"
+                    href="{{ route('Backend.servicecharge.index') }}"><i data-feather="dollar-sign"></i><span
+                        class="menu-title text-truncate" data-i18n="User List">Service Charges</span></a>
+                </li>
+            @endcan
+
+            @can('Other_product')
+                <li class="nav-item"><a class="d-flex align-items-center"
+                    href="{{ route('Backend.otherproduct.index') }}"><i data-feather="monitor"></i><span
+                        class="menu-title text-truncate" data-i18n="User List">Other Products</span></a>
+                </li>
+            @endcan
+
             @can('Role_Permission')
-                <li class="nav-item has-sub" style=""><a class="d-flex align-items-center" href="#"><svg
-                            xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="feather feather-folder-minus">
-                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-                            <line x1="9" y1="14" x2="15" y2="14"></line>
-                        </svg><span class="menu-title text-truncate" data-i18n="Invoice">Roles/Permission</span></a>
+                <li class="nav-item has-sub" style=""><a class="d-flex align-items-center" href="#"><span class="menu-title text-truncate" data-i18n="Invoice"><i data-feather="lock"></i>Roles/Permission</span></a>
                     <ul class="menu-content">
                         <li><a class="d-flex align-items-center" href="{{ route('Backend.role.index') }}"><svg
                                     xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"

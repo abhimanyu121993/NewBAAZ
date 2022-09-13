@@ -25,10 +25,12 @@ class AdminController extends Controller
     {
         if(Auth::attempt(['email' => $req->email, 'password' => $req->password], $req->remember_me))
         {
-                return redirect('/Backend/dashboard');
+            session()->flash('success','Welcome Admin !');
+            return redirect('Backend/dashboard');
         }
         else {
-            return redirect('/admin');
+            session()->flash('error','Invalid Username or Password !');
+            return redirect('/');
         }
     }
 
@@ -45,6 +47,7 @@ class AdminController extends Controller
     {
         Auth::logout();
         Session::flush();
+        session()->flash('success','Logout Successfully !');
         return redirect('/');
     }
 

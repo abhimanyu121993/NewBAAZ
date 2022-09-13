@@ -8,6 +8,7 @@ use App\Models\Error;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 
@@ -31,8 +32,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        
-        
+
+
     }
 
     /**
@@ -83,7 +84,7 @@ class CategoryController extends Controller
      */
     public function show()
     {
-       
+
     }
 
     /**
@@ -129,10 +130,10 @@ class CategoryController extends Controller
                 $catpic='category-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
                 $request->pic->move(public_path('upload/category/'),$catpic);
                 $oldpic=Category::find($id)->pluck('image')[0];
-                    unlink(public_path($oldpic));
-                    Category::find($id)->update(['image'=>$catpic]);
+                File::delete(public_path($oldpic));
+                Category::find($id)->update(['image'=>'upload/category/'.$catpic]);
             }
-            $res= Category::find($id)->update(['name'=>$request->cname,'image'=>'upload/category/'.$catpic]);
+            $res= Category::find($id)->update(['name'=>$request->cname]);
 
             if($res)
             {

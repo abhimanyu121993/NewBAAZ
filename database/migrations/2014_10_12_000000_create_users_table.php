@@ -23,6 +23,9 @@ return new class extends Migration
             $table->string('roleid')->nullable();
             $table->string('pic')->nullable();
             $table->string('aadharid')->nullable();
+            $table->string('owner_name');
+            $table->string('gst');
+            $table->string('gstpic');
             $table->softDeletes();
             $table->timestamps();
         });

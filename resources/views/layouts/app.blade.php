@@ -21,7 +21,7 @@
    <link rel="stylesheet" type="text/css" href="{{asset('Backend/assets/css/plugins/forms/form-validation.css')}}">
    <link rel="stylesheet" type="text/css" href="{{asset('Backend/assets/css/pages/authentication.css')}}">
    <!-- END: Page CSS-->
-
+   <link rel="stylesheet" type="text/css" href="{{asset('Backend/assets/vendors/css/extensions/toastr.min.css')}}">
    <!-- BEGIN: Custom CSS-->
    <link rel="stylesheet" type="text/css" href="{{asset('Backend/assets/css/style.css')}}">
     <!-- CSRF Token -->
@@ -114,6 +114,7 @@
     <!-- BEGIN: Page JS-->
     <script src="{{asset('Backend/assets/js/scripts/pages/auth-login.js')}}"></script>
     <!-- END: Page JS-->
+    <script src="{{asset('Backend/assets/vendors/js/extensions/toastr.min.js')}}"></script>
 
     <script>
         $(window).on('load', function() {
@@ -124,6 +125,17 @@
                 });
             }
         })
+    </script>
+    <script>
+        $(document).ready(function() {
+            toastr.options.timeOut = 10000;
+            @if (Session::has('error'))
+                toastr.error('{{ Session::get('error') }}');
+            @elseif(Session::has('success'))
+                toastr.success('{{ Session::get('success') }}');
+            @endif
+        });
+
     </script>
 </body>
 </html>

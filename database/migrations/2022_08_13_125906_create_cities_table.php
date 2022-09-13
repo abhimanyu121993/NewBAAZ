@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
+            $table->string('country_id');
             $table->string('zone_id');
             $table->string('area_id');
             $table->string('name');

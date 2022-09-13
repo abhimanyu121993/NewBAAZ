@@ -6,6 +6,7 @@
 @endsection
 
 @section('Content-Area')
+@can('Workshop_create')
     <div class="card">
         <div class="card-header">
             <h3>
@@ -101,7 +102,9 @@
             </form>
         </div>
     </div>
+@endcan
 
+@can('Workshop_read')
     <div class="card">
         <div class="card-header">
             <h3>Manage Workshops</h3>
@@ -118,7 +121,9 @@
                         <th>Phone</th>
                         <th>Email</th>
                         <th>GST</th>
-                        <th>Action</th>
+                        @canany(['Workshop_edit', 'Workshop_delete'])
+                            <th>Action</th>
+                        @endcan
                     </tr>
 
                 </thead>
@@ -139,6 +144,7 @@
                             <td>{{ $workshop->phone }}</td>
                             <td>{{ $workshop->email }}</td>
                             <td>{{ $workshop->gst }}</td>
+                            @canany(['Workshop_edit', 'Workshop_delete'])
                             <td>
                                 <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
                                     <div class="mb-1 breadcrumb-right">
@@ -148,30 +154,41 @@
                                                 aria-expanded="false"><i data-feather="grid"></i></button>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 @php $eid=Crypt::encrypt($workshop->id); @endphp
+                                                @can('Workshop_edit')
                                                 <a class="dropdown-item" href="{{ route('Backend.workshop.edit', $eid) }}"><i
                                                         class="me-1" data-feather="check-square"></i><span
-                                                        class="align-middle">Edit</span></a>
-                                                        <a class="dropdown-item" href=""
-                                                        onclick="event.preventDefault();document.getElementById('delete-form-{{ $eid }}').submit();"><i
-                                                            class="me-1" data-feather="message-square"></i><span
-                                                            class="align-middle">Delete</span></a>
+                                                        class="align-middle">Edit</span>
+                                                </a>
+                                                @endcan
+                                                @can('Workshop_delete')
+                                                <a class="dropdown-item" href=""
+                                                onclick="event.preventDefault();document.getElementById('delete-form-{{ $eid }}').submit();"><i
+                                                    class="me-1" data-feather="message-square"></i><span
+                                                    class="align-middle">Delete</span>
+                                                </a>
+                                                @endcan
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </td>
+                            @endcan
                         </tr>
+                        @can('Workshop_delete')
                         <form id="delete-form-{{ $eid }}" action="{{ route('Backend.workshop.destroy', $eid) }}"
                             method="post" style="display: none;">
                             @method('DELETE')
                             @csrf
                         </form>
+                        @endcan
                     @endforeach
 
                 </tbody>
             </table>
         </div>
     </div>
+@endcan
+
 @endsection
 
 
