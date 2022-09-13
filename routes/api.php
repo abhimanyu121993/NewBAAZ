@@ -49,7 +49,7 @@ Route::post('order-placed', [OrderController::class, 'orderPlaced']);
 Route::post('order-history', [OrderController::class, 'orderHistory']);
 Route::post('show-cart',[CartController::class,'showCart']);
 Route::post('add-cart',[CartController::class,'addToCart']);
-Route::post('del-cart',[CartController::class,'deleteCart']);
+Route::post('del-cart',[CartController::class,'removeCartItems']);
 //Route::post('register-testuser', [UserController::class, 'registerTestUser']);
 Route::post('fetch-slot', [HomeController::class, 'fetchSlot']);
 Route::post('single-user-order-history', [OrderController::class, 'singleUserOrderHistory']);
