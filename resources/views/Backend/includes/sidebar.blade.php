@@ -324,6 +324,14 @@
                 </li>
             @endcan
 
+
+          
+            <li class="nav-item"><a class="d-flex align-items-center"
+              href="{{ route('Backend.custom-Notification') }}"><i data-feather="notification"></i><span
+             class="menu-title text-truncate" data-i18n="User List">Custom Notification</span></a>
+            </li>
+      
+
         </ul>
     </div>
 </div>

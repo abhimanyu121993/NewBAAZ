@@ -26,6 +26,7 @@ use App\Http\Controllers\Admin\WorkshopController;
 use App\Http\Controllers\Admin\WorkshopOrderController;
 use App\Http\Controllers\Admin\ZoneController;
 use App\Http\Middleware\AuthLogin;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Artisan;
 
 
@@ -91,6 +92,10 @@ Route::group(['prefix'=>'Backend','as'=>'Backend.'],function(){
     Route::post('update-profile',[AuthUserController::class, 'updateProfile'])->name('authuser.updateProfile');
     Route::post('update-password',[AuthUserController::class, 'updatePassword'])->name('authuser.updatePassword');
 
+    Route::get('custom-Notification',[NotificationController::class, 'Notification'])->name('custom-Notification');
+    Route::Post('add-notification',[NotificationController::class, 'Add_Notification'])->name('add-notification');
+    Route::get('custom-Notification',[NotificationController::class, 'Notification_list'])->name('custom-Notification');
+    Route::get('send-notification', [NotificationController::class, 'SendNotification'])->name('send-notification');
 });
 
 
