@@ -35,7 +35,6 @@ class WorkshopOrderController extends Controller
     {
         Log::info('addworkshoporder'.json_encode($request->all()));
         $sprice = Service::getServiceDetailById($request->service_id, $request->model_id);
-        Log::
         $workshopOrder = WorkshopOrder::updateOrCreate(['order_id' => $request->order_id],[
             'order_no' => $request->order_no,
             'workshop_id' => $request->workshop_id,
