@@ -35,6 +35,7 @@ class WorkshopOrderController extends Controller
     {
         Log::info('addworkshoporder'.json_encode($request->all()));
         $sprice = Service::getServiceDetailById($request->service_id, $request->model_id);
+        Log::
         $workshopOrder = WorkshopOrder::updateOrCreate(['order_id' => $request->order_id],[
             'order_no' => $request->order_no,
             'workshop_id' => $request->workshop_id,
@@ -49,11 +50,11 @@ class WorkshopOrderController extends Controller
             ]);
             if($workshopOrderDetail)
             {
-                session()->flash('success','Order added Sucessfully');
+                session()->flash('success','Service added Sucessfully');
             }
             else
             {
-                session()->flash('error','Order not added ');
+                session()->flash('error','Service not added ');
             }
         }
         return redirect()->back();
@@ -76,11 +77,11 @@ class WorkshopOrderController extends Controller
             ]);
             if($workshopOrderDetail)
             {
-                session()->flash('success','Order added Sucessfully');
+                session()->flash('success','Service added Sucessfully');
             }
             else
             {
-                session()->flash('error','Order not added ');
+                session()->flash('error','Service not added ');
             }
         }
         return redirect()->back();
@@ -103,11 +104,11 @@ class WorkshopOrderController extends Controller
             ]);
             if($workshopOrderDetail)
             {
-                session()->flash('success','Order added Sucessfully');
+                session()->flash('success','Service added Sucessfully');
             }
             else
             {
-                session()->flash('error','Order not added ');
+                session()->flash('error','Service not added ');
             }
         }
         return redirect()->back();
