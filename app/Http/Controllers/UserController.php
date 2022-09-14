@@ -58,13 +58,17 @@ class UserController extends Controller
     {
         $req->validate([
             'mobileno' => 'required|min:10|max:10',
+            'fcm_token'=>'required',
         ]);
         try
         {
             $user = Customer::where('mobileno',$req->mobileno)->first();
             if($user == null || $user == NULL)
             {
-                $userup = Customer::create(['mobileno' => $req->mobileno]);
+                $userup = Customer::create([
+                    'mobileno' => $req->mobileno,
+                    'fcm_token'=>$req->fcm_token
+                ]);
             }
             if ($user)
             {
