@@ -31,8 +31,9 @@
                             <td><img src="{{asset($orderd->servicetype->image ?? '')}}" class="me-75 bg-light-danger"
                                 style="height:35px;width:35px;" /></td>
                             <td>{{ $orderd->servicetype->name ?? '' }}</td>
-                            <td>{{ $orderd->servicetype->price ?? '' }}</td>
+                            <td>{{ $orderd->modelmapservice->where('service_id', $orderd->servicetype->id)->first()->discounted_price ?? '' }}</td>
                         </tr>
+                        @endforeach
                         @role('Superadmin|Workshop')
                         <tr>
                             @if ($order->jobcard)
@@ -44,7 +45,6 @@
                             <td><a href="{{ route('Backend.jobcard.edit', $order->id) }}" class="btn btn-primary">Job Card</a></td>
                         </tr>
                         @endrole
-                        @endforeach
                     @else
                         <tr>
                             <td colspan="100%" class="text-center">Service not available for this order</td>

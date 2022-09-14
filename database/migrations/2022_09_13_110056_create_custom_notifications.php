@@ -13,14 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('workshop_order_details', function (Blueprint $table) {
+        Schema::create('custom_notifications', function (Blueprint $table) {
             $table->id();
-            $table->string('workshop_order_id')->nullable();
-            $table->string('type')->nullable();
-            $table->string('value')->nullable();
-            $table->string('quantity')->default(1);
-            $table->string('amount')->default(0);
-            $table->softDeletes();
+            $table->string("notification_type");
+            $table->integer("notif_id")->nullable();
+            $table->string("title");
+            $table->string("body");
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('workshop_order_details');
+        Schema::dropIfExists('custom_notifications');
     }
 };
