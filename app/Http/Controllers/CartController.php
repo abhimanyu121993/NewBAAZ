@@ -19,7 +19,7 @@ class CartController extends Controller
             'user_id' => 'required'
         ]);
         try {
-            $cartItems = Cart::where('user_id', $req->user_id)->get();
+            $cartItems = Cart::with('service')->where('user_id', $req->user_id)->get();
             if ($cartItems) {
                 $result = [
                     'data' => $cartItems,
