@@ -137,7 +137,7 @@
                             @if ($sd->type == 'Service')
                                 <tr>
                                     <td>{{ $sd->service_charge->name ?? '' }}</td>
-                                    <td>{{ $sd->service_charge->price ?? '' }}</td>
+                                    <td>{{ $order->order_details[0]->modelmapservice->discounted_price ?? '' }}</td>
                                     @php $sid = Crypt::encrypt($sd->id); @endphp
                                     <td><a href="{{ route('Backend.delService', $sid) }}" class="btn btn-danger"><i
                                                 data-feather="trash-2"></i></a></td>

@@ -49,11 +49,11 @@ class WorkshopOrderController extends Controller
             ]);
             if($workshopOrderDetail)
             {
-                session()->flash('success','Order added Sucessfully');
+                session()->flash('success','Service added Sucessfully');
             }
             else
             {
-                session()->flash('error','Order not added ');
+                session()->flash('error','Service not added ');
             }
         }
         return redirect()->back();
@@ -76,11 +76,11 @@ class WorkshopOrderController extends Controller
             ]);
             if($workshopOrderDetail)
             {
-                session()->flash('success','Order added Sucessfully');
+                session()->flash('success','Service added Sucessfully');
             }
             else
             {
-                session()->flash('error','Order not added ');
+                session()->flash('error','Service not added ');
             }
         }
         return redirect()->back();
@@ -103,11 +103,11 @@ class WorkshopOrderController extends Controller
             ]);
             if($workshopOrderDetail)
             {
-                session()->flash('success','Order added Sucessfully');
+                session()->flash('success','Service added Sucessfully');
             }
             else
             {
-                session()->flash('error','Order not added ');
+                session()->flash('error','Service not added ');
             }
         }
         return redirect()->back();
