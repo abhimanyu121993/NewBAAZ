@@ -1,21 +1,24 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use Illuminate\Support\Facades\Crypt;
 use App\Models\CustomNotification;
 
 class NotificationController extends Controller
 {
-    public function Notification(){
-       return view('Backend.custom_notification'); 
+    public function Notification()
+    {
+        return view('Backend.custom_notification');
     }
 
-     public function Add_Notification(Request $request)
-     {
-         
+    public function Add_Notification(Request $request)
+    {
+
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:50',
             'body'  => 'required|max:100',
@@ -30,7 +33,7 @@ class NotificationController extends Controller
             $notif = new CustomNotification();
             $notif->title   = $request->input('title');
             $notif->body   = $request->input('body');
-            $notif->notification_type = "custom_notification";      
+            $notif->notification_type = "custom_notification";
             $notif->save();
             $fcmTokens = Customer::all();
             foreach ($fcmTokens as $fcmTokens) {
@@ -40,6 +43,7 @@ class NotificationController extends Controller
                     'body' => $request->body,
 
                 );
+
                 sendNotification($to, $data);
             }
             if ($notif) {
@@ -49,20 +53,25 @@ class NotificationController extends Controller
                 ]);
             }
         }
+    }
 
+    public function  Notification_list()
+    {
+        $notif = CustomNotification::all();
+        return view('Backend.custom_notification', compact('notif'));
+    }
+
+
+    public function edit($id)
+    {
+        $editnotifi = CustomNotification::get();
+        $id = Crypt::decrypt($id);
+        $editnotifi = CustomNotification::find($id);
+        if ($editnotifi) {
+            return view('Backend.edit_custom_notificaton', compact('editnotifi'));
+        } else {
+            session::flash('error', 'Something Went Wrong OR Data is Deleted');
+            return redirect()->back();
+        }
+    }
 }
-
-   public function  Notification_list(){
-    $notif = CustomNotification::all(); 
-    return view('Backend.custom_notification',compact('notif'));
-   }
-
-
-
-
-}
-
-        
-
-    
- 
