@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('roleid')->nullable();
             $table->string('pic')->nullable();
+            $table->string('fcm_token')->nullable();
             $table->string('aadharid')->nullable();
             $table->string('owner_name');
             $table->string('gst');

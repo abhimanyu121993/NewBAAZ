@@ -36,7 +36,7 @@ class Service extends Model
     static public function getServiceDetailById($service_id, $model_id)
     {
         return DB::table('categories as c')
-        ->select('msm.service_id as service_id', 'msm.price as service_price', 's.name as service_name', 's.image as service_image')
+        ->select('msm.service_id as service_id', 'msm.discounted_price as service_price', 's.name as service_name', 's.image as service_image')
         ->join('services as s', 's.cid', 'c.id')
         ->join('model_service_maps as msm', 'msm.service_id', 's.id')
         ->join('brand_models as bm', 'bm.id', 'msm.model_id')

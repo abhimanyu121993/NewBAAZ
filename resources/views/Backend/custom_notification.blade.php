@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-2">
+                    <div class="col-sm-4">
                         <button type="submit"
                         class="btn btn-primary waves-effect waves-float waves-light">Send Notification</button>
                     </div>
@@ -125,7 +125,7 @@
     <script src="{{ asset('Backend/assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
 @endsection
 <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
-
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).on("submit", "#add_notification", function(e) {
       
@@ -144,12 +144,22 @@
                         values += value + '<br>'
                     });
                     Command: toastr["error"](values)
+                    Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!'
+                    })
                     $("#createCustormBtn").text("Send Notification");
                 } else if (response.status == 200) {
                     $("#add_notification")[0].reset();
                     $("#createCustormBtn").text("Send Notification");
                     fetch_Custom_Notification();
                     Command: toastr["success"](response.message)
+                    Swal.fire({
+                    icon: 'success',
+                    title: 'Great',
+                    text: 'Notification sent succesfully'
+                    })
                 }
             }
         });
