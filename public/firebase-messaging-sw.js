@@ -2,11 +2,11 @@ importScripts('https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js');
 
 firebase.initializeApp({
-    apiKey: "AIzaSyAX9L8FnLgMF_OdCHBkiJrdvma9Vm25uJ0",
-    authDomain: "mygurudwara-16e84.firebaseapp.com",
-    projectId: "mygurudwara-16e84",
-    messagingSenderId: "274271873270",
-    appId: "1:274271873270:web:40af76502e6d139d75a4d7",
+    apiKey: "AIzaSyDE6hJnUlCwrsItIwGzgANXEadx6ITNNlo",
+    authDomain: "baazapp-9d05b.firebaseapp.com",
+    projectId: "baazapp-9d05b",
+    messagingSenderId: "317918604459",
+    appId: "1:317918604459:android:7a768864d755f25bf7dbee",
 });
 
 const messaging = firebase.messaging();

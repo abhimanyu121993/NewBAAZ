@@ -2,8 +2,7 @@
 @section('Head-Area')
     <link rel="stylesheet" type="text/css" href="{{ asset('BackEnd/assets/css/plugins/forms/form-validation.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('BackEnd/assets/css/plugins/forms/pickers/form-flat-pickr.css') }}">
-
-    <link  rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
     @endsection
 
 @section('Content-Area')
@@ -35,7 +34,7 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <button type="submit"
-                        class="btn btn-primary waves-effect waves-float waves-light">Send Notification</button>
+                        class="btn btn-primary waves-effect waves-float waves-light" id="createCustormBtn">Send Notification</button>
                     </div>
                   
                 </div>
@@ -61,7 +60,11 @@
                         <th>Sr.No</th>
                         <th>Title</th>
                         <th>Nofication body</th>
-                        <th>Action</th>
+
+                   
+                         <th>Action</th>
+                    
+                        
                       
                     </tr>
 
@@ -84,11 +87,10 @@
                                                 aria-expanded="false"><i data-feather="grid"></i></button>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                
-                                              
-                                                    <a class="dropdown-item" href="#"><i class="me-1"
-                                                            data-feather="edit"></i><span class="align-middle">Edit</span>
+                                                    <a class="dropdown-item" href="{{ url('Backend.edit') }}/{{$Notif->id}}"><i class="me-1"
+                                                        data-feather="edit"></i><span class="align-middle">Edit</span>
                                                     </a>
-                                               
+                                                 
 
                                                     <a class="dropdown-item" href="#">
                                                         <i
@@ -125,12 +127,16 @@
     <script src="{{ asset('Backend/assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
 @endsection
 <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     $(document).on("submit", "#add_notification", function(e) {
       
         e.preventDefault();
         let add_notification = new FormData($('#add_notification')[0]); 
+        // $("#createCustormBtn").text("Please wait...");
         $.ajax({
             type: "POST",
             url: "/Backend/add-notification",

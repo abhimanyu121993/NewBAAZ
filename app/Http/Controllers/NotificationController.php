@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use Illuminate\Support\Facades\Crypt;
 use App\Models\CustomNotification;
 
 class NotificationController extends Controller
@@ -40,6 +41,7 @@ class NotificationController extends Controller
                     'body' => $request->body,
 
                 );
+                
                 sendNotification($to, $data);
             }
             if ($notif) {
@@ -48,6 +50,7 @@ class NotificationController extends Controller
                     'message' => 'Notification Send successfully'
                 ]);
             }
+          
         }
 
 }
@@ -57,10 +60,27 @@ class NotificationController extends Controller
     return view('Backend.custom_notification',compact('notif'));
    }
 
-
-
-
+   
+      public function edit($id)
+    {
+        $editnotifi = CustomNotification::get();
+        $id=Crypt::decrypt($id);
+        $editnotifi=CustomNotification::find($id);
+        if($editnotifi)
+        {
+            return view('Backend.edit_custom_notificaton',compact('editnotifi'));
+        }
+        else
+        {
+            session::flash('error','Something Went Wrong OR Data is Deleted');
+            return redirect()->back();
+        }
+    }
 }
+
+   
+
+
 
         
 
