@@ -16,7 +16,6 @@
             <form class="needs-validation"
                 action=""
                 method='post' enctype="multipart/form-data" id="add_notification">
-
                 @csrf
                 <div class="row">
                     <div class="col-md-6 mb-1">
@@ -27,7 +26,7 @@
                             aria-label="Name"  required />
                     </div>
                     <div class="col-md-6 mb-1">
-                        <label class="form-label" for="body">Nofication Body</label>
+                        <label class="form-label" for="body">Notification Body</label>
                         <input type="text" name='body' id="" class="form-control" />
                     </div>
                 </div>
@@ -59,15 +58,9 @@
                     <tr>
                         <th>Sr.No</th>
                         <th>Title</th>
-                        <th>Nofication body</th>
-
-
-                         <th>Action</th>
-
-
-
+                        <th>Notification body</th>
+                        <th>Action</th>
                     </tr>
-
                 </thead>
                   <tbody>
 
@@ -92,11 +85,16 @@
                                                     </a>
 
 
-                                                    <a class="dropdown-item" href="#">
+                                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" id="EditNotifBtn"  value="{{$Notif->id}}"><i class="me-1"
+                                                        data-feather="edit"></i><span class="align-middle">Edit</span>
+                                                    </button>
+
+
+                                                    <button class="dropdown-item"  id="delete" value="{{$Notif->id}}">
                                                         <i
                                                             class="me-1" data-feather="trash-2"></i><span
                                                             class="align-middle">Delete</span>
-                                                    </a>
+                                                    </button>
 
 
                                             </div>
@@ -114,6 +112,48 @@
          </div>
         </div>
     </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="Custom_Edit_Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form class="needs-validation"
+            method='Post' id="update_custom">
+            @csrf
+            <input type="hidden" id="edit_custom_id">
+            <div class="row">
+                <div class="col-md-6 mb-1">
+                    <label class="form-label" for="basic-addon-name">Title</label>
+
+                    <input type="text"  name='title' id="Title" class="form-control"
+                        value="" placeholder="Name"
+                        aria-label="Name"  required />
+                </div>
+                <div class="col-md-6 mb-1">
+                    <label class="form-label" for="body">Notification Body</label>
+                     <input type="text" name='body' id="Body" class="form-control"  value="" /> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit"
+                        class="btn btn-primary waves-effect waves-float waves-light" id="editCustormBtn">Update Notification</button>   
+                    </div>                  
+                </div>
+            </div>
+        </form>
+        </div>
+       
+      </div>
+    </div>
+  </div>
 
 @endsection
 
@@ -165,3 +205,81 @@
 </script>
 
 
+<script>
+$(document).on("click", "#delete", function(e) {
+  e.preventDefault();
+  var delete_id = $(this).val();
+  if (confirm("Are you sure you want to delete?")) {
+      $.ajax({
+          type: "GET",
+          url: "/Backend/delete/" + delete_id,
+          success: function(data) {
+            console.log(data)
+              if (data.status == 200) {
+                  Command: toastr["message"](data.message)
+              }
+              else if (response.status == 200) {
+                       $("#delete")[0].reset();
+                     Command: toastr["success"](response.message)         
+                   }          
+          }
+      });
+  }
+});
+</script>
+<script>
+$(document).on("click", "#EditNotifBtn", function(e) {
+    e.preventDefault();
+    var edit_id = $(this).val();
+    $("#Custom_Edit_Modal").modal("show");
+    $.ajax({
+        type: "GET",
+        url: '/Backend/edit-notification/' + edit_id,
+        dataType: "json",
+        success: function(data) {
+           
+            if (data.status == 200) {
+                $("#edit_custom_id").val(edit_id);
+                $("#Title").val(data.success.title);
+                $("#Body").val(data.success.body)
+            } else if (response.status == 200) {
+                       $("#edit_custom_id")[0].reset();
+                     Command: toastr["success"](response.message)         
+                   } 
+        }
+    });
+});
+</script>
+<script>
+$(document).on("submit", "#update_custom", function(e) {
+    e.preventDefault();
+    let update_custom = new FormData($('#update_custom')[0]); 
+     $("#editCustormBtn").text("Please wait...");
+    var edit_id = $("#edit_custom_id").val();
+   
+    $.ajax({
+        type: "POST",
+        url: "/Backend/update-notifation/" + edit_id,
+        data: update_custom,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+                if (response.status == 400) {
+                    var values = '';
+                    jQuery.each(response.errors, function(key, value) {
+                        values += value + '<br>'
+                    });
+                    alert(edit_id)
+                    Command: toastr["error"](values)
+
+                    $("#editCustormBtn").text("Send Notification");
+                   } else if (response.status == 200) {
+                       $("#update_custom")[0].reset();
+                       Command: toastr["success"](response.message)         
+                   }             
+              
+            }
+        });
+});
+
+</script>z
