@@ -80,21 +80,20 @@
                                                 aria-expanded="false"><i data-feather="grid"></i></button>
                                             <div class="dropdown-menu dropdown-menu-end">
 
-                                                    <a class="dropdown-item" href="{{ url('Backend.edit') }}/{{$Notif->id}}"><i class="me-1"
-                                                        data-feather="edit"></i><span class="align-middle">Edit</span>
-                                                    </a>
-
+                                                 
 
                                                     <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" id="EditNotifBtn"  value="{{$Notif->id}}"><i class="me-1"
                                                         data-feather="edit"></i><span class="align-middle">Edit</span>
                                                     </button>
 
 
-                                                    <button class="dropdown-item"  id="delete" value="{{$Notif->id}}">
-                                                        <i
-                                                            class="me-1" data-feather="trash-2"></i><span
-                                                            class="align-middle">Delete</span>
-                                                    </button>
+                                                    
+                                                     <a  style="margin-left:15px;"
+                        href="javascript:void(0)" 
+                        id="delete" 
+                        data-url="{{ route('Backend.delete', $Notif->id) }}" 
+                        class=""
+                        ><i class="me-1" data-feather="trash-2"></i>Delete</a>
 
 
                                             </div>
@@ -111,6 +110,7 @@
             </div>
          </div>
         </div>
+    </div>
     </div>
 
   <!-- Modal -->
@@ -176,7 +176,7 @@
 
         e.preventDefault();
         let add_notification = new FormData($('#add_notification')[0]);
-        // $("#createCustormBtn").text("Please wait...");
+        $("#createCustormBtn").text("Please wait...");
         $.ajax({
             type: "POST",
             url: "/Backend/add-notification",
@@ -192,41 +192,64 @@
                     Command: toastr["error"](values)
 
                     $("#createCustormBtn").text("Send Notification");
-                } else if (response.status == 200) {
-                    $("#add_notification")[0].reset();
-                    $("#createCustormBtn").text("Send Notification");
-                    fetch_Custom_Notification();
-                    Command: toastr["success"](response.message)
-
+               
+                      } else if
+                      (response.status == 200) {
+                       $("#add_notification")[0].reset();
+                       Command: toastr["success"](response.message) 
                 }
+                location.reload();
             }
         });
     });
 </script>
 
 
-<script>
-$(document).on("click", "#delete", function(e) {
-  e.preventDefault();
-  var delete_id = $(this).val();
-  if (confirm("Are you sure you want to delete?")) {
-      $.ajax({
-          type: "GET",
-          url: "/Backend/delete/" + delete_id,
-          success: function(data) {
-            console.log(data)
-              if (data.status == 200) {
-                  Command: toastr["message"](data.message)
-              }
-              else if (response.status == 200) {
-                       $("#delete")[0].reset();
-                     Command: toastr["success"](response.message)         
-                   }          
+
+
+<script type="text/javascript">
+      
+    $(document).ready(function () {
+   
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+      
+        /*------------------------------------------
+        --------------------------------------------
+        When click user on Show Button
+        --------------------------------------------
+        --------------------------------------------*/
+        $('body').on('click', '#delete', function () {
+  
+          var userURL = $(this).data('url');
+          var trObj = $(this);
+  
+          if(confirm("Are you sure you want to remove this user?") == true){
+                $.ajax({
+                    url: userURL,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(data) {
+                        alert(data.success);
+                        trObj.parents("tr").remove();
+                    }
+                });
           }
-      });
-  }
-});
+  
+       });
+        
+    });
+    
 </script>
+
+
+
+
+
+
 <script>
 $(document).on("click", "#EditNotifBtn", function(e) {
     e.preventDefault();
@@ -276,10 +299,11 @@ $(document).on("submit", "#update_custom", function(e) {
                    } else if (response.status == 200) {
                        $("#update_custom")[0].reset();
                        Command: toastr["success"](response.message)         
-                   }             
+                   }  
+                   location.reload();
               
             }
         });
 });
 
-</script>z
+</script>

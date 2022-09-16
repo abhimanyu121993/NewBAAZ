@@ -92,13 +92,6 @@ class NotificationController extends Controller
 
 
 
-    
-    // public function Notification_edit($id)
-    // {
-    //        $notif = CustomNotification::all();
-    //        $editnotifi = CustomNotification::find($id);
-    //        return view('Backend.edit_custom_notificaton',compact('notif','editnotifi'));         
-    // }
   
 
 
@@ -113,13 +106,7 @@ class NotificationController extends Controller
                         'success' => $notif
                     ]);
                 } 
-            // } catch (\Exception $exception) {
-            //     report($exception);
-            //     return response()->json([
-            //         'status' => 400,
-            //         'message' => 'Something went to wrong'
-            //     ]);
-            // }
+           
         }
     
 
@@ -176,24 +163,10 @@ class NotificationController extends Controller
 
         
 
-       public function delete($id){
-       $delete = CustomNotification::find($id);   
+        public function delete($id){
+          $delete = CustomNotification::find($id);   
          $delete->delete();
-        if($delete){
-            return  
-            response()->json([
-                "status" =>200,
-                "message" => "Record deleted successfully"
-            ]) ;  
-        }
-        else{
-            return response()->json([
-                "status" =>400,
-                "error" => "Sorry record not found"
-            ]) ;  
-
-        }
- 
+         return response()->json(['success'=>'Deleted Successfully!']);
 
         
 
