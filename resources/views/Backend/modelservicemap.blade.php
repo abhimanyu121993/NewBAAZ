@@ -142,11 +142,16 @@
                                                                                 @endcan
                                                                                 @can('Model_map_delete')
                                                                                     <a class="dropdown-item" href=""
-                                                                                        onclick="event.preventDefault();document.getElementById('delete-form-{{ $cid }}').submit();"><i
-                                                                                            class="me-1"
-                                                                                            data-feather="message-square"></i><span
+                                                                                        onclick="event.preventDefault();document.getElementById('delete-form-{{ $cid }}').submit();">
+                                                                                        <i class="me-1" data-feather="message-square"></i><span
                                                                                             class="align-middle">Delete</span>
                                                                                     </a>
+                                                                                    <form id="delete-form-{{ $cid }}"
+                                                                                    action="{{ route('Backend.modelservicemap.destroy', $cid) }}"
+                                                                                    method="post" style="display: none;">
+                                                                                    @method('DELETE')
+                                                                                    @csrf
+                                                                                </form>
                                                                                 @endcan
                                                                             </div>
                                                                         </div>
@@ -155,14 +160,6 @@
                                                             </td>
                                                         @endcan
                                                     </tr>
-                                                    @can('Model_map_delete')
-                                                        <form id="delete-form-{{ $cid }}"
-                                                            action="{{ route('Backend.modelservicemap.destroy', $cid) }}"
-                                                            method="post" style="display: none;">
-                                                            @method('DELETE')
-                                                            @csrf
-                                                        </form>
-                                                    @endcan
                                                 @endforeach
                                             @else
                                                 <tr>

@@ -96,7 +96,13 @@ Route::group(['prefix'=>'Backend','as'=>'Backend.'],function(){
     Route::Post('add-notification',[NotificationController::class, 'Add_Notification'])->name('add-notification');
     Route::get('custom-Notification',[NotificationController::class, 'Notification_list'])->name('custom-Notification');
     Route::get('send-notification', [NotificationController::class, 'SendNotification'])->name('send-notification');
+    Route::get('/edit-notification/{id}', [NotificationController::class, 'Edit_Notification'])->name('edit-notification '); 
+    Route::post('/update-notifation/{id}',[NotificationController::class, 'Update_Notification'])->name('update-notifation');  
+    Route::get('/delete/{id}', [NotificationController::class, 'delete'])->name('delete');   
 });
+
+
+  
 
 
 Route::get('/optimize', function(){

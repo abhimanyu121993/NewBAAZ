@@ -19,7 +19,7 @@ class CartController extends Controller
             'user_id' => 'required'
         ]);
         try {
-            $cartItems = Cart::with('service')->where('user_id', $req->user_id)->get();
+            $cartItems = Cart::getServiceDetail($req->user_id);
             if ($cartItems) {
                 $result = [
                     'data' => $cartItems,
@@ -55,8 +55,9 @@ class CartController extends Controller
         try {
             $addTocart = Cart::create(['user_id' => $request->user_id, 'model_id' => $request->model_id, 'service_id' => $request->service_id, 'quantity' => 1]);
             if ($addTocart) {
+                $data = Cart::getServiceDetail($request->user_id);
                 $result = [
-                    'data' => $addTocart,
+                    'data' => $data,
                     'message' => 'Service added to cart',
                     'status' => 200,
                     'error' => NULL
@@ -82,13 +83,10 @@ class CartController extends Controller
     public function removeCartItems(Request $req)
     {
         $req->validate([
-            'user_id' => 'required',
-            'service_id' => 'required'
+            'cart_id' => 'required'
         ]);
         try {
-            $res = Cart::where('user_id', $req->user_id)
-                        ->where('service_id', $req->service_id)
-                        ->delete();
+            $res = Cart::find($req->cart_id)->delete();
             if ($res) {
                 $result = [
                     'data' => NULL,
