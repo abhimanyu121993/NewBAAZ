@@ -38,15 +38,15 @@ class NotificationController extends Controller
             $fcmTokens = Customer::all();
             foreach ($fcmTokens as $fcmTokens) {
                 $to = $fcmTokens->fcm_token;
-
+               
                 $data = array(
                     'title' => $request->title,
                     'body' => $request->body,
 
                 );
-
+     
               $this->sendNotification($to, $data);
-
+                
             }
             if ($notif) {
                 return response()->json([
@@ -92,14 +92,7 @@ class NotificationController extends Controller
 
 
 
-
-    // public function Notification_edit($id)
-    // {
-    //        $notif = CustomNotification::all();
-    //        $editnotifi = CustomNotification::find($id);
-    //        return view('Backend.edit_custom_notificaton',compact('notif','editnotifi'));
-    // }
-
+  
 
 
 
@@ -112,20 +105,14 @@ class NotificationController extends Controller
                         'status' => 200,
                         'success' => $notif
                     ]);
-                }
-            // } catch (\Exception $exception) {
-            //     report($exception);
-            //     return response()->json([
-            //         'status' => 400,
-            //         'message' => 'Something went to wrong'
-            //     ]);
-            // }
+                } 
+           
         }
-
+    
 
         public function Update_Notification(Request $request, $id)
         {
-
+                       
                 if (CustomNotification::where("id", $id)->exists()) {
                     $validator = Validator::make($request->all(), [
                         'title' => 'required|max:50',
@@ -137,7 +124,7 @@ class NotificationController extends Controller
                             'errors' => $validator->message()
                         ]);
                     } else {
-
+                      
                         $notif = CustomNotification::find($id);
                         $notif->title   = $request->input('title');
                         $notif->body   = $request->input('body');
@@ -146,17 +133,16 @@ class NotificationController extends Controller
                             $fcmTokens = Customer::all();
                         foreach ($fcmTokens as $fcmTokens) {
                             $to = $fcmTokens->fcm_token;
-
+                    
                         $data = array(
                         'title' => $request->title,
                         'body' => $request->body,
 
                     );
-
                     $this->sendNotification($to, $data);
-
+                
                         }
-
+                        
                         if ($notif) {
                             return response()->json([
                                 'status' => 200,
@@ -170,33 +156,19 @@ class NotificationController extends Controller
                         'error' => "Sorry  not found"
                     ]);
                 }
-
+           
         }
+    
 
 
+        
 
-
-
-       public function delete($id){
-       $delete = CustomNotification::find($id);
+        public function delete($id){
+          $delete = CustomNotification::find($id);   
          $delete->delete();
-        if($delete){
-            return
-            response()->json([
-                "status" =>200,
-                "message" => "Record deleted successfully"
-            ]) ;
-        }
-        else{
-            return response()->json([
-                "status" =>400,
-                "error" => "Sorry record not found"
-            ]) ;
+         return response()->json(['success'=>'Deleted Successfully!']);
 
-        }
+        
 
-
-
-
-}
+}  
 }
