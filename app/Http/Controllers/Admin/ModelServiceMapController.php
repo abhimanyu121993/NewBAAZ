@@ -172,7 +172,7 @@ class ModelServiceMapController extends Controller
                 $res=ModelServiceMap::find($id)->delete();
                 if($res)
                 {
-                    session()->flash('success','Model Map deleted ducessfully');
+                    session()->flash('success','Model Map deleted sucessfully');
                 }
                 else
                 {

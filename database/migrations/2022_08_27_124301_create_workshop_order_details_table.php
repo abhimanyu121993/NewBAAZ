@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('workshop_order_id')->nullable();
             $table->string('type')->nullable();
             $table->string('value')->nullable();
+            $table->string('quantity')->default(1);
             $table->string('amount')->default(0);
             $table->softDeletes();
             $table->timestamps();

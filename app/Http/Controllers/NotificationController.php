@@ -93,58 +93,15 @@ class NotificationController extends Controller
 
 
     
-    public function Notification_edit($id)
-    {
-           $notif = CustomNotification::all();
-           $editnotifi = CustomNotification::find($id);
-           return view('Backend.edit_custom_notificaton',compact('notif','editnotifi'));         
-    }
+    // public function Notification_edit($id)
+    // {
+    //        $notif = CustomNotification::all();
+    //        $editnotifi = CustomNotification::find($id);
+    //        return view('Backend.edit_custom_notificaton',compact('notif','editnotifi'));         
+    // }
   
 
-    // public function update_notifation(Request $request, $id){
-    //     dd($request);
-    //      $validator = Validator::make($request->all(), [
-    //         'title' => 'required|max:50',
-    //         'body'  => 'required|max:100',
-    //     ]);
-    //     if ($validator->fails()) {
-    //         return response()->json([
-    //             'status' => 400,
-    //             'errors' => $validator->messages()
-    //         ]);
-    //     } else {
 
-    //         $notif = CustomNotification::find($id);
-    //         $notif->title   = $request->input('title');
-    //         $notif->body   = $request->input('body');
-    //         $notif->notification_type = "custom_notification";
-
-    //       dd($notif);
-    //         $notif->save();
-    //         $fcmTokens = Customer::all();
-    //         foreach ($fcmTokens as $fcmTokens) {
-    //             $to = $fcmTokens->fcm_token;
-               
-    //             $data = array(
-    //                 'title' => $request->title,
-    //                 'body' => $request->body,
-
-    //             );
-     
-    //           $this->sendNotification($to, $data);
-                
-    //         }
-    //         $notif->update();
-    //         if($notif)
-    //         {
-    //             session()->flash('success','Notifatication Updated Sucessfully');
-    //         }
-    //         else
-    //         {
-    //             session()->flash('error','Notifatication not updated');
-    //         }
-    //     }
-    //     }
 
         public function Edit_Notification($id)
         {

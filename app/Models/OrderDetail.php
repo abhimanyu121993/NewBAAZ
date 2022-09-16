@@ -26,4 +26,14 @@ class OrderDetail extends Model
         return $this->belongsTo(Service::class, 'service_type','id');
     }
 
+    public function modelmap()
+    {
+        return $this->belongsTo(ModelServiceMap::class, 'service_type','service_id');
+    }
+
+    public function modelmapservice()
+    {
+        return $this->belongsTo(ModelServiceMap::class, 'model_id','model_id');
+    }
+
 }

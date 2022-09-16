@@ -15,7 +15,7 @@
         <div class="card-body">
             <form class="needs-validation"
                 action=""
-                method='Post' enctype="multipart/form-data" id="add_notification">
+                method='post' enctype="multipart/form-data" id="add_notification">
                 @csrf
                 <div class="row">
                     <div class="col-md-6 mb-1">
@@ -58,8 +58,8 @@
                     <tr>
                         <th>Sr.No</th>
                         <th>Title</th>
-                        <th>Nofication body</th>
-                         <th>Action</th>
+                        <th>Notification body</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                   <tbody>
@@ -79,6 +79,11 @@
                                                 type="button" data-bs-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"><i data-feather="grid"></i></button>
                                             <div class="dropdown-menu dropdown-menu-end">
+
+                                                    <a class="dropdown-item" href="{{ url('Backend.edit') }}/{{$Notif->id}}"><i class="me-1"
+                                                        data-feather="edit"></i><span class="align-middle">Edit</span>
+                                                    </a>
+
 
                                                     <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" id="EditNotifBtn"  value="{{$Notif->id}}"><i class="me-1"
                                                         data-feather="edit"></i><span class="align-middle">Edit</span>
@@ -187,11 +192,13 @@
                     Command: toastr["error"](values)
 
                     $("#createCustormBtn").text("Send Notification");
-                   } else if (response.status == 200) {
-                       $("#add_notification")[0].reset();
-                       Command: toastr["success"](response.message)         
-                   }             
-              
+                } else if (response.status == 200) {
+                    $("#add_notification")[0].reset();
+                    $("#createCustormBtn").text("Send Notification");
+                    fetch_Custom_Notification();
+                    Command: toastr["success"](response.message)
+
+                }
             }
         });
     });
@@ -275,4 +282,4 @@ $(document).on("submit", "#update_custom", function(e) {
         });
 });
 
-</script>
+</script>z

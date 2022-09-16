@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('order_id')->nullable();
             $table->string('model_id')->nullable();
             $table->string('service_type')->nullable();
-            $table->string('price')->nullable();
+            $table->string('quantity')->default(1)->nullable();
+            $table->decimal('price',10,2)->nullable();
             $table->string('status')->nullable();
             $table->softDeletes();
             $table->timestamps();
