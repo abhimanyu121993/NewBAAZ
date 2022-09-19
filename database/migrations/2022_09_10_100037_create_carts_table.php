@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('model_id')->nullable();
             $table->unsignedBigInteger('service_id')->nullable();
+            $table->string('service_price')->nullable();
             $table->bigInteger('quantity')->default(0);
             $table->softDeletes();
             $table->timestamps();
