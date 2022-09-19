@@ -9,6 +9,7 @@ use App\Models\OrderDetail;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
@@ -161,7 +162,7 @@ class OrderController extends Controller
     public function userInvoiceLink(Request $req)
     {
         $req->validate([
-            'user_id' => 'required'
+            'order_id' => 'required'
         ]);
         try
         {
@@ -198,4 +199,69 @@ class OrderController extends Controller
             Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
         }
     }
+
+    public function razorCallBack(Request $request)
+    {
+        $request->validate([
+            'amount' => 'required'
+        ]);
+        try
+        {
+            $n = Order::max('order_id');
+            if($n)
+            {
+                $invoice_no=$n+1;
+            }
+            else
+            {
+                $invoice_no=1;
+            }
+            $invoice_no='BAAZ/INV/'.sprintf('%05d',$invoice_no);
+            $orders = Order::with('order_details')->where('user_id',$request->user_id)->get();
+            if ($orders)
+            {
+                $result = [
+                    'data' => $orders,
+                    'message' => 'Order history found',
+                    'status' => 200,
+                    'error' => NULL
+                ];
+            }
+            else
+            {
+                $result = [
+                    'data' => NULL,
+                    'message' => 'Order history not found',
+                    'status' => 200,
+                    'error' => [
+                        'message' => 'Server Error',
+                        'code' => 305,
+                    ]
+                ];
+            }
+            return response()->json($result);
+        }
+        catch (Exception $ex)
+        {
+            $url=URL::current();
+            Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
+        }
+    }
+    public function create_order(Request $request)
+    {
+        $request->validate([
+            'total_amount' => 'required',
+            'order_id' => 'required'
+        ]);
+        $res=Http::withBasicAuth(env('RAZOR_KEY'),env('RAZOR_SECRET')
+        )->post('https://api.razorpay.com/v1/orders',[
+            "amount"=>$request->total_amount * 100,
+            "currency"=>"INR",
+            "receipt"=> $request->order_id,
+            "notes"=> [
+              "notes_key_1"=> "BAAZ SERVICE"]
+        ]);
+        return $res->object();
+    }
+
 }
