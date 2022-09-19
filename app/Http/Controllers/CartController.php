@@ -114,7 +114,6 @@ class CartController extends Controller
 
     // decrement brand and delete Quantity one by one
 
-
     public function removeCart($id)
     {
         try {

@@ -101,7 +101,7 @@ class OrderController extends Controller
             }
             else
             {
-                $result = [
+              $result = [
                     'data' => NULL,
                     'message' => 'Order history not found',
                     'status' => 200,
