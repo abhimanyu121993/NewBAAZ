@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
@@ -50,27 +51,40 @@ class CartController extends Controller
         $request->validate([
             'user_id' => 'required',
             'model_id' => 'required',
-            'service_id' => 'required'
+            'service_id' => 'required',
+            'service_price' => 'required'
         ]);
         try {
-            $addTocart = Cart::create(['user_id' => $request->user_id, 'model_id' => $request->model_id, 'service_id' => $request->service_id, 'quantity' => 1]);
-            if ($addTocart) {
-                $data = Cart::getServiceDetail($request->user_id);
-                $result = [
-                    'data' => $data,
-                    'message' => 'Service added to cart',
-                    'status' => 200,
-                    'error' => NULL
-                ];
+            $addTocart = Cart::where('user_id', $request->user_id)->where('model_id', $request->model_id)->where('service_id', $request->service_id)->first();
+            if ($addTocart == NULL || $addTocart == '') {
+                $data = Cart::create(['user_id' => $request->user_id, 'model_id' => $request->model_id, 'service_id' => $request->service_id, 'service_price' => $request->service_price, 'quantity' => 1]);
+                if($data) {
+                    $userCartData = Cart::getServiceDetail($request->user_id);
+                    $result = [
+                        'data' => $userCartData,
+                        'message' => 'Service added to cart',
+                        'status' => 200,
+                        'error' => NULL
+                    ];
+                }
+                else {
+                    $result = [
+                        'data' => NULL,
+                        'message' => 'Service not added to cart',
+                        'status' => 200,
+                        'error' => [
+                            'message' => 'Server Error',
+                            'code' => 305,
+                        ]
+                    ];
+                }
+
             } else {
                 $result = [
                     'data' => NULL,
-                    'message' => 'Service not added to cart',
+                    'message' => 'Service already added to cart',
                     'status' => 200,
-                    'error' => [
-                        'message' => 'Server Error',
-                        'code' => 305,
-                    ]
+                    'error' => NULL
                 ];
             }
             return response()->json($result);
@@ -133,4 +147,7 @@ class CartController extends Controller
             return $ex->getMessage();
         }
     }
+
+    public function generateOrderId() {
+        return 'generate order id';
 }
