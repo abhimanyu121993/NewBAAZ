@@ -253,15 +253,24 @@ class OrderController extends Controller
             'total_amount' => 'required',
             'order_id' => 'required'
         ]);
-        $res=Http::withBasicAuth(env('RAZOR_KEY'),env('RAZOR_SECRET')
-        )->post('https://api.razorpay.com/v1/orders',[
-            "amount"=>$request->total_amount * 100,
-            "currency"=>"INR",
-            "receipt"=> $request->order_id,
-            "notes"=> [
-              "notes_key_1"=> "BAAZ SERVICE"]
-        ]);
-        return $res->object();
+        try
+        {
+            $res = Http::withBasicAuth(env('RAZOR_KEY'), env('RAZOR_SECRET'))
+                ->post('https://api.razorpay.com/v1/orders',[
+                    "amount"=>$request->total_amount * 100,
+                    "currency"=>"INR",
+                    "receipt"=> $request->order_id,
+                    "notes"=> [
+                    "notes_key_1"=> "BAAZ SERVICE"]
+                ]);
+
+            return $res->object();
+        }
+        catch (Exception $ex)
+        {
+            $url=URL::current();
+            Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
+        }
     }
 
 }
