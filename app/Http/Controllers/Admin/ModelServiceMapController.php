@@ -50,17 +50,35 @@ class ModelServiceMapController extends Controller
      */
     public function store(Request $request)
     {
+        Log::info('store'.json_encode($request->all()));
         $request->validate([
             'model_id'=>'required',
             'service_id'=>'required',
             'fuel_id' => 'required',
             'price' => 'required',
-            'dprice' => 'required'
+            'discounted_price' => 'required',
+            'percent'=>'required'
         ]);
+        
         try
         {
-            $res= ModelServiceMap::create(['model_id'=>$request->model_id,'service_id' => $request->service_id, 'fuel_id' => $request->fuel_id, 'price' => $request->price, 'discounted_price' => $request->dprice]);
-
+        //     $DiscountedPrice=$request->dprice;
+        //     dd($DiscountedPrice);
+        //     $Price=$request->price;
+        //     $DiscountedAmount=$Price-$DiscountedPrice;
+        //     $DiscountedPercent=($DiscountedAmount / $Price)*100;
+        //    dd($DiscountedPercent);
+           
+            
+            $res= ModelServiceMap::create([
+                'model_id'=>$request->model_id,
+                'service_id' => $request->service_id, 
+                'fuel_id' => $request->fuel_id,
+                'price' => $request->price,
+                'discounted_price'=>$request->discounted_price,
+                'percent'=>$request->percent,
+                ]);                                          
+  
             if($res)
             {
                 session()->flash('success','Model Map Added Sucessfully');
@@ -103,13 +121,10 @@ class ModelServiceMapController extends Controller
     public function edit($id)
     {
         $model_id = Crypt::decrypt($id);
-        Log::info('edit called'.$model_id);
         $fueltypes = FuelType::all();
         $services = Service::all();
         $editmodelmap = ModelServiceMap::find($model_id);
-        Log::info('editmodelmap'.json_encode($editmodelmap));
         $modelmaps = ModelServiceMap::where('model_id', $editmodelmap->model_id)->get();
-        Log::info('modelmaps'.json_encode($modelmaps));
         if($editmodelmap)
         {
             return view('Backend.modelservicemap', compact('modelmaps','fueltypes', 'services', 'editmodelmap', 'model_id'));
@@ -128,20 +143,21 @@ class ModelServiceMapController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id) 
+    
     {
-        Log::info("update".json_encode($request->all()));
         $request->validate([
             'service_id'=>'required',
             'fuel_id' => 'required',
             'price' => 'required',
-            'dprice' => 'required'
+            'discounted_price' => 'required',
+            'percent'=>'required'
         ]);
+        
         try
         {
-            $res= ModelServiceMap::find($id)->update(['service_id' => $request->service_id, 'fuel_id' => $request->fuel_id, 'price' => $request->price, 'discounted_price' => $request->dprice]);
-
-            if($res)
+        $res= ModelServiceMap::find($id)->update(['service_id' =>$request->service_id,'fuel_id' =>$request->fuel_id,'price' =>$request->price,'discounted_price'=>$request->discounted_price,'percent'=>$request->percent]); 
+         if($res)
             {
                 session()->flash('success','Model Map Updated Sucessfully');
             }
