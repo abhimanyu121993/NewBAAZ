@@ -166,7 +166,7 @@ class CategoryController extends Controller
                 $res=Category::find($id)->delete();
                 if($res)
                 {
-                    session()->flash('success','Category deleted ducessfully');
+                    session()->flash('success','Category deleted successfully');
                 }
                 else
                 {

@@ -86,11 +86,11 @@ class NotificationController extends Controller
 
     public function  Notification_list()
     {
-        $notif = CustomNotification::all();
+        $notif = CustomNotification::orderBy('created_at', 'DESC')->get();
         return view('Backend.custom_notification', compact('notif'));
     }
 
-
++
 
 
 

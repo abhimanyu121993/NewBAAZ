@@ -128,7 +128,6 @@ class CartController extends Controller
 
     // decrement brand and delete Quantity one by one
 
-
     public function removeCart($id)
     {
         try {
@@ -151,5 +150,4 @@ class CartController extends Controller
 
     public function generateOrderId() {
         return 'generate order id';
-    }
 }
