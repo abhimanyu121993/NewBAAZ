@@ -9,6 +9,7 @@ use App\Models\OrderDetail;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
@@ -161,7 +162,7 @@ class OrderController extends Controller
     public function userInvoiceLink(Request $req)
     {
         $req->validate([
-            'user_id' => 'required'
+            'order_id' => 'required'
         ]);
         try
         {
@@ -198,4 +199,31 @@ class OrderController extends Controller
             Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
         }
     }
+    
+    public function create_order(Request $request)
+    {
+        $request->validate([
+            'total_amount' => 'required',
+            'order_id' => 'required'
+        ]);
+        try
+        {
+            $res = Http::withBasicAuth(env('RAZOR_KEY'), env('RAZOR_SECRET'))
+                ->post('https://api.razorpay.com/v1/orders',[
+                    "amount"=>$request->total_amount * 100,
+                    "currency"=>"INR",
+                    "receipt"=> $request->order_id,
+                    "notes"=> [
+                    "notes_key_1"=> "BAAZ SERVICE"]
+                ]);
+
+            return $res->object();
+        }
+        catch (Exception $ex)
+        {
+            $url=URL::current();
+            Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
+        }
+    }
+
 }
