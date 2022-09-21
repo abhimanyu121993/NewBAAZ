@@ -102,7 +102,7 @@ class OrderController extends Controller
             }
             else
             {
-                $result = [
+              $result = [
                     'data' => NULL,
                     'message' => 'Order history not found',
                     'status' => 200,
@@ -199,54 +199,7 @@ class OrderController extends Controller
             Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
         }
     }
-
-    public function razorCallBack(Request $request)
-    {
-        $request->validate([
-            'amount' => 'required'
-        ]);
-        try
-        {
-            $n = Order::max('order_id');
-            if($n)
-            {
-                $invoice_no=$n+1;
-            }
-            else
-            {
-                $invoice_no=1;
-            }
-            $invoice_no='BAAZ/INV/'.sprintf('%05d',$invoice_no);
-            $orders = Order::with('order_details')->where('user_id',$request->user_id)->get();
-            if ($orders)
-            {
-                $result = [
-                    'data' => $orders,
-                    'message' => 'Order history found',
-                    'status' => 200,
-                    'error' => NULL
-                ];
-            }
-            else
-            {
-                $result = [
-                    'data' => NULL,
-                    'message' => 'Order history not found',
-                    'status' => 200,
-                    'error' => [
-                        'message' => 'Server Error',
-                        'code' => 305,
-                    ]
-                ];
-            }
-            return response()->json($result);
-        }
-        catch (Exception $ex)
-        {
-            $url=URL::current();
-            Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
-        }
-    }
+    
     public function create_order(Request $request)
     {
         $request->validate([

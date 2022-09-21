@@ -57,17 +57,26 @@
                         <div class="col-md-6 mb-1">
                             <label class="form-label" for="basic-addon-name">Price</label>
 
-                            <input type="text" id="basic-addon-name" name='price' class="form-control"
+                            <input type="number" id="price" name='price' class="form-control"
                                 value="{{ isset($editmodelmap) ? $editmodelmap->price : '' }}" placeholder="Price"
                                 aria-label="Name" aria-describedby="basic-addon-name" required />
+                        </div>
+
+
+                        <div class="col-md-6 mb-1">
+                            <label class="form-label" for="basic-addon-name">Percentage</label>
+                            <input type="number" max="100" id="percent" name='percent' class="form-control"
+                                value="{{ isset($editmodelmap) ? $editmodelmap->percent : '' }}"
+                                placeholder="Percentage" aria-label="Name" aria-describedby="basic-addon-name"  required/>
                         </div>
                         <div class="col-md-6 mb-1">
                             <label class="form-label" for="basic-addon-name">Discount Price</label>
 
-                            <input type="text" id="basic-addon-name" name='dprice' class="form-control"
+                            <input type="number" id="discounted_price" name='discounted_price' class="form-control"
                                 value="{{ isset($editmodelmap) ? $editmodelmap->discounted_price : '' }}"
-                                placeholder="Discounted Price" aria-label="Name" aria-describedby="basic-addon-name" required />
+                                placeholder="Discounted Price" aria-label="Name" aria-describedby="basic-addon-name" required/>
                         </div>
+
                     </div>
                     <div class="row">
                         <div class="col-sm-2">
@@ -102,7 +111,8 @@
                                                 <th>Service Name</th>
                                                 <th>Fuel Type</th>
                                                 <th>Price</th>
-                                                <th>Discounted Price</th>
+                                                <th>Discounted Price </th>
+                                                <th>Percentage</th>
                                                 @canany(['Model_map_edit', 'Model_map_delete'])
                                                     <th>Action</th>
                                                 @endcan
@@ -118,6 +128,8 @@
                                                         <td>{{ $mm->fuel_type->name ?? '' }}</td>
                                                         <td>{{ $mm->price ?? '' }}</td>
                                                         <td>{{ $mm->discounted_price ?? '' }}</td>
+                                                        <td>{{ $mm->percent ?? '' }}%</td>
+
 
                                                         @canany(['Model_map_edit', 'Model_map_delete'])
                                                             <td>
@@ -202,4 +214,43 @@
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/buttons.bootstrap.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/js/scripts/datatables/datatable.js') }}"></script>
+
+
+      <script>
+        const priceInput=document.getElementById('price');
+        const dpriceInput=document.getElementById('discounted_price');
+        const percentageInput=document.getElementById('percent');
+
+        priceInput.addEventListener('change', updateValuePrice);
+        dpriceInput.addEventListener('change', updateValueDPrice);
+        percentageInput.addEventListener('change', updateValuePercentage);
+
+
+
+
+
+        let price=priceInput.value
+        let discounted_price=dpriceInput.value
+        let percent=0
+
+        function updateValuePrice(e) {
+            price=e.target.value;
+        }
+        function updateValueDPrice(e) {
+            discounted_price=e.target.value;
+
+        }
+
+
+        function updateValuePercentage(e) {
+            percent=e.target.value;
+            dpriceInput.value=price-(price*percent/100)
+        }
+
+
+
+    </script>
+
 @endsection
+{{--
+https://www.youtube.com/watch?v=rgxtOkK51pY&ab_channel=sachinsharma --}}
