@@ -45,8 +45,7 @@ class NotificationController extends Controller
 
                 );
 
-              $this->sendNotification($to, $data);
-
+                $this->sendNotification($to, $data);
             }
             if ($notif) {
                 return response()->json([
@@ -86,89 +85,73 @@ class NotificationController extends Controller
 
     public function  Notification_list()
     {
-        $notif = CustomNotification::orderBy('created_at', 'DESC')->get();
+        $notif = CustomNotification::all();
         return view('Backend.custom_notification', compact('notif'));
     }
 
-+
-
-
-
-
-
-        public function Edit_Notification($id)
-        {
-            // try {
-                if (CustomNotification::where("id", $id)->exists()) {
-                    $notif = CustomNotification::find($id);
-                    return response()->json([
-                        'status' => 200,
-                        'success' => $notif
-                    ]);
-                }
-
+    public function Edit_Notification($id)
+    {
+        // try {
+        if (CustomNotification::where("id", $id)->exists()) {
+            $notif = CustomNotification::find($id);
+            return response()->json([
+                'status' => 200,
+                'success' => $notif
+            ]);
         }
+    }
 
 
-        public function Update_Notification(Request $request, $id)
-        {
+    public function Update_Notification(Request $request, $id)
+    {
+        if (CustomNotification::where("id", $id)->exists()) {
+            $validator = Validator::make($request->all(), [
+                'title' => 'required|max:50',
+                'body'  => 'required|max:191',
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 400,
+                    'errors' => $validator->message()
+                ]);
+            } else {
 
-                if (CustomNotification::where("id", $id)->exists()) {
-                    $validator = Validator::make($request->all(), [
-                        'title' => 'required|max:50',
-                        'body'  => 'required|max:191',
-                    ]);
-                    if ($validator->fails()) {
-                        return response()->json([
-                            'status' => 400,
-                            'errors' => $validator->message()
-                        ]);
-                    } else {
+                $notif = CustomNotification::find($id);
+                $notif->title   = $request->input('title');
+                $notif->body   = $request->input('body');
+                $notif->notification_type = "custom_notification";
+                $notif->update();
+                $fcmTokens = Customer::all();
+                foreach ($fcmTokens as $fcmTokens) {
+                    $to = $fcmTokens->fcm_token;
 
-                        $notif = CustomNotification::find($id);
-                        $notif->title   = $request->input('title');
-                        $notif->body   = $request->input('body');
-                        $notif->notification_type = "custom_notification";
-                         $notif->update();
-                            $fcmTokens = Customer::all();
-                        foreach ($fcmTokens as $fcmTokens) {
-                            $to = $fcmTokens->fcm_token;
-
-                        $data = array(
+                    $data = array(
                         'title' => $request->title,
                         'body' => $request->body,
 
                     );
                     $this->sendNotification($to, $data);
-
-                        }
-
-                        if ($notif) {
-                            return response()->json([
-                                'status' => 200,
-                                'message' => 'Resend Notification successfully'
-                            ]);
-                        }
-                    }
-                } else {
-                    return response()->json([
-                        'status' => 419,
-                        'error' => "Sorry  not found"
-                    ]);
                 }
 
+                if ($notif) {
+                    return response()->json([
+                        'status' => 200,
+                        'message' => 'Resend Notification successfully'
+                    ]);
+                }
+            }
+        } else {
+            return response()->json([
+                'status' => 419,
+                'error' => "Sorry  not found"
+            ]);
         }
+    }
 
-
-
-
-
-        public function delete($id){
-          $delete = CustomNotification::find($id);
-         $delete->delete();
-         return response()->json(['success'=>'Deleted Successfully!']);
-
-
-
-}
+    public function delete($id)
+    {
+        $delete = CustomNotification::find($id);
+        $delete->delete();
+        return response()->json(['success' => 'Deleted Successfully!']);
+    }
 }
