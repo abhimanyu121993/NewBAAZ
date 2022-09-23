@@ -100,8 +100,9 @@ class CartController extends Controller
             'cart_id' => 'required'
         ]);
         try {
-            $res = Cart::find($req->cart_id)->delete();
+            $res = Cart::find($req->cart_id);
             if ($res) {
+                $res->delete();
                 $result = [
                     'data' => NULL,
                     'message' => 'Cart deleted sucessfully',
@@ -143,7 +144,8 @@ class CartController extends Controller
             } else {
                 return 0;
             }
-        } catch (Exception $ex) {
+        }
+        catch (Exception $ex) {
             $url = URL::current();
             Error::create(['url' => $url, 'message' => $ex->getMessage()]);
         }
