@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\ModelServiceMapController;
 use App\Http\Controllers\Admin\OrderHistoryController;
 use App\Http\Controllers\Admin\OtherProductController;
 use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\RazorpayController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\ServiceChargeController;
 use App\Http\Controllers\Admin\SlotController;
@@ -27,6 +28,7 @@ use App\Http\Controllers\Admin\WorkshopOrderController;
 use App\Http\Controllers\Admin\ZoneController;
 use App\Http\Middleware\AuthLogin;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Artisan;
 
 
@@ -101,14 +103,15 @@ Route::group(['prefix'=>'Backend','as'=>'Backend.'],function(){
     Route::Post('add-notification',[NotificationController::class, 'Add_Notification'])->name('add-notification');
     Route::get('custom-Notification',[NotificationController::class, 'Notification_list'])->name('custom-Notification');
     Route::get('send-notification', [NotificationController::class, 'SendNotification'])->name('send-notification');
-    Route::get('/edit-notification/{id}', [NotificationController::class, 'Edit_Notification'])->name('edit-notification '); 
-    Route::post('/update-notifation/{id}',[NotificationController::class, 'Update_Notification'])->name('update-notifation');  
-    Route::get('/delete/{id}', [NotificationController::class, 'delete'])->name('delete');   
+    Route::get('/edit-notification/{id}', [NotificationController::class, 'Edit_Notification'])->name('edit-notification ');
+    Route::post('/update-notifation/{id}',[NotificationController::class, 'Update_Notification'])->name('update-notifation');
+    Route::get('/delete/{id}', [NotificationController::class, 'delete'])->name('delete');
 });
 
 
-  
 
+// Route::post('razorpaypayment', [RazorpayController::class, 'payment'])->name('payment');
+// Route::get('opayment', [OrderController::class, 'create_order']);
 
 Route::get('/optimize', function(){
     Artisan::call('optimize');

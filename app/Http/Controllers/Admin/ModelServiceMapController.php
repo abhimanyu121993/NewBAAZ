@@ -57,10 +57,10 @@ class ModelServiceMapController extends Controller
             'service_id'=>'required',
             'fuel_id' => 'required',
             'price' => 'required',
-            'discounted_price' => 'required',
-            'percent'=>'required'
+            'discounted_price' => 'nullable',
+            'percent'=>'nullable'
         ]);
-        
+
         try
         {
         //     $DiscountedPrice=$request->dprice;
@@ -69,17 +69,17 @@ class ModelServiceMapController extends Controller
         //     $DiscountedAmount=$Price-$DiscountedPrice;
         //     $DiscountedPercent=($DiscountedAmount / $Price)*100;
         //    dd($DiscountedPercent);
-           
-            
+
+
             $res= ModelServiceMap::create([
                 'model_id'=>$request->model_id,
-                'service_id' => $request->service_id, 
+                'service_id' => $request->service_id,
                 'fuel_id' => $request->fuel_id,
                 'price' => $request->price,
                 'discounted_price'=>$request->discounted_price,
                 'percent'=>$request->percent,
-                ]);                                          
-  
+                ]);
+
             if($res)
             {
                 session()->flash('success','Model Map Added Sucessfully');
@@ -152,6 +152,7 @@ class ModelServiceMapController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     // public function update(Request $request, $id) 
     
     // {
@@ -213,8 +214,6 @@ class ModelServiceMapController extends Controller
                             ]);
                         }
                     }
-               
-           
         }
     
 
