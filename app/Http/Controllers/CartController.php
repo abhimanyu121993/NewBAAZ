@@ -144,10 +144,10 @@ class CartController extends Controller
                 return 0;
             }
         } catch (Exception $ex) {
-            return $ex->getMessage();
+            $url = URL::current();
+            Error::create(['url' => $url, 'message' => $ex->getMessage()]);
         }
     }
 
-    public function generateOrderId() {
-        return 'generate order id';
+
 }
