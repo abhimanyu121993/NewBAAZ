@@ -57,7 +57,7 @@
                         <div class="col-md-6 mb-1">
                             <label class="form-label" for="basic-addon-name">Price</label>
 
-                            <input type="number" id="price" name='price' class="form-control"
+                            <input type="number"  name='price' class="form-control"
                                 value="{{ isset($editmodelmap) ? $editmodelmap->price : '' }}" placeholder="Price"
                                 aria-label="Name" aria-describedby="basic-addon-name" required />
                         </div>
@@ -65,14 +65,14 @@
 
                         <div class="col-md-6 mb-1">
                             <label class="form-label" for="basic-addon-name">Percentage</label>
-                            <input type="number" max="100" id="percent" name='percent' class="form-control"
+                            <input type="number" max="100"  name='percent' class="form-control"
                                 value="{{ isset($editmodelmap) ? $editmodelmap->percent : '' }}"
                                 placeholder="Percentage" aria-label="Name" aria-describedby="basic-addon-name"  required/>
                         </div>
                         <div class="col-md-6 mb-1">
                             <label class="form-label" for="basic-addon-name">Discount Price</label>
 
-                            <input type="number" id="discounted_price" name='dprice' class="form-control"
+                            <input type="number"  name='dprice' class="form-control"
                                 value="{{ isset($editmodelmap) ? $editmodelmap->discounted_price : '' }}"
                                 placeholder="Discounted Price" aria-label="Name" aria-describedby="basic-addon-name" required/>
                         </div>
@@ -88,6 +88,11 @@
                 </form>
             </div>
         </div>
+
+
+        <!-- Button trigger modal --> 
+  <!-- Modal -->
+  
     @endcan
 
     @can('Model_map_read')
@@ -145,12 +150,18 @@
                                                                             <div class="dropdown-menu dropdown-menu-end">
                                                                                 @php $cid=Crypt::encrypt($mm->id); @endphp
                                                                                 @can('Model_map_edit')
-                                                                                    <a class="dropdown-item"
+                                                                                    {{-- <a class="dropdown-item"
                                                                                         href="{{ route('Backend.modelservicemap.edit', $cid) }}"><i
                                                                                             class="me-1"
                                                                                             data-feather="check-square"></i><span
                                                                                             class="align-middle">Edit</span>
-                                                                                    </a>
+                                                                                    </a> --}}
+                                                                                     <button type="button" value="{{$cid }}" id="EditmodelBtn" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-left:20px; border:none;background:white; color:gray;">
+                                                                                        <i
+                                                                                        class="me-1"
+                                                                                        data-feather="check-square"></i> Edit
+                                                                                     </button>
+
                                                                                 @endcan
                                                                                 @can('Model_map_delete')
                                                                                     <a class="dropdown-item" href=""
@@ -189,6 +200,55 @@
             </div>
         </section>
         <!--/ Zero configuration table -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="Car_Edit_Modal">
+                    <form class="needs-validation"
+                    method='Post' id="update_model">
+                    @csrf
+                    <input type="hidden" id="edit_model_id">
+                 
+                  
+                    <div class="row">
+                        <div class="col-md-6 mb-1">
+                            <label class="form-label" for="basic-addon-name">Price</label>
+        
+                            <input type="number"  name='price'  id="Price" class="form-control"
+                                placeholder="Name"
+                                aria-label="Name"  required />
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <label class="form-label" for="basic-addon-name">Percentage</label>
+        
+                            <input type="number"  name='percent' id="Percent" class="form-control"
+                               placeholder="Name"
+                                aria-label="Name"  required />
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <label class="form-label" for="body">Discount Price</label>
+                             <input type="number" name='discounted_price' id="Discounted_price" class="form-control" required /> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="modal-footer">  
+                                <button type="submit"
+                                class="btn btn-primary waves-effect waves-float waves-light" id="editmodelBtn">Update Car Model</button>   
+                            </div>                  
+                        </div>
+                    </div>
+                </form>
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+            </div>
+          </div>
     @endcan
 
 @endsection
@@ -205,7 +265,7 @@
     <script src="{{ asset('Backend/assets/js/scripts/forms/form-select2.js') }}"></script>
 
 
-    <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/pdfmake.min.js') }}"></script>
+    {{-- <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/pdfmake.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/vfs_fonts.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/datatables.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/datatables.buttons.min.js') }}"></script>
@@ -213,43 +273,102 @@
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/buttons.print.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/buttons.bootstrap.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('Backend/assets/js/scripts/datatables/datatable.js') }}"></script>
+    <script src="{{ asset('Backend/assets/js/scripts/datatables/datatable.js') }}"></script> --}}
 
   
       <script>
-        const priceInput=document.getElementById('price');
-        const dpriceInput=document.getElementById('discounted_price');
-        const percentageInput=document.getElementById('percent');
+        const priceInput=document.getElementById('Price');
+        const discounted_priceInput=document.getElementById('Discounted_price');
+        const percentInput=document.getElementById('Percent');
 
         priceInput.addEventListener('change', updateValuePrice);
-        dpriceInput.addEventListener('change', updateValueDPrice);
-        percentageInput.addEventListener('change', updateValuePercentage);
-
-
-
-
+        discounted_priceInput.addEventListener('change', updateValueDiscounted_price);
+        percentInput.addEventListener('change', updateValuePercent);
 
         let price=priceInput.value
-        let discounted_price=dpriceInput.value
+        let discounted_price=discounted_priceInput.value
         let percent=0
 
         function updateValuePrice(e) {
             price=e.target.value;
+            console.log(e.target.value)
         }
-        function updateValueDPrice(e) {
-            discounted_price=e.target.value;
+        function updateValueDiscounted_price(e) {
+        discounted_price=e.target.value;
+        console.log(e.target.value)
 
         }
 
-
-        function updateValuePercentage(e) {
+        function updateValuePercent(e) {
+            price=priceInput.value
+            // console.log("price",price,"d",discounted_price,"%",percent,document.getElementById('Price'))
             percent=e.target.value;
-            dpriceInput.value=price-(price*percent/100)
+            discounted_priceInput.value=price-(price*percent/100)
+            // discounted_priceInput.value=price*percent/100
         }
+    </script> 
+    
+    <script>
+        $(document).on("click", "#EditmodelBtn", function(e) {
+            e.preventDefault();
+            var edit_id = $(this).val();
+            $("#exampleModal").modal("show");
+            $.ajax({
+                type: "GET",
+                url: '/Backend/edit-model/' + edit_id,
+                dataType: "json",
+                success: function(data) {    
+                    if (data.status == 200) {
+                        $("#edit_model_id").val(edit_id);                      
+                        $("#Price").val(data.success.price);
+                        $("#Percent").val(data.success.percent);
+                        $("#Discounted_price").val(data.success.discounted_price);
+                    } else if (response.status == 200) {
+                               $("#edit_model_id")[0].reset();
+                             Command: toastr["success"](response.message)         
+                           } 
+                }
+            });
+        });
+        </script> 
+<script>
+    $(document).on("submit", "#update_model", function(e) {
+        e.preventDefault();
+        let update_model = new FormData($('#update_model')[0]); 
+         $("#editmodelBtn").text("Please wait...");
+        var edit_id = $("#edit_model_id").val();
+       
+        $.ajax({
+            type: "POST",
+            url: "/Backend/update-model/" + edit_id,
+            data: update_model,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                    if (response.status == 400) {
+                        var values = '';
+                        jQuery.each(response.errors, function(key, value) {
+                            values += value + '<br>'
+                        });
+                    
+                        Command: toastr["error"](values)
+    
+                        $("#editmodelBtn").text("Car Update Model");
+                       } else if (response.status == 200) {
+                           $("#update_model")[0].reset();
+                           Command: toastr["success"](response.message)         
+                       }  
+                       location.reload();
+                  
+                }
+            });
+    });
+    
+    </script>
 
 
 
-    </script>   
+
    
 @endsection
 {{-- 
