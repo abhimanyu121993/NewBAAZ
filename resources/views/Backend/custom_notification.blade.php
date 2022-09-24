@@ -1,3 +1,8 @@
+<style>
+   .image{
+    height:40px;
+   } 
+</style>
 @extends('layouts.adminLayout')
 @section('Head-Area')
     <link rel="stylesheet" type="text/css" href="{{ asset('BackEnd/assets/css/plugins/forms/form-validation.css') }}">
@@ -29,6 +34,11 @@
                         <label class="form-label" for="body">Notification Body</label>
                         <input type="text" name='body' id="" class="form-control" />
                     </div>
+                    <div class="col-md-6 mb-1">
+                        <label class="form-label" for="body">Notification Image</label>
+                        <input type="file" name='image' id="image" class="form-control" />
+                    </div>
+
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
@@ -59,6 +69,7 @@
                         <th>Sr.No</th>
                         <th>Title</th>
                         <th>Notification body</th>
+                        <th>Notification Images</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -70,7 +81,8 @@
                             <td>{{ $i++ }}</td>
                             <td>{{$Notif->title}}</td>
                             <td>{{$Notif->body}}</td>
-
+                            <td><img  class="image" src="/upload/Notification_image/{{$Notif->image}}"></td>
+                            {{ asset('/upload/Notification_image')/$Notif->image }}
                             <td>
                                 <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
                                     <div class="mb-1 breadcrumb-right">
@@ -137,6 +149,11 @@
                 <div class="col-md-6 mb-1">
                     <label class="form-label" for="body">Notification Body</label>
                      <input type="text" name='body' id="Body" class="form-control"  value="" /> 
+                </div>
+
+                <div class="col-md-6 mb-1">
+                    <label class="form-label" for="body">Notification Image</label>
+                    <input type="file" name='image' id="image" class="form-control" />
                 </div>
             </div>
             <div class="row">
