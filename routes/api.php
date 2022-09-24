@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\RazorpayController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
@@ -53,4 +54,9 @@ Route::post('remove-cart-item',[CartController::class,'removeCartItems']);
 //Route::post('register-testuser', [UserController::class, 'registerTestUser']);
 Route::post('fetch-slot', [HomeController::class, 'fetchSlot']);
 Route::post('single-user-order-history', [OrderController::class, 'singleUserOrderHistory']);
-Route::post('user-invoice-download', [OrderController::class, 'userInvoiceLink']);
+Route::post('user-invoice-view', [OrderController::class, 'userInvoiceLink']);
+// Route::post('razor-pay-callback', [OrderController::class, 'razorCallBack']);
+// Route::get('razorpay', [RazorpayController::class, 'razorpay'])->name('razorpay');
+
+
+Route::post('create-order', [OrderController::class, 'create_order']);
