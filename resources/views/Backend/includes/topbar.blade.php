@@ -19,9 +19,9 @@
 <nav
     class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl">
     <div class="navbar-container d-flex content" style="background-color: @php echo $rolecolor @endphp;">
-        
+
         <ul class="nav navbar-nav align-items-center ms-auto">
-                       
+
             <li class="nav-item dropdown dropdown-user"><a class="nav-link dropdown-toggle dropdown-user-link"
                     id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false" style="color: whitesmoke;">
@@ -34,17 +34,17 @@
                         <span class="avatar-status-online"></span>
                     </span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
-                    
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user" style="width: 13rem;">
+
                     <a class="dropdown-item"
                         href="{{ route('Backend.authuser.show', Auth::user()->id) }}">
                         <i class="me-50" data-feather="user"></i> Profile
                     </a>
                     <a class="dropdown-item"
                         href="{{ route('Backend.authuser.changepassword', Auth::user()->id) }}">
-                        <i class="me-50" data-feather="user"></i> Change Password
+                        <i class="me-50" data-feather="lock"></i> Change Password
                     </a>
-                    
+
                     <form method="POST" action='{{ route('Backend.logout') }}' id="my_form">
                         @csrf
                         <a class="dropdown-item" onclick="document.getElementById('my_form').submit();"><i
