@@ -51,8 +51,7 @@ Route::post('order-history', [OrderController::class, 'orderHistory']);
 Route::post('show-cart',[CartController::class,'showCart']);
 Route::post('add-cart',[CartController::class,'addToCart']);
 Route::post('remove-cart-item',[CartController::class,'removeCartItems']);
-Route::post('register-testuser', [UserController::class, 'registerTestUser']);
-Route::post('login-testuser', [UserController::class, 'loginTestUser']);
+
 Route::post('fetch-slot', [HomeController::class, 'fetchSlot']);
 Route::post('single-user-order-history', [OrderController::class, 'singleUserOrderHistory']);
 Route::post('user-invoice-view', [OrderController::class, 'userInvoiceLink']);
@@ -61,3 +60,10 @@ Route::post('user-invoice-view', [OrderController::class, 'userInvoiceLink']);
 
 
 Route::post('create-order', [OrderController::class, 'create_order']);
+
+
+
+//Testing Purpose
+Route::post('register-testuser', [UserController::class, 'registerTestUser']);
+Route::get('fetch-testuser/{id}', [UserController::class, 'fetchTestUser']);
+Route::post('login-testuser', [UserController::class, 'loginTestUser']);

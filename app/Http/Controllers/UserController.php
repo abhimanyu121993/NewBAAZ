@@ -455,4 +455,39 @@ class UserController extends Controller
         }
     }
 
+    public function fetchTestUser($phone)
+    {
+        try
+        {
+            $user = TestUser::where('phone', $phone)->get();
+            if (count($user) == 0)
+            {
+                $result = [
+                    'data' => NULL,
+                    'message' => 'User not exist',
+                    'status' => 200,
+                    'error' => [
+                        'message' => 'Server Error',
+                        'code' => 305,
+                    ]
+                ];
+            }
+            else
+            {
+                $result = [
+                    'data' => $user,
+                    'message' => 'User fetched successfully',
+                    'status' => 200,
+                    'error' => NULL
+                ];
+            }
+            return response()->json($result);
+        }
+        catch (Exception $ex)
+        {
+            $url=URL::current();
+            Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
+        }
+    }
+
 }
