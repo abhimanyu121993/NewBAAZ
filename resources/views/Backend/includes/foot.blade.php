@@ -25,7 +25,7 @@
 <script src="{{asset('Backend/assets/vendors/js/file-uploaders/dropzone.min.js')}}"></script>
 <script src="{{asset('Backend/assets/js/scripts/forms/form-file-uploader.js')}}"></script>
 
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!--Toaster Js-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 <!--Sweet alert-->

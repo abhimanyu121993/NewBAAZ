@@ -23,9 +23,9 @@
                         <div class="col-md-6 mb-1">
                             <label class="form-label" for="desc">Role Name</label>
                             <select class="select2 form-select" id="select2-basic"  name='roleid' required>
-            
+
                             <option selected disabled value="">--Select Role--</option>
-                            
+
                                 @foreach ($roles as $role)
                                     <option {{ !isset($editrole) ? '': ($editrole->id == $role->id ? 'selected' : '') }} value="{{$role->id}}">{{$role->name}}</option>
                                 @endforeach
@@ -44,7 +44,7 @@
                                             <th>Delete</th>
                                         </tr>
                                     </thead>
-                                   
+
                                     <tbody>
                                         @foreach ($permissions as $per)
                                         <tr>
