@@ -112,7 +112,7 @@ class CartController extends Controller
             } else {
                 $result = [
                     'data' => NULL,
-                    'message' => 'Cart already deleted',
+                    'message' => 'Data not found ',
                     'status' => 200,
                     'error' => [
                         'message' => 'Server Error',
