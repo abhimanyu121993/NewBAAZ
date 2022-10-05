@@ -20,7 +20,7 @@ class CartController extends Controller
             'user_id' => 'required'
         ]);
         try {
-            $cartItems = Cart::cartDetail($req->user_id);
+            $cartItems = Cart::getServiceDetail($req->user_id);
             if (count($cartItems) > 0) {
                 $result = [
                     'data' => $cartItems,
