@@ -99,13 +99,13 @@
                                                         class="align-middle">Edit</span>
                                                 </a>
                                                 @endcan
-                                                @can('Fuel_type_delete')
+                                                {{-- @can('Fuel_type_delete')
                                                 <a class="dropdown-item" href=""
                                                 onclick="event.preventDefault();document.getElementById('delete-form-{{ $ftid }}').submit();"><i
                                                     class="me-1" data-feather="message-square"></i><span
                                                     class="align-middle">Delete</span>
                                                 </a>
-                                                @endcan
+                                                @endcan --}}
 
                                             </div>
                                         </div>
@@ -114,13 +114,13 @@
                             </td>
                             @endcan
                         </tr>
-                        @can('Fuel_type_delete')
+                        {{-- @can('Fuel_type_delete')
                         <form id="delete-form-{{ $ftid }}" action="{{ route('Backend.fueltype.destroy', $ftid) }}"
                             method="post" style="display: none;">
                             @method('DELETE')
                             @csrf
                         </form>
-                        @endcan
+                        @endcan --}}
                     @endforeach
 
                 </tbody>
