@@ -15,7 +15,7 @@
 
 @section('Content-Area')
 
-{{-- @can('Pending_orders_read') --}}
+@can('Pending_orders_read')
  <!-- Scroll - horizontal and vertical table -->
  <section id="horizontal-vertical">
     <div class="row">
@@ -72,7 +72,7 @@
     </div>
 </section>
 <!--/ Scroll - horizontal and vertical table -->
-{{-- @endcan --}}
+@endcan
 
 
 
