@@ -18,6 +18,6 @@ class WorkshopOrder extends Model
 
     public function workshop()
     {
-        return $this->belongsTo(Workshop::class, 'workshop_id');
+        return $this->belongsTo(User::class, 'workshop_id');
     }
 }
