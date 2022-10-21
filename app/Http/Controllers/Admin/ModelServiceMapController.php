@@ -8,6 +8,7 @@ use App\Models\Error;
 use App\Models\FuelType;
 use App\Models\ModelServiceMap;
 use App\Models\Service;
+use Illuminate\Support\Facades\DB;
 use App\Models\ServiceCharge;
 use Exception;
 use Illuminate\Support\Facades\Validator;
@@ -29,8 +30,10 @@ class ModelServiceMapController extends Controller
         $fueltypes = FuelType::all();
         $services = Service::all();
         $models = BrandModel::all();
+        $showservies = DB::table("services")
+        ->select("services.id","services.name")->get();
         $modelmaps = ModelServiceMap::all();
-        return view('Backend.modelservicemap', compact('modelmaps','models','fueltypes', 'services'));
+        return view('Backend.modelservicemap', compact('modelmaps','models','fueltypes', 'services','showservies'));
     }
 
     /**
@@ -247,4 +250,7 @@ class ModelServiceMapController extends Controller
             }
             return redirect()->back();
     }
+
+
+    
 }

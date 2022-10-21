@@ -22,6 +22,7 @@ class NotificationController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:50',
             'body'  => 'required|max:100',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:15360',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -32,8 +33,15 @@ class NotificationController extends Controller
 
             $notif = new CustomNotification();
             $notif->title   = $request->input('title');
-            $notif->body   = $request->input('body');
+            $notif->body   = $request->input('body');        
             $notif->notification_type = "custom_notification";
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $extension = $file->getClientOriginalExtension();
+                $filename = time() . '_' . $request->title . '.' . $extension;
+                $file->move('upload/Notification_image/', $filename);
+                $notif->image = $filename;
+            }
             $notif->save();
             $fcmTokens = Customer::all();
             foreach ($fcmTokens as $fcmTokens) {
@@ -42,6 +50,7 @@ class NotificationController extends Controller
                 $data = array(
                     'title' => $request->title,
                     'body' => $request->body,
+                    'image'=>'https://bazz.techdocklabs.com/upload/Notification_image/'.$notif->image,
 
                 );
 
@@ -89,45 +98,61 @@ class NotificationController extends Controller
         return view('Backend.custom_notification', compact('notif'));
     }
 
-    public function Edit_Notification($id)
-    {
-        // try {
-        if (CustomNotification::where("id", $id)->exists()) {
-            $notif = CustomNotification::find($id);
-            return response()->json([
-                'status' => 200,
-                'success' => $notif
-            ]);
+
+
+  
+
+
+
+        public function Edit_Notification($id)
+        {
+            // try {
+                if (CustomNotification::where("id", $id)->exists()) {
+                    $notif = CustomNotification::find($id);
+                    return response()->json([
+                        'status' => 200,
+                        'success' => $notif
+                    ]);
+                } 
+           
         }
-    }
 
-
-    public function Update_Notification(Request $request, $id)
-    {
-        if (CustomNotification::where("id", $id)->exists()) {
-            $validator = Validator::make($request->all(), [
-                'title' => 'required|max:50',
-                'body'  => 'required|max:191',
-            ]);
-            if ($validator->fails()) {
-                return response()->json([
-                    'status' => 400,
-                    'errors' => $validator->message()
-                ]);
-            } else {
-
-                $notif = CustomNotification::find($id);
-                $notif->title   = $request->input('title');
-                $notif->body   = $request->input('body');
-                $notif->notification_type = "custom_notification";
-                $notif->update();
-                $fcmTokens = Customer::all();
-                foreach ($fcmTokens as $fcmTokens) {
-                    $to = $fcmTokens->fcm_token;
-
-                    $data = array(
+        public function Update_Notification(Request $request, $id)
+        {
+                       
+                if (CustomNotification::where("id", $id)->exists()) {
+                    $validator = Validator::make($request->all(), [
+                        'title' => 'required|max:50',
+                        'body'  => 'required|max:191',
+                        'image' => 'required|image|mimes:jpeg,png,jpg|max:15360',
+                    ]);
+                    if ($validator->fails()) {
+                        return response()->json([
+                            'status' => 400,
+                            'errors' => $validator->message()
+                        ]);
+                    } else {
+                      
+                        $notif = CustomNotification::find($id);
+                        $notif->title   = $request->input('title');
+                        $notif->body   = $request->input('body');
+                        $notif->notification_type = "custom_notification";
+                        if ($request->hasFile('image')) {
+                            $file = $request->file('image');
+                            $extension = $file->getClientOriginalExtension();
+                            $filename = time() . '_' . $request->title . '.' . $extension;
+                            $file->move('upload/Notification_image/', $filename);
+                            $notif->image = $filename;
+                        }  
+                         $notif->update();
+                            $fcmTokens = Customer::all();
+                             foreach ($fcmTokens as $fcmTokens) {
+                            $to = $fcmTokens->fcm_token;
+                    
+                        $data = array(
                         'title' => $request->title,
                         'body' => $request->body,
+                        'image'=>'https://bazz.techdocklabs.com/upload/Notification_image/'.$notif->image,
 
                     );
                     $this->sendNotification($to, $data);
