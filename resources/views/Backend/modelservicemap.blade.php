@@ -203,10 +203,39 @@
         <!--/ Zero configuration table -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">{{ $mm->service->name ?? '' }}</h5>
+             
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="Car_Edit_Modal">
+                    <form class="needs-validation"
+                    method='Post' id="update_model">
+                    @csrf
+                    <input type="hidden" id="edit_model_id">
+                 
+                  
+                    <div class="row">
+                        <div class="col-md-6 mb-1">
+                            <label class="form-label" for="basic-addon-name">Price</label>
+        
+                            <input type="number"  name='price'  id="Price" class="form-control"
+                                placeholder="Name"
+                                aria-label="Name"  required />
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <label class="form-label" for="basic-addon-name">Percentage</label>
+        
+                            <input type="number"  name='percent' id="Percent" class="form-control"
+                               placeholder="Name"
+                                aria-label="Name"  required />
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <label class="form-label" for="body">Discount Price</label>
+                             <input type="number" name='discounted_price' id="Discounted_price" class="form-control" required /> 
+                        </div>
                     </div>
                     <div class="modal-body" id="Car_Edit_Modal">
                         <form class="needs-validation" method='Post' id="update_model">

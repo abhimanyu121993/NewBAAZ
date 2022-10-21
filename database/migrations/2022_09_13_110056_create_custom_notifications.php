@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer("notif_id")->nullable();
             $table->string("title");
             $table->string("body");
+            $table->string("image");
             $table->timestamps();
         });
     }

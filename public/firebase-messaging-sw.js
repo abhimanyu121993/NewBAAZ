@@ -10,6 +10,6 @@ firebase.initializeApp({
 });
 
 const messaging = firebase.messaging();
-messaging.setBackgroundMessageHandler(function({ data: { title, body, icon } }) {
-    return self.registration.showNotification(title, { body, icon });
+messaging.setBackgroundMessageHandler(function({ data: { title, body, icon,image } }) {
+    return self.registration.showNotification(title, { body, icon,image });
 });
