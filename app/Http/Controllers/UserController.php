@@ -11,6 +11,7 @@ use App\Models\UserAddress;
 use App\Models\UserVehicleMap;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
@@ -352,6 +353,132 @@ class UserController extends Controller
                         'message' => 'Server Error',
                         'code' => 305,
                     ]
+                ];
+            }
+            return response()->json($result);
+        }
+        catch (Exception $ex)
+        {
+            $url=URL::current();
+            Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
+        }
+    }
+
+    public function loginTestUser(Request $request)
+    {
+        $request->validate([
+            'email' => $request->email,
+            'password' => $request->password
+        ]);
+        try
+        {
+            $udata = TestUser::where('email', $request->email);
+            $user = TestUser::where('email', $request->email)
+                    ->where('password', Hash::check($request->password, $udata->password))
+                    ->first();
+            if ($user)
+            {
+                $result = [
+                    'data' => $user,
+                    'message' => 'Login successfully',
+                    'status' => 200,
+                    'error' => NULL
+                ];
+            }
+            else
+            {
+                $result = [
+                    'data' => NULL,
+                    'message' => 'Invalid Email or Password',
+                    'status' => 200,
+                    'error' => [
+                        'message' => 'Server Error',
+                        'code' => 305,
+                    ]
+                ];
+            }
+            return response()->json($result);
+        }
+        catch (Exception $ex)
+        {
+            $url=URL::current();
+            Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
+        }
+
+
+    }
+
+    public function registerTestUser(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'phone' => 'required',
+            'email' => 'required',
+            'password' => 'required'
+        ]);
+        try
+        {
+            $data = [
+                'name' => $request->name,
+                'phone' => $request->phone,
+                'email' => $request->email,
+                'password' => Hash::make($request->password)
+            ];
+            $user = TestUser::create($data);
+            if ($user)
+            {
+                $result = [
+                    'data' => $user,
+                    'message' => 'User registered successfully',
+                    'status' => 200,
+                    'error' => NULL
+                ];
+            }
+            else
+            {
+                $result = [
+                    'data' => NULL,
+                    'message' => 'User not registered',
+                    'status' => 200,
+                    'error' => [
+                        'message' => 'Server Error',
+                        'code' => 305,
+                    ]
+                ];
+            }
+            return response()->json($result);
+        }
+        catch (Exception $ex)
+        {
+            $url=URL::current();
+            Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
+        }
+    }
+
+    public function fetchTestUser($phone)
+    {
+        try
+        {
+            $user = TestUser::where('phone', $phone)->get();
+            if (count($user) == 0)
+            {
+                $result = [
+                    'data' => NULL,
+                    'message' => 'User not exist',
+                    'status' => 200,
+                    'error' => [
+                        'message' => 'Server Error',
+                        'code' => 305,
+                    ]
+                ];
+            }
+            else
+            {
+                $result = [
+                    'data' => $user,
+                    'message' => 'User fetched successfully',
+                    'status' => 200,
+                    'error' => NULL
                 ];
             }
             return response()->json($result);

@@ -145,7 +145,7 @@
                 </li>
             @endcan
 
-            @can('Home_slider')
+            @can('Edp_work')
                 <li class="nav-item"><a class="d-flex align-items-center"
                         href="{{ route('Backend.edpWork') }}"><i data-feather="sliders"></i><span
                             class="menu-title text-truncate" data-i18n="User List">EDP Work</span></a>
@@ -331,7 +331,7 @@
                 class="menu-title text-truncate" data-i18n="User List">Custom Notification</span></a>
                 </li>
             @endrole
-      
+
 
         </ul>
     </div>

@@ -139,14 +139,15 @@ class ModelServiceMapController extends Controller
     //         return redirect()->back();
     //     }
     // }
-       public function Edit_model($id){
-         $model_id = Crypt::decrypt($id);  
-         $editmodelmap = ModelServiceMap::find($model_id);
-         return response()->json([
-                     'status' => 200,
-                    'success' =>$editmodelmap
-                    ]);
-            }    
+    public function Edit_model($id)
+    {
+        $model_id = Crypt::decrypt($id);
+        $editmodelmap = ModelServiceMap::with('model')->find($model_id);
+        return response()->json([
+                    'status' => 200,
+                'success' =>$editmodelmap
+                ]);
+    }
 
     /**
      * Update the specified resource in storage.
@@ -156,8 +157,8 @@ class ModelServiceMapController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    // public function update(Request $request, $id) 
-    
+    // public function update(Request $request, $id)
+
     // {
     //     $request->validate([
     //         'service_id'=>'required',
@@ -166,10 +167,10 @@ class ModelServiceMapController extends Controller
     //         'discounted_price' => 'required',
     //         'percent'=>'required'
     //     ]);
-        
+
     //     try
     //     {
-    //     $res= ModelServiceMap::find($id)->update(['service_id' =>$request->service_id,'fuel_id' =>$request->fuel_id,'price' =>$request->price,'discounted_price'=>$request->discounted_price,'percent'=>$request->percent]); 
+    //     $res= ModelServiceMap::find($id)->update(['service_id' =>$request->service_id,'fuel_id' =>$request->fuel_id,'price' =>$request->price,'discounted_price'=>$request->discounted_price,'percent'=>$request->percent]);
     //      if($res)
     //         {
     //             session()->flash('success','Model Map Updated Sucessfully');
@@ -189,7 +190,7 @@ class ModelServiceMapController extends Controller
     // }
 
       public function Updatedit_model(Request $request, $id)
-                        { $validator = Validator::make($request->all(), [       
+                        { $validator = Validator::make($request->all(), [
                              'price' => 'required',
                              'discounted_price' => 'required',
                              'percent'=>'required'
@@ -199,17 +200,17 @@ class ModelServiceMapController extends Controller
                                 'status' => 400,
                                 'errors' => $validator->messages()
                             ]);
-                        } 
+                        }
                         else
                         {
-                         $model_id = Crypt::decrypt($id);  
-                        $model = ModelServiceMap::find($model_id); 
+                         $model_id = Crypt::decrypt($id);
+                        $model = ModelServiceMap::find($model_id);
                         $model->price = $request->input('price');
                         $model->discounted_price = $request->input('discounted_price');
                         $model->percent = $request->input('percent');
-                        
-                         $model->update(); 
-                                  
+
+                         $model->update();
+
                         if ($model) {
                             return response()->json([
                                 'status' => 200,
@@ -218,7 +219,7 @@ class ModelServiceMapController extends Controller
                         }
                     }
         }
-    
+
 
 
 

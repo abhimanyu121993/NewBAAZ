@@ -20,7 +20,6 @@ return new class extends Migration
             $table->unsignedBigInteger('service_id')->nullable();
             $table->string('service_price')->nullable();
             $table->bigInteger('quantity')->default(0);
-            $table->softDeletes();
             $table->timestamps();
         });
     }

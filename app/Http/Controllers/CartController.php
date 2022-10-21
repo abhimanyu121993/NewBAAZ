@@ -21,7 +21,7 @@ class CartController extends Controller
         ]);
         try {
             $cartItems = Cart::getServiceDetail($req->user_id);
-            if ($cartItems) {
+            if (count($cartItems) > 0) {
                 $result = [
                     'data' => $cartItems,
                     'message' => 'Cart detail found',
@@ -112,7 +112,7 @@ class CartController extends Controller
             } else {
                 $result = [
                     'data' => NULL,
-                    'message' => 'Cart not deleted',
+                    'message' => 'Data not found ',
                     'status' => 200,
                     'error' => [
                         'message' => 'Server Error',

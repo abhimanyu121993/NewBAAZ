@@ -37,7 +37,7 @@ use Illuminate\Support\Facades\Artisan;
 Route::get('/',[AdminController::class,'admin'])->name('admin');
 Route::post('adminlogin',[AdminController::class,'login'])->name('login');
 
-Route::group(['prefix'=>'Backend','as'=>'Backend.'],function(){
+Route::group(['prefix'=>'Backend','as'=>'Backend.', 'middleware' => 'auth'],function(){
     Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::post('logout',[AdminController::class,'logout'])->name('logout');
 
@@ -74,12 +74,12 @@ Route::group(['prefix'=>'Backend','as'=>'Backend.'],function(){
 
     Route::post('allot-workshop',[WorkshopController::class,'allotWorkshop'])->name('allotWorkshop');
     Route::resource('modelservicemap',ModelServiceMapController::class);
-    
+
     Route::get('edit-model/{id}', [ModelServiceMapController::class, 'Edit_model'])->name('edit-model');
      Route::Post('update-model/{id}', [ModelServiceMapController::class, 'Updatedit_model'])->name('update-model');
 
     Route::resource('batterytype',BatteryTypeController::class);
-    
+
     Route::resource('slot',SlotController::class);
     Route::resource('jobcard',JobcardController::class);
     // Route::get('jobcard/{id}',[OrderHistoryController::class,'jobcard'])->name('jobcard');
