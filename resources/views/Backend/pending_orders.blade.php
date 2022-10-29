@@ -15,7 +15,7 @@
 
 @section('Content-Area')
 
-@can('Confirmed_orders_read')
+@can('Pending_orders_read')
  <!-- Scroll - horizontal and vertical table -->
  <section id="horizontal-vertical">
     <div class="row">
@@ -38,7 +38,7 @@
                                         <th>Phone</th>
                                         <th>Order Status</th>
                                         <th>Ordered at</th>
-                                        @canany(['Confirmed_orders_edit', 'Confirmed_orders_delete'])
+                                        @canany(['Pending_orders_edit', 'Pending_orders_delete'])
                                             <th>Assigned To</th>
                                             <th>Action</th>
                                         @endcan
@@ -57,7 +57,7 @@
                                                 <td>{{ $order->user->mobileno ?? ''}}</td>
                                                 <td>{{ $order->order_status_detail->name ?? '' }}</td>
                                                 <td>{{ $order->created_at }}</td>
-                                                @canany(['Confirmed_orders_edit', 'Confirmed_orders_delete'])
+                                                @canany(['Pending_orders_edit', 'Pending_orders_delete'])
                                                 <form id="allotworkshop" action="{{ route('Backend.allotWorkshop') }}" method="POST">
                                                     @csrf
                                                     <td>
