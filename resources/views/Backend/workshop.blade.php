@@ -65,7 +65,7 @@
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="basic-addon-name">GST</label>
 
-                        <input type="number" id="basic-addon-name" name='gst' class="form-control"
+                        <input type="text" id="basic-addon-name" name='gst' class="form-control"
                             value="{{ isset($editworkshop) ? $editworkshop->gst : '' }}" placeholder="Enter GST No"
                             aria-label="gst" aria-describedby="basic-addon-name" required />
                     </div>
