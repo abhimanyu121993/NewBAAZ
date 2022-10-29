@@ -15,7 +15,7 @@
 
 @section('Content-Area')
 
-@can('Confirmed_orders_read')
+@can('Confirmed_orders')
  <!-- Scroll - horizontal and vertical table -->
  <section id="horizontal-vertical">
     <div class="row">

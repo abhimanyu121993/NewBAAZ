@@ -73,7 +73,7 @@
 
                         <input type="number" id="basic-addon-name" name='aadharid' class="form-control"
                             value="{{ isset($editemployee) ? $editemployee->aadharid : '' }}" placeholder="Enter aadhar id"
-                            aria-label="email" aria-describedby="basic-addon-name" required />
+                            aria-label="email" aria-describedby="basic-addon-name" />
                     </div>
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="pic">Image Thumbnail</label>

@@ -60,10 +60,12 @@ class AuthUserController extends Controller
         ]);
         try
         {
+            $emppic = 'upload/default_image.png';
             if($request->hasFile('pic'))
             {
-                $emppic='emp-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
+                $empic='emp-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
                 $request->pic->move(public_path('upload/employees/'),$emppic);
+                $emppic = 'upload/employees/'.$empic;
             }
             $maxempid = User::max('id');
             $empid = 'BAAZ-'.sprintf('%5d', $maxempid+1);
@@ -75,7 +77,7 @@ class AuthUserController extends Controller
                 'email' => $request->email,
                 'password' => $hashpassword,
                 'aadharid' => $request->aadharid,
-                'pic'=>'upload/employees/'.$emppic
+                'pic'=>$emppic
             ];
             $role = Role::find($request->roleid);
             $res= User::create($data);
