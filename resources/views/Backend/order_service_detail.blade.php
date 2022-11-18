@@ -20,7 +20,7 @@
                         <input type="hidden" name="model_id" value="{{ $order->order_details[0]->model_id }}" />
                         <div class="row">
                             <div class="col-md-12 mb-1">
-                                <label class="form-label" for="desc">Add Order</label>
+                                <label class="form-label" for="desc">Add Services</label>
                                 <select class="select2 form-select" id="select2-basic" name='service_id' required>
                                     <option selected disabled value="">--Select Service--</option>
                                     @foreach ($services as $service)
@@ -50,7 +50,7 @@
                         <input type="hidden" name="service_type" value="ServiceCharge" />
                         <div class="row">
                             <div class="col-md-12 mb-1">
-                                <label class="form-label" for="desc">Add Labour</label>
+                                <label class="form-label" for="desc">Add Labour Work</label>
                                 <select class="select2 form-select" id="select2-basic" name='labour_id' required>
                                     <option selected disabled value="">--Select Labour--</option>
                                     @foreach ($serviceCharges as $serviceCharge)
@@ -90,7 +90,7 @@
                             <input type="hidden" name="service_type" value="OtherProduct" />
 
                             <div class="col-md-12 mb-1">
-                                <label class="form-label" for="desc">Add Spare</label>
+                                <label class="form-label" for="desc">Add Spare Work</label>
                                 <select class="select2 form-select" id="select2-basic" name='spare_id' required>
                                     <option selected disabled value="">--Select Spare--</option>
                                     @foreach ($otherProducts as $otherProduct)
@@ -217,6 +217,22 @@
             </table>
         </div>
         <hr />
+        <div class="card-body">
+            <form class="form-control" action="{{ route('Backend.updateOrderRemark') }}" method="POST">
+                @csrf
+                <div class="row">
+                <input type="hidden" name="order_id" value="{{ $order->id }}" />
+                <div class="col-md-10 mb-1">
+                    <label class="form-label" for="basic-addon-name">Remark</label>
+                    <textarea name='remark' class="form-control" placeholder="Remark">{{ isset($order)? $order->remark : '' }}</textarea>
+                </div>
+                <div class="col-sm-2 mt-4">
+                    <button type="submit"
+                        class="btn btn-primary waves-effect waves-float waves-light">{{ isset($order->remark) ? 'Update' : 'Add' }}</button>
+                </div>
+            </div>
+            </form>
+        </div>
         <div class="card-body mt-5 pe-5" style="text-align: right;">
             <h3>Total Amount - {{ isset($order->workshop_order->total_amount)?$order->workshop_order->total_amount : 0 }}</h3>
         </div>

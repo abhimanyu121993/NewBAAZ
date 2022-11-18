@@ -85,7 +85,7 @@
 
                             <b> Invoice No. </b>
                             <b>
-                                55445511
+                                1
                             </b>
                         </td>
 
@@ -168,8 +168,8 @@
                         <tr>
                             <td>{{ $loop->index+1 }}</td>
                             <td>{{ $sd->service_charge->name ?? '' }}</td>
-                            <td>{{ $sd->service_charge->price ?? '' }}</td>
-                            <td>{{ $sd->service_charge->price ?? '' }}</td>
+                            <td>{{ $order->order_details[0]->modelmapservice->discounted_price ?? '' }}</td>
+                            <td>{{ $order->order_details[0]->modelmapservice->discounted_price ?? '' }}</td>
                         </tr>
                     @endif
                 @endforeach
@@ -241,6 +241,9 @@
         </table>
         <table class="table" style="width:100%; margin:0 auto;">
             <div class="container ">
+                <div class="col mt-5">
+                    <p><b>Remark :</b> {{ $order->remark ?? 'No Remark' }}</p>
+                </div>
                 <div style="float: right; height:auto;width:auto; ">
                     <div class="col"><br>
 

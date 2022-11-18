@@ -37,6 +37,9 @@ return new class extends Migration
             $table->string('interior_inventory')->nullable();
             $table->string('document')->nullable();
             $table->string('status')->default(0);
+            $table->string('rmname')->nullable();
+            $table->string('rmno')->nullable();
+            $table->longText('voc')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -43,15 +43,11 @@ class JobcardController extends Controller
     public function store(Request $request)
     {
         Log::info('orderjobcard'.json_encode($request->all()));
-        // $request->validate([
-        //     'name'=>'required',
-        //     'country_id' => 'required',
-        //     'zone_id' => 'required',
-        //     'area_id' => 'required'
-        // ]);
         try
         {
             $data = [
+                'rmname' => $request->rmname,
+                'rmno' => $request->rmno,
                 'order_id' => $request->order_id,
                 'regno' => $request->regno,
                 'odometer_reading' => $request->odometer_reading,
@@ -73,7 +69,8 @@ class JobcardController extends Controller
                 'battery_id' => $request->battery_id,
                 'interior_inventory' => $request->interior_inventory,
                 'document' => $request->document,
-                'status' => 1
+                'status' => 1,
+                'voc' => $request->voc,
             ];
             $res= Jobcard::create($data);
 
@@ -103,7 +100,9 @@ class JobcardController extends Controller
      */
     public function show($id)
     {
-        //
+        // dd($id);
+        $jobcard = Jobcard::where('order_id',$id)->first();
+        return view('Backend.view_jobcard', compact('jobcard'));
     }
 
     /**
@@ -114,7 +113,6 @@ class JobcardController extends Controller
      */
     public function edit($id)
     {
-        Log::info('orderjobcard'.$id);
         $batterytypes = BatteryType::all();
         $oid = $id;
         $jobcard = Jobcard::where('order_id',$id)->first();
@@ -140,6 +138,8 @@ class JobcardController extends Controller
         try
         {
             $data = [
+                'rmname' => $request->rmname,
+                'rmno' => $request->rmno,
                 'order_id' => $request->order_id,
                 'regno' => $request->regno,
                 'odometer_reading' => $request->odometer_reading,
@@ -161,7 +161,8 @@ class JobcardController extends Controller
                 'battery_id' => $request->battery_id,
                 'interior_inventory' => $request->interior_inventory,
                 'document' => $request->document,
-                'status' => 1
+                'status' => 1,
+                'voc' => $request->voc,
             ];
             $res= Jobcard::find($id)->update($data);
 
