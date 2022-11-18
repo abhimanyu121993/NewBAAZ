@@ -73,7 +73,15 @@
                 <center><button style="border:none;" onclick="window.print()">Print</button></center><br>
 
                 <div class="container">
-                    <h2 style="text-align:center; margin-top: 12px;">BAAZ JOBCARD</h2>
+                    <div class="row">
+                        <div class="col text-center">
+                            <img src="{{ asset('upload/bazz_logo.png') }}" height="100" width="200"/>
+                            <h4 style="text-align:center; margin-top: 12px;">BAAZ JOBCARD</h4>
+                        </div>
+                        <div class="col">
+                            <img src="{{ asset('Backend/assets/images/vector_car.png') }}" height="200" width="500"/>
+                        </div>
+                    </div>
                     <br />
                     <div class="row text-center">
                         <div class="col">
