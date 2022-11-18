@@ -11,5 +11,8 @@ class Jobcard extends Model
     use HasFactory, SoftDeletes;
     protected $guarded = [];
 
-
+    public function battery()
+    {
+        return $this->belongsTo(BatteryType::class, 'battery_id');
+    }
 }

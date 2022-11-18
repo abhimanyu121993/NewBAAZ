@@ -13,6 +13,7 @@ use App\Models\Service;
 use App\Models\ServiceCharge;
 use App\Models\User;
 use App\Models\Workshop;
+use App\Models\WorkshopOrder;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -158,5 +159,17 @@ class OrderHistoryController extends Controller
     //     return view('Backend.confirmed_orders', compact('confirmedorders'));
     //     }
     // }
+
+    public function updateOrderRemark(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required',
+            'remark' => 'required'
+        ]);
+
+        Order::find($request->order_id)->update(['remark' => $request->remark]);
+        WorkshopOrder::where('order_id',$request->order_id)->update(['remark' => $request->remark]);
+        return redirect()->back()->with('success', 'Remark added successfully');
+    }
 
 }

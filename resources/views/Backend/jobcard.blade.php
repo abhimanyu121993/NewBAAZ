@@ -29,6 +29,16 @@
 
                     <input type="hidden" name="order_id" value="{{$oid}}" />
                     <div class="col-md-6 mb-1">
+                        <label class="form-label" for="rmname">Relationship Manager Name</label>
+                        <input type="text" name='rmname' class="form-control " value="{{ isset($jobcard) ? $jobcard->rmname : '' }}" placeholder="Relationship Manager Name" />
+                    </div>
+
+                    <div class="col-md-6 mb-1">
+                        <label class="form-label" for="pic">Relationship Manager Number</label>
+                        <input type="number" name='rmno' class="form-control " value="{{ isset($jobcard) ? $jobcard->rmno : '' }}" placeholder="Relationship Manager Number" />
+                    </div>
+
+                    <div class="col-md-6 mb-1">
                         <label class="form-label" for="pic">Registered Vehicle Number</label>
                         <input type="text" name='regno' class="form-control " value="{{ isset($jobcard) ? $jobcard->regno : '' }}" placeholder="Registered Vehicle Number" />
                     </div>
@@ -182,6 +192,11 @@
                             <option {{ !isset($jobcard) ? '': ($jobcard->document == 'road_tax' ? 'selected' : '') }} value="road_tax">Road Tax</option>
                             <option {{ !isset($jobcard) ? '': ($jobcard->document == 'passenger_tax' ? 'selected' : '') }} value="passenger_tax">Passenger Tax</option>
                         </select>
+                    </div>
+
+                    <div class="col-md-12 mb-1">
+                        <label class="form-label" for="pic">VOC</label>
+                        <textarea name='voc' rows="5" class="form-control" placeholder="Voice of customer">{{ isset($jobcard) ? $jobcard->voc : '' }}</textarea>
                     </div>
 
                 </div>

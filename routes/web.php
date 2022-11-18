@@ -106,6 +106,8 @@ Route::group(['prefix'=>'Backend','as'=>'Backend.', 'middleware' => 'auth'],func
     Route::get('/edit-notification/{id}', [NotificationController::class, 'Edit_Notification'])->name('edit-notification ');
     Route::post('/update-notifation/{id}',[NotificationController::class, 'Update_Notification'])->name('update-notifation');
     Route::get('/delete/{id}', [NotificationController::class, 'delete'])->name('delete');
+
+    Route::post('/update-order-remark',[OrderHistoryController::class, 'updateOrderRemark'])->name('updateOrderRemark');
 });
 
 
