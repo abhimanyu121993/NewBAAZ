@@ -68,9 +68,11 @@
 <body>
     @if ($jobcard)
         @if ($jobcard->status == 1)
-            <div class="container">
+            <div class="container content">
                 <!-- <p class="text-center mt-2">Invoice</p> -->
-                <center><button style="border:none;" onclick="window.print()">Print</button></center><br>
+                <center><button style="border:none;" onclick="window.print()">Print</button>
+                    <button class="btn btn-primary" id="download">Download</button>
+                </center><br>
 
                 <div class="container">
                     <div class="row">
@@ -208,7 +210,34 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
     </script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+<script>
+    window.onload = function() {
+        document.getElementById("download")
+            .addEventListener("click", () => {
+                const invoice = this.document.getElementById("content");
+                console.log(invoice);
+                console.log(window);
+                var opt = {
+                    margin: 1,
+                    filename: 'baaz_jobcard.pdf',
+                    image: {
+                        type: 'jpeg',
+                        quality: 0.98
+                    },
+                    html2canvas: {
+                        scale: 2
+                    },
+                    jsPDF: {
+                        unit: 'in',
+                        format: 'letter',
+                        orientation: 'portrait'
+                    }
+                };
+                html2pdf().from(invoice).set(opt).save();
+            })
+    }
+</script>
 </body>
 
 </html>
