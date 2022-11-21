@@ -68,7 +68,7 @@
 <body>
     @if ($jobcard)
         @if ($jobcard->status == 1)
-            <div class="container" id="content">
+            <div class="container" id="jobcardcontent">
                 <!-- <p class="text-center mt-2">Invoice</p> -->
                 <center><button style="border:none;" onclick="window.print()">Print</button>
                     <button class="btn btn-primary" id="download">Download</button>
@@ -215,7 +215,7 @@
     window.onload = function() {
         document.getElementById("download")
             .addEventListener("click", () => {
-                const invoice = this.document.getElementById("content");
+                const invoice = this.document.getElementById("jobcardcontent");
                 console.log(invoice);
                 console.log(window);
                 var opt = {
