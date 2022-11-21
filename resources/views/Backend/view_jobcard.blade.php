@@ -68,7 +68,7 @@
 <body>
     @if ($jobcard)
         @if ($jobcard->status == 1)
-            <div class="container content">
+            <div class="container" id="content">
                 <!-- <p class="text-center mt-2">Invoice</p> -->
                 <center><button style="border:none;" onclick="window.print()">Print</button>
                     <button class="btn btn-primary" id="download">Download</button>
