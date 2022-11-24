@@ -264,9 +264,9 @@
 
                 <div class="col-4 ">
                     <b>Account Number</b>
-                    <p>88754545122145</p>
+                    <p>31870200000500</p>
                     <b>IFSC</b>
-                    <p>SBIN0023</p>
+                    <p>BARB0LDALUC</p>
 
                 </div>
                 <div class="col-4">
