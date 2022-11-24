@@ -168,8 +168,8 @@
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $sd->service_charge->name ?? '' }}</td>
-                                <td>{{ $order->order_details[0]->modelmapservice->discounted_price ?? '' }}</td>
-                                <td>{{ $order->order_details[0]->modelmapservice->discounted_price ?? '' }}</td>
+                                <td>{{ App\Models\Service::getServicePriceById($sd->service_charge->id, $order->order_details[0]->model->id )[0] }}</td>
+                                <td>{{ App\Models\Service::getServicePriceById($sd->service_charge->id, $order->order_details[0]->model->id )[0] }}</td>
                             </tr>
                         @endif
                     @endforeach
