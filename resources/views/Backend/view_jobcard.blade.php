@@ -66,12 +66,11 @@
 </head>
 
 <body>
-
     @if ($jobcard)
         @if ($jobcard->status == 1)
-        <center><button style="border:none;" onclick="window.print()">Print</button>
-            <button class="btn btn-primary" id="download" style="background-color: #f1c26c;color:white;">Download</button>
-        </center><br>
+            <center><button style="border:none;" onclick="window.print()">Print</button>
+                <button class="btn btn-primary" id="download" style="background-color: #f1c26c;color:white;">Download</button>
+            </center><br>
             <div class="container" id="jobcardcontent">
                 <!-- <p class="text-center mt-2">Invoice</p> -->
                 <div class="container">
