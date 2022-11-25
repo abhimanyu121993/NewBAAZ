@@ -162,7 +162,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Price</th>
-                        <th>Quantity</th>
+                        {{-- <th>Quantity</th> --}}
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -172,13 +172,13 @@
                             <tr>
                                 <td>{{ $sd->labour_charge->name ?? '' }}</td>
                                 <td id="labour_charge">{{ $sd->amount ?? '' }}</td>
-                                <td>
+                                {{-- <td>
 
                                     <button type="button" id="sub" class="sub btn-sm btn-primary">-</button>
                                     <input type="number" id="labourQuantity" class="" value="1" min="1" max="3" />
                                     <button type="button" id="add" class="add btn-sm btn-primary">+</button>
 
-                                </td>
+                                </td> --}}
                                 @php $sid = Crypt::encrypt($sd->id); @endphp
                                 <td><a href="{{ route('Backend.delService', $sid) }}" class="btn btn-danger"><i
                                             data-feather="trash-2"></i></a></td>
