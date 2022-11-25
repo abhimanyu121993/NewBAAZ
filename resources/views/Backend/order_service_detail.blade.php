@@ -162,6 +162,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Price</th>
+                        <th>Quantity</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -170,7 +171,14 @@
                         @foreach ($serviceDetails->workshop_order_details->where('type', 'ServiceCharge') as $sd)
                             <tr>
                                 <td>{{ $sd->labour_charge->name ?? '' }}</td>
-                                <td>{{ $sd->amount ?? '' }}</td>
+                                <td id="labour_charge">{{ $sd->amount ?? '' }}</td>
+                                <td>
+
+                                    <button type="button" id="sub" class="sub btn-sm btn-primary">-</button>
+                                    <input type="number" id="labourQuantity" class="" value="1" min="1" max="3" />
+                                    <button type="button" id="add" class="add btn-sm btn-primary">+</button>
+
+                                </td>
                                 @php $sid = Crypt::encrypt($sd->id); @endphp
                                 <td><a href="{{ route('Backend.delService', $sid) }}" class="btn btn-danger"><i
                                             data-feather="trash-2"></i></a></td>
@@ -202,7 +210,7 @@
                         @foreach ($serviceDetails->workshop_order_details->where('type', 'OtherProduct') as $sd)
                             <tr>
                                 <td>{{ $sd->spare_charge->name ?? '' }}</td>
-                                <td>{{ $sd->amount ?? '' }}</td>
+                                <td id="spare_charge">{{ $sd->amount ?? '' }}</td>
                                 @php $sid = Crypt::encrypt($sd->id); @endphp
                                 <td><a href="{{ route('Backend.delService', $sid) }}" class="btn btn-danger"><i
                                             data-feather="trash-2"></i></a></td>
@@ -249,4 +257,19 @@
     <script src="{{ asset('Backend/assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
     <script src="{{ asset('BackEnd/assets/vendors/js/forms/select/select2.full.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/js/scripts/forms/form-select2.js') }}"></script>
+    {{-- <script>
+        $('.add').click(function () {
+		if ($(this).prev().val() < 3) {
+    	$(this).prev().val(+$(this).prev().val() + 1);
+        var labourCharge = $('#labour_charge').html();
+        var labourQuantity = $('#labourQuantity').val();
+
+		}
+        });
+        $('.sub').click(function () {
+                if ($(this).next().val() > 1) {
+                if ($(this).next().val() > 1) $(this).next().val(+$(this).next().val() - 1);
+                }
+        });
+    </script> --}}
 @endsection
