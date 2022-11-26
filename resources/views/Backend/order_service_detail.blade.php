@@ -67,6 +67,15 @@
                                         placeholder="Labour Charge" required />
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12 mb-1">
+                                <label class="form-label" for="basic-addon-name">Labour Quantity</label>
+                                <br/>
+                                <button type="button" id="sub" class="sub btn-sm btn-info">-</button>
+                                <input type="number" name="labour_quantity" value="1" min="1" max="100" />
+                                <button type="button" id="add" class="add btn-sm btn-info">+</button>
+                            </div>
+                        </div>
 
                         <div class="row">
                             <div class="col-sm-2">
@@ -105,6 +114,15 @@
 
                                 <input type="text" id="basic-addon-name" name='spare_price' class="form-control"
                                         placeholder="Spare Charge" required />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mb-1">
+                                <label class="form-label" for="basic-addon-name">Spare Quantity</label>
+                                <br/>
+                                <button type="button" id="sub" class="sub btn-sm btn-info">-</button>
+                                <input type="number" name="spare_quantity" value="1" min="1" max="100" />
+                                <button type="button" id="add" class="add btn-sm btn-info">+</button>
                             </div>
                         </div>
                         <div class="row">
@@ -162,7 +180,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Price</th>
-                        {{-- <th>Quantity</th> --}}
+                        <th>Quantity</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -172,13 +190,7 @@
                             <tr>
                                 <td>{{ $sd->labour_charge->name ?? '' }}</td>
                                 <td id="labour_charge">{{ $sd->amount ?? '' }}</td>
-                                {{-- <td>
-
-                                    <button type="button" id="sub" class="sub btn-sm btn-primary">-</button>
-                                    <input type="number" id="labourQuantity" class="" value="1" min="1" max="3" />
-                                    <button type="button" id="add" class="add btn-sm btn-primary">+</button>
-
-                                </td> --}}
+                                <td> {{ $sd->quantity }} </td>
                                 @php $sid = Crypt::encrypt($sd->id); @endphp
                                 <td><a href="{{ route('Backend.delService', $sid) }}" class="btn btn-danger"><i
                                             data-feather="trash-2"></i></a></td>
@@ -202,6 +214,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Price</th>
+                        <th>Quantity</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -211,6 +224,7 @@
                             <tr>
                                 <td>{{ $sd->spare_charge->name ?? '' }}</td>
                                 <td id="spare_charge">{{ $sd->amount ?? '' }}</td>
+                                <td> {{ $sd->quantity }} </td>
                                 @php $sid = Crypt::encrypt($sd->id); @endphp
                                 <td><a href="{{ route('Backend.delService', $sid) }}" class="btn btn-danger"><i
                                             data-feather="trash-2"></i></a></td>
@@ -257,12 +271,10 @@
     <script src="{{ asset('Backend/assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
     <script src="{{ asset('BackEnd/assets/vendors/js/forms/select/select2.full.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/js/scripts/forms/form-select2.js') }}"></script>
-    {{-- <script>
+    <script>
         $('.add').click(function () {
-		if ($(this).prev().val() < 3) {
+		if ($(this).prev().val() < 100) {
     	$(this).prev().val(+$(this).prev().val() + 1);
-        var labourCharge = $('#labour_charge').html();
-        var labourQuantity = $('#labourQuantity').val();
 
 		}
         });
@@ -271,5 +283,5 @@
                 if ($(this).next().val() > 1) $(this).next().val(+$(this).next().val() - 1);
                 }
         });
-    </script> --}}
+    </script>
 @endsection

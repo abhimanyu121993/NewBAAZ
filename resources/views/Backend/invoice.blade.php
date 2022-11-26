@@ -199,7 +199,7 @@
                             <tr>
                                 <td>{{ $loop->index+1 }}</td>
                                 <td>{{ $sd->labour_charge->name ?? '' }}</td>
-                                <td>1</td>
+                                <td>{{ $sd->quantity ?? 1 }}</td>
                                 <td>{{ $sd->amount ?? '' }}</td>
                             </tr>
                         @endforeach
@@ -228,7 +228,7 @@
                             <tr>
                                 <td>{{ $loop->index+1 }}</td>
                                 <td>{{ $sd->spare_charge->name ?? '' }}</td>
-                                <td>1</td>
+                                <td>{{ $sd->quantity ?? 1 }}</td>
                                 <td>{{ $sd->amount ?? '' }}</td>
                             </tr>
                         @endforeach
