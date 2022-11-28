@@ -248,6 +248,12 @@
                     <div class="col"><br>
 
                         {{-- <div class="d-flex"><b>DISCOUNT</b>&nbsp;&nbsp;&nbsp;<p>&#8377 39</p><br></div> --}}
+                        <div class="d-flex">
+                            <span>CGST (9%) -</span>&nbsp;&nbsp;<p>&#8377 {{ isset($order->workshop_order->total_amount)?floor((($order->workshop_order->total_amount*18)/100)/2) : 0 }}</p>
+                        </div>
+                        <div class="d-flex">
+                            <span>SGST (9%) -</span>&nbsp;&nbsp;<p>&#8377 {{ isset($order->workshop_order->total_amount)?floor((($order->workshop_order->total_amount*18)/100)/2) : 0 }}</p>
+                        </div>
                         <div class="d-flex"><b>Total Amount </b>&nbsp;&nbsp;<p>&#8377
                                 {{ isset($order->workshop_order->total_amount) ? $order->workshop_order->total_amount : 0 }}
                             </p>
