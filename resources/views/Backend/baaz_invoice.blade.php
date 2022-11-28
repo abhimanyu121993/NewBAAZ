@@ -251,6 +251,7 @@
                         <div class="d-flex">
                             <span>CGST (9%) -</span>&nbsp;&nbsp;<p>&#8377 {{ isset($order->workshop_order->total_amount)?floor((($order->workshop_order->total_amount*18)/100)/2) : 0 }}</p>
                         </div>
+
                         <div class="d-flex">
                             <span>SGST (9%) -</span>&nbsp;&nbsp;<p>&#8377 {{ isset($order->workshop_order->total_amount)?floor((($order->workshop_order->total_amount*18)/100)/2) : 0 }}</p>
                         </div>
