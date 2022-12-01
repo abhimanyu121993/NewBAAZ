@@ -82,7 +82,7 @@
                             <td>{{$Notif->title}}</td>
                             <td>{{$Notif->body}}</td>
                             <td><img  class="image" src="/upload/Notification_image/{{$Notif->image}}"></td>
-                            {{ asset('/upload/Notification_image')/$Notif->image }}
+                            {{ asset('/upload/Notification_image/').$Notif->image }}
                             <td>
                                 <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
                                     <div class="mb-1 breadcrumb-right">
