@@ -45,5 +45,16 @@ class Service extends Model
         ->get();
     }
 
+    static public function getServicePriceById($service_id, $model_id)
+    {
+        return DB::table('categories as c')
+        ->join('services as s', 's.cid', 'c.id')
+        ->join('model_service_maps as msm', 'msm.service_id', 's.id')
+        ->join('brand_models as bm', 'bm.id', 'msm.model_id')
+        ->where('msm.service_id', $service_id)
+        ->where('msm.model_id', $model_id)
+        ->pluck('msm.discounted_price');
+    }
+
 
 }

@@ -61,26 +61,34 @@ class WorkshopOrderController extends Controller
 
     public function addWorkshopLabour(Request $request)
     {
-        Log::info('addworkshoplabour'.json_encode($request->all()));
+        // Log::info('addworkshoplabour'.json_encode($request->all()));
+        // dd($request->all());
+        $request->validate([
+            'labour_id' => 'required',
+            'labour_price' => 'required',
+            'labour_quantity' => 'required'
+        ]);
+
         $workshopOrder = WorkshopOrder::updateOrCreate(['order_id' => $request->order_id],[
             'order_no' => $request->order_no,
             'workshop_id' => $request->workshop_id,
-            'total_amount' => (WorkshopOrder::where('order_id', $request->order_id)->first()->total_amount ?? 0) + ($request->labour_price ?? 0)
+            'total_amount' => (WorkshopOrder::where('order_id', $request->order_id)->first()->total_amount ?? 0) + (($request->labour_price * $request->labour_quantity) ?? 0)
         ]);
         if($workshopOrder){
             $workshopOrderDetail = WorkshopOrderDetail::create([
                 'workshop_order_id' => $workshopOrder->id,
                 'type' => $request->service_type,
                 'value' => $request->labour_id,
-                'amount' => $request->labour_price ?? 0
+                'quantity' => $request->labour_quantity,
+                'amount' => (($request->labour_price * $request->labour_quantity) ?? 0)
             ]);
             if($workshopOrderDetail)
             {
-                session()->flash('success','Service added Sucessfully');
+                session()->flash('success','Labour Charge added Sucessfully');
             }
             else
             {
-                session()->flash('error','Service not added ');
+                session()->flash('error','Labour Charge not added ');
             }
         }
         return redirect()->back();
@@ -88,26 +96,33 @@ class WorkshopOrderController extends Controller
 
     public function addWorkshopSpare(Request $request)
     {
-        Log::info('addworkshoporder'.json_encode($request->all()));
+        // Log::info('addworkshoporder'.json_encode($request->all()));
+        $request->validate([
+            'spare_id' => 'required',
+            'spare_price' => 'required',
+            'spare_quantity' => 'required'
+        ]);
+
         $workshopOrder = WorkshopOrder::updateOrCreate(['order_id' => $request->order_id],[
             'order_no' => $request->order_no,
             'workshop_id' => $request->workshop_id,
-            'total_amount' => (WorkshopOrder::where('order_id', $request->order_id)->first()->total_amount ?? 0) + ($request->spare_price ?? 0)
+            'total_amount' => (WorkshopOrder::where('order_id', $request->order_id)->first()->total_amount ?? 0) + (($request->spare_price * $request->spare_quantity) ?? 0)
         ]);
         if($workshopOrder){
             $workshopOrderDetail = WorkshopOrderDetail::create([
                 'workshop_order_id' => $workshopOrder->id,
                 'type' => $request->service_type,
                 'value' => $request->spare_id,
-                'amount' => $request->spare_price ?? 0
+                'quantity' => $request->spare_quantity,
+                'amount' => (($request->spare_price * $request->spare_quantity) ?? 0)
             ]);
             if($workshopOrderDetail)
             {
-                session()->flash('success','Service added Sucessfully');
+                session()->flash('success','Spare charge added Sucessfully');
             }
             else
             {
-                session()->flash('error','Service not added ');
+                session()->flash('error','Spare charge not added ');
             }
         }
         return redirect()->back();

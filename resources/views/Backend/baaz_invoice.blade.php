@@ -168,8 +168,8 @@
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $sd->service_charge->name ?? '' }}</td>
-                                <td>{{ $order->order_details[0]->modelmapservice->discounted_price ?? '' }}</td>
-                                <td>{{ $order->order_details[0]->modelmapservice->discounted_price ?? '' }}</td>
+                                <td>{{ App\Models\Service::getServicePriceById($sd->service_charge->id, $order->order_details[0]->model->id )[0] }}</td>
+                                <td>{{ App\Models\Service::getServicePriceById($sd->service_charge->id, $order->order_details[0]->model->id )[0] }}</td>
                             </tr>
                         @endif
                     @endforeach
@@ -199,7 +199,7 @@
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
                             <td>{{ $sd->labour_charge->name ?? '' }}</td>
-                            <td>1</td>
+                            <td>{{ $sd->quantity ?? 1 }}</td>
                             <td>{{ $sd->amount ?? '' }}</td>
                         </tr>
                     @endforeach
@@ -228,7 +228,7 @@
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
                             <td>{{ $sd->spare_charge->name ?? '' }}</td>
-                            <td>1</td>
+                            <td>{{ $sd->quantity ?? 1 }}</td>
                             <td>{{ $sd->amount ?? '' }}</td>
                         </tr>
                     @endforeach
@@ -248,6 +248,13 @@
                     <div class="col"><br>
 
                         {{-- <div class="d-flex"><b>DISCOUNT</b>&nbsp;&nbsp;&nbsp;<p>&#8377 39</p><br></div> --}}
+                        <div class="d-flex">
+                            <span>CGST (9%) -</span>&nbsp;&nbsp;<p>&#8377 {{ isset($order->workshop_order->total_amount)?floor((($order->workshop_order->total_amount*18)/100)/2) : 0 }}</p>
+                        </div>
+
+                        <div class="d-flex">
+                            <span>SGST (9%) -</span>&nbsp;&nbsp;<p>&#8377 {{ isset($order->workshop_order->total_amount)?floor((($order->workshop_order->total_amount*18)/100)/2) : 0 }}</p>
+                        </div>
                         <div class="d-flex"><b>Total Amount </b>&nbsp;&nbsp;<p>&#8377
                                 {{ isset($order->workshop_order->total_amount) ? $order->workshop_order->total_amount : 0 }}
                             </p>
@@ -264,9 +271,9 @@
 
                 <div class="col-4 ">
                     <b>Account Number</b>
-                    <p>88754545122145</p>
+                    <p>31870200000500</p>
                     <b>IFSC</b>
-                    <p>SBIN0023</p>
+                    <p>BARB0LDALUC</p>
 
                 </div>
                 <div class="col-4">

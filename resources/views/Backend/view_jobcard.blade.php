@@ -68,12 +68,21 @@
 <body>
     @if ($jobcard)
         @if ($jobcard->status == 1)
-            <div class="container">
+            <center><button style="border:none;" onclick="window.print()">Print</button>
+                <button class="btn btn-primary" id="download" style="background-color: #f1c26c;color:white;">Download</button>
+            </center><br>
+            <div class="container" id="jobcardcontent">
                 <!-- <p class="text-center mt-2">Invoice</p> -->
-                <center><button style="border:none;" onclick="window.print()">Print</button></center><br>
-
                 <div class="container">
-                    <h2 style="text-align:center; margin-top: 12px;">BAAZ JOBCARD</h2>
+                    <div class="row">
+                        <div class="col text-center">
+                            <img src="{{ asset('upload/bazz_logo.png') }}" height="100" width="200"/>
+                            <h4 style="text-align:center; margin-top: 12px;">BAAZ JOBCARD</h4>
+                        </div>
+                        <div class="col">
+                            <img src="{{ asset('Backend/assets/images/vector_car.png') }}" height="200" width="500"/>
+                        </div>
+                    </div>
                     <br />
                     <div class="row text-center">
                         <div class="col">
@@ -200,7 +209,30 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
     </script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+<script>
+    window.onload = function() {
+        document.getElementById("download")
+            .addEventListener("click", () => {
+                const invoice = this.document.getElementById("jobcardcontent");
+                console.log(invoice);
+                console.log(window);
+                var opt = {
+                    filename: 'baaz_jobcard.pdf',
+                    image: {
+                        type: 'jpeg',
+                        quality: 0.98
+                    },
+                    jsPDF: {
+                        unit: 'in',
+                        format: 'letter',
+                        orientation: 'portrait'
+                    }
+                };
+                html2pdf().from(invoice).set(opt).save();
+            })
+    }
+</script>
 </body>
 
 </html>

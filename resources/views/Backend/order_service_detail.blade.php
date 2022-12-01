@@ -67,6 +67,15 @@
                                         placeholder="Labour Charge" required />
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12 mb-1">
+                                <label class="form-label" for="basic-addon-name">Labour Quantity</label>
+                                <br/>
+                                <button type="button" id="sub" class="sub btn-sm btn-info">-</button>
+                                <input type="number" name="labour_quantity" value="1" min="1" max="100" />
+                                <button type="button" id="add" class="add btn-sm btn-info">+</button>
+                            </div>
+                        </div>
 
                         <div class="row">
                             <div class="col-sm-2">
@@ -108,6 +117,15 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-md-12 mb-1">
+                                <label class="form-label" for="basic-addon-name">Spare Quantity</label>
+                                <br/>
+                                <button type="button" id="sub" class="sub btn-sm btn-info">-</button>
+                                <input type="number" name="spare_quantity" value="1" min="1" max="100" />
+                                <button type="button" id="add" class="add btn-sm btn-info">+</button>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-sm-2">
                                 <button type="submit"
                                     class="btn btn-primary waves-effect waves-float waves-light">Add</button>
@@ -137,7 +155,7 @@
                             @if ($sd->type == 'Service')
                                 <tr>
                                     <td>{{ $sd->service_charge->name ?? '' }}</td>
-                                    <td>{{ $order->order_details[0]->modelmapservice->discounted_price ?? '' }}</td>
+                                    <td>{{ App\Models\Service::getServicePriceById($sd->service_charge->id, $order->order_details[0]->model_id)[0] }}</td>
                                     @php $sid = Crypt::encrypt($sd->id); @endphp
                                     <td><a href="{{ route('Backend.delService', $sid) }}" class="btn btn-danger"><i
                                                 data-feather="trash-2"></i></a></td>
@@ -162,6 +180,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Price</th>
+                        <th>Quantity</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -170,7 +189,8 @@
                         @foreach ($serviceDetails->workshop_order_details->where('type', 'ServiceCharge') as $sd)
                             <tr>
                                 <td>{{ $sd->labour_charge->name ?? '' }}</td>
-                                <td>{{ $sd->amount ?? '' }}</td>
+                                <td id="labour_charge">{{ $sd->amount ?? '' }}</td>
+                                <td> {{ $sd->quantity }} </td>
                                 @php $sid = Crypt::encrypt($sd->id); @endphp
                                 <td><a href="{{ route('Backend.delService', $sid) }}" class="btn btn-danger"><i
                                             data-feather="trash-2"></i></a></td>
@@ -194,6 +214,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Price</th>
+                        <th>Quantity</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -202,7 +223,8 @@
                         @foreach ($serviceDetails->workshop_order_details->where('type', 'OtherProduct') as $sd)
                             <tr>
                                 <td>{{ $sd->spare_charge->name ?? '' }}</td>
-                                <td>{{ $sd->amount ?? '' }}</td>
+                                <td id="spare_charge">{{ $sd->amount ?? '' }}</td>
+                                <td> {{ $sd->quantity }} </td>
                                 @php $sid = Crypt::encrypt($sd->id); @endphp
                                 <td><a href="{{ route('Backend.delService', $sid) }}" class="btn btn-danger"><i
                                             data-feather="trash-2"></i></a></td>
@@ -249,4 +271,17 @@
     <script src="{{ asset('Backend/assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
     <script src="{{ asset('BackEnd/assets/vendors/js/forms/select/select2.full.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/js/scripts/forms/form-select2.js') }}"></script>
+    <script>
+        $('.add').click(function () {
+		if ($(this).prev().val() < 100) {
+    	$(this).prev().val(+$(this).prev().val() + 1);
+
+		}
+        });
+        $('.sub').click(function () {
+                if ($(this).next().val() > 1) {
+                if ($(this).next().val() > 1) $(this).next().val(+$(this).next().val() - 1);
+                }
+        });
+    </script>
 @endsection

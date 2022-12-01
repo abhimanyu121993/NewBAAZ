@@ -55,7 +55,7 @@
                                                 <td>{{ $order->user->name ?? 'BAAZ Customer' }}</td>
                                                 <td>{{ $order->order_details[0]->model->name ?? ''}}</td>
                                                 <td>{{ $order->user->mobileno ?? ''}}</td>
-                                                <td><a href="{{ route('Backend.jobcard.show', $order->order_details[0]->id) }}">View Jobcard</a></td>
+                                                <td><a href="{{ route('Backend.jobcard.show', $order->id) }}">View Jobcard</a></td>
                                                 <td><a href="{{ route('Backend.invoice', $order->id) }}" target="_blank">View Invoice</a></td>
                                                 <td><a href="{{ route('Backend.baazInvoice', $order->id) }}" target="_blank">View Baaz Invoice</a></td>
                                                 <td>{{ $order->order_status_detail->name ?? '' }}</td>

@@ -16,6 +16,7 @@
                     Update Jobcard
                 @endif
             </h3>
+            <a href="{{ route('Backend.jobcard.show',$oid) }}" class="btn btn-primary pull-right">View Jobcard</a>
         </div>
         <div class="card-body">
             <form class="needs-validation"

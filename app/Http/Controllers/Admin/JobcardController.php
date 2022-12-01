@@ -100,8 +100,8 @@ class JobcardController extends Controller
      */
     public function show($id)
     {
-        // dd($id);
         $jobcard = Jobcard::where('order_id',$id)->first();
+        // dd($jobcard);
         return view('Backend.view_jobcard', compact('jobcard'));
     }
 
