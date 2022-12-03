@@ -8,32 +8,30 @@
 @endsection
 
 @section('Content-Area')
-    @can('Battery_type_create')
+    @can('Footer_slider_create')
         <div class="card">
             <div class="card-header">
                 <h3>
-                    @if (!isset($batteryedit))
-                        Add New Battery Type
+                    @if (!isset($footerslideredit))
+                        Add New Footer Slider
                     @else
-                        Update Battery Type
+                        Edit Footer Slider
                     @endif
                 </h3>
             </div>
             <div class="card-body">
                 <form class="needs-validation"
-                    action="{{ isset($batteryedit) ? route('Backend.batterytype.update', $batteryedit->id) : route('Backend.batterytype.store') }}"
+                    action="{{ isset($footerslideredit) ? route('Backend.slider.update', $footerslideredit->id) : route('Backend.slider.store') }}"
                     method='post' enctype="multipart/form-data">
-                    @if (isset($batteryedit))
+                    @if (isset($footerslideredit))
                         @method('patch')
                     @endif
                     @csrf
                     <div class="row">
                         <div class="col-md-6 mb-1">
-                            <label class="form-label" for="basic-addon-name">Battery Type Name</label>
-
-                            <input type="text" id="basic-addon-name" name='name' class="form-control"
-                                value="{{ isset($batteryedit) ? $batteryedit->name : '' }}" placeholder="Battery Type Name"
-                                aria-label="Name" aria-describedby="basic-addon-name" required />
+                            <label class="form-label" for="desc">Title</label>
+                            <input type="text" name="title" class="form-control"
+                                value="{{ isset($footerslideredit) ? $footerslideredit->title : '' }}">
                         </div>
                         <div class="col-md-6 mb-1">
                             <label class="form-label" for="pic">Image Thumbnail</label>
@@ -44,11 +42,11 @@
                     <div class="row">
                         <div class="col-sm-2">
                             <button type="submit"
-                                class="btn btn-primary waves-effect waves-float waves-light">{{ isset($batteryedit) ? 'Update' : 'Add' }}</button>
+                                class="btn btn-primary waves-effect waves-float waves-light">{{ isset($footerslideredit) ? 'Update' : 'Add' }}</button>
                         </div>
-                        @if (isset($batteryedit))
+                        @if (isset($footerslideredit))
                             <div class="col-sm-6">
-                                <img src="{{ asset($batteryedit->image) }}" class="bg-light-info" alt=""
+                                <img src="{{ asset($footerslideredit->image) }}" class="bg-light-info" alt=""
                                     style="height:100px;width:200px;">
                             </div>
                         @endif
@@ -59,34 +57,35 @@
         </div>
     @endcan
 
-    @can('Battery_type_read')
+    @can('Footer_slider_read')
         <div class="card">
             <div class="card-header">
-                <h3>Manage Battery Type</h3>
+                <h3>Manage Footer Sliders</h3>
             </div>
             <div class="card-body">
-                {{-- <table class="datatables-basic table datatable table-responsive"> --}}
-
-                <table class="display nowrap" id="battertype" style="width:100% !important;">
+                <table class="display nowrap" id="Footerslider" style="width:100% !important;">
                     <thead>
                         <tr>
                             <th>Sr.No</th>
-                            <th>Name</th>
                             <th>Image</th>
-                            @canany(['Battery_type_edit', 'Battery_type_delete'])
+                            <th>Title</th>
+                            @canany(['Footer_slider_edit', 'Footer_slider_delete'])
                                 <th>Action</th>
                             @endcan
                         </tr>
+
                     </thead>
                     <tbody>
-                        @foreach ($batterytypes as $battery)
+                        @php $i=1;@endphp
+                        @foreach ($footersliders as $footersliders)
                             <tr>
-                                <td>{{ $loop->index + 1 }}</td>
-                                <td>{{ $battery->name }}</td>
-                                <td><img src="{{ asset($battery->image) }}" class="me-75 bg-light-danger"
+                                <td>{{ $i++ }}</td>
+                                <td>
+                                    <img src="{{ asset($footersliders->image) }}" class="me-75 bg-light-danger"
                                         style="height:60px;width:150px;" />
                                 </td>
-                                @canany(['Battery_type_edit', 'Battery_type_delete'])
+                                <td>{{ $footersliders->title ?? '' }}</td>
+                                @canany(['Footer_slider_edit', 'Footer_slider_delete'])
                                     <td>
                                         <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
                                             <div class="mb-1 breadcrumb-right">
@@ -95,23 +94,20 @@
                                                         type="button" data-bs-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false"><i data-feather="grid"></i></button>
                                                     <div class="dropdown-menu dropdown-menu-end">
-                                                        @php $bid=Crypt::encrypt($battery->id); @endphp
-                                                        @can('Battery_type_edit')
-                                                            <a class="dropdown-item"
-                                                                href="{{ route('Backend.batterytype.edit', $bid) }}"><i class="me-1"
-                                                                    data-feather="check-square"></i><span
+                                                        @php $sid=Crypt::encrypt($footersliders->id); @endphp
+                                                        @can('Footer_slider_edit')
+                                                            <a class="dropdown-item" href="{{ route('Backend.slider.edit', $sid) }}"><i
+                                                                    class="me-1" data-feather="check-square"></i><span
                                                                     class="align-middle">Edit</span>
                                                             </a>
                                                         @endcan
-
-                                                        @can('Battery_type_delete')
+                                                        @can('Footer_slider_delete')
                                                             <a class="dropdown-item" href=""
-                                                                onclick="event.preventDefault();document.getElementById('delete-form-{{ $bid }}').submit();"><i
+                                                                onclick="event.preventDefault();document.getElementById('delete-form-{{ $sid }}').submit();"><i
                                                                     class="me-1" data-feather="message-square"></i><span
                                                                     class="align-middle">Delete</span>
                                                             </a>
                                                         @endcan
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -119,10 +115,9 @@
                                     </td>
                                 @endcan
                             </tr>
-                            @can('Battery_type_delete')
-                                <form id="delete-form-{{ $bid }}"
-                                    action="{{ route('Backend.batterytype.destroy', $bid) }}" method="post"
-                                    style="display: none;">
+                            @can('Footer_slider_delete')
+                                <form id="delete-form-{{ $sid }}" action="{{ route('Backend.slider.destroy', $sid) }}"
+                                    method="post" style="display: none;">
                                     @method('DELETE')
                                     @csrf
                                 </form>
@@ -134,21 +129,13 @@
             </div>
         </div>
     @endcan
-
 @endsection
 
 
 @section('Script-Area')
-    {{-- <script src="{{asset('BackEnd/assets/js/scripts/forms/form-validation.js')}}"></script> --}}
-    {{-- <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/responsive.bootstrap5.js') }}"></script>
-    <script src="{{ asset('Backend/assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script> --}}
-
     <script>
         $(document).ready(function() {
-            $('#battertype').DataTable({
+            $('#Footerslider').DataTable({
                 dom: 'Bfrtip',
                 buttons: [{
                         extend: 'copyHtml5',
@@ -159,13 +146,13 @@
                     {
                         extend: 'excelHtml5',
                         exportOptions: {
-                            columns: [0, 1]
+                            columns: [0, 2]
                         }
                     },
                     {
                         extend: 'pdfHtml5',
                         exportOptions: {
-                            columns: [0, 1]
+                            columns: [0, 2]
                         }
                     },
                     'colvis'

@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('BackEnd/assets/vendors/css/forms/select/select2.min.css') }}">
     <link rel="stylesheet" type="text/css"
         href="{{ asset('Backend/assets/vendors/css/tables/datatable/datatables.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
     <style>
         .ck-editor__editable_inline {
 
@@ -103,7 +105,8 @@
                             <div class="card-body card-dashboard">
 
                                 <div class="table-responsive">
-                                    <table class="table zero-configuration">
+                                    {{-- <table class="table zero-configuration"> --}}
+                                    <table class="display nowrap" id="serv" style="width:100% !important;">
                                         <thead>
                                             <tr>
                                                 <th>Sr.No</th>
@@ -201,16 +204,16 @@
             });
     </script>
     {{-- <script src="{{asset('BackEnd/assets/js/scripts/forms/form-validation.js')}}"></script> --}}
-    <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/jquery.dataTables.min.js') }}"></script>
+    {{-- <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/responsive.bootstrap5.js') }}"></script>
-    <script src="{{ asset('Backend/assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
+    <script src="{{ asset('Backend/assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script> --}}
     {{-- <script src="{{asset('BackEnd/assets/vendors/js/forms/select/select2.full.min.js')}}"></script> --}}
-    <script src="{{ asset('Backend/assets/js/scripts/forms/form-select2.js') }}"></script>
+    {{-- <script src="{{ asset('Backend/assets/js/scripts/forms/form-select2.js') }}"></script> --}}
 
 
-    <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/pdfmake.min.js') }}"></script>
+    {{-- <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/pdfmake.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/vfs_fonts.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/datatables.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/datatables.buttons.min.js') }}"></script>
@@ -218,5 +221,33 @@
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/buttons.print.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/buttons.bootstrap.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('Backend/assets/js/scripts/datatables/datatable.js') }}"></script>
+    <script src="{{ asset('Backend/assets/js/scripts/datatables/datatable.js') }}"></script> --}}
+
+    <script>
+        $(document).ready(function() {
+            $('#serv').DataTable({
+                dom: 'Bfrtip',
+                buttons: [{
+                        extend: 'copyHtml5',
+                        exportOptions: {
+                            columns: [0, ':visible']
+                        }
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        }
+                    },
+                    'colvis'
+                ]
+            });
+        });
+    </script>
 @endsection

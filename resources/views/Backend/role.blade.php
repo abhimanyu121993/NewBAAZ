@@ -29,8 +29,8 @@
                         <label class="form-label" for="basic-addon-name">Role Name</label>
 
                         <input type="text" id="basic-addon-name" name='name' class="form-control"
-                            value="{{ isset($editrole) ? $editrole->name : '' }}" placeholder="Role Name"
-                            aria-label="Name" aria-describedby="basic-addon-name" required />
+                            value="{{ isset($editrole) ? $editrole->name : '' }}" placeholder="Role Name" aria-label="Name"
+                            aria-describedby="basic-addon-name" required />
                     </div>
                 </div>
                 <div class="row">
@@ -50,6 +50,7 @@
         </div>
         <div class="card-body">
             <table class="datatables-basic table datatable table-responsive">
+
                 <thead>
                     <tr>
                         <th>Sr.No</th>
@@ -77,10 +78,10 @@
                                                 <a class="dropdown-item" href="{{ route('Backend.role.edit', $rid) }}"><i
                                                         class="me-1" data-feather="check-square"></i><span
                                                         class="align-middle">Edit</span></a>
-                                                        <a class="dropdown-item" href=""
-                                                        onclick="event.preventDefault();document.getElementById('delete-form-{{ $rid }}').submit();"><i
-                                                            class="me-1" data-feather="message-square"></i><span
-                                                            class="align-middle">Delete</span></a>
+                                                <a class="dropdown-item" href=""
+                                                    onclick="event.preventDefault();document.getElementById('delete-form-{{ $rid }}').submit();"><i
+                                                        class="me-1" data-feather="message-square"></i><span
+                                                        class="align-middle">Delete</span></a>
                                             </div>
                                         </div>
                                     </div>
@@ -98,7 +99,6 @@
             </table>
         </div>
     </div>
-
 @endsection
 
 

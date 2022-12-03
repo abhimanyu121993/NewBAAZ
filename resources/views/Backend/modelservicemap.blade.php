@@ -204,91 +204,90 @@
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
 
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">{{ $mm->service->name ?? '' }}</h5>
-             
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="Car_Edit_Modal">
-                    <form class="needs-validation"
-                    method='Post' id="update_model">
-                    @csrf
-                    <input type="hidden" id="edit_model_id">
-                 
-                  
-                    <div class="row">
-                        <div class="col-md-6 mb-1">
-                            <label class="form-label" for="basic-addon-name">Price</label>
-        
-                            <input type="number"  name='price'  id="Price" class="form-control"
-                                placeholder="Name"
-                                aria-label="Name"  required />
-                        </div>
-                        <div class="col-md-6 mb-1">
-                            <label class="form-label" for="basic-addon-name">Percentage</label>
-        
-                            <input type="number"  name='percent' id="Percent" class="form-control"
-                               placeholder="Name"
-                                aria-label="Name"  required />
-                        </div>
-                        <div class="col-md-6 mb-1">
-                            <label class="form-label" for="body">Discount Price</label>
-                             <input type="number" name='discounted_price' id="Discounted_price" class="form-control" required /> 
-                        </div>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{ $mm->service->name ?? '' }}</h5>
+
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body" id="Car_Edit_Modal">
                         <form class="needs-validation" method='Post' id="update_model">
                             @csrf
                             <input type="hidden" id="edit_model_id">
 
+
                             <div class="row">
                                 <div class="col-md-6 mb-1">
                                     <label class="form-label" for="basic-addon-name">Price</label>
 
                                     <input type="number" name='price' id="Price" class="form-control"
-                                        placeholder="Price" aria-label="Name" required />
+                                        placeholder="Name" aria-label="Name" required />
                                 </div>
                                 <div class="col-md-6 mb-1">
                                     <label class="form-label" for="basic-addon-name">Percentage</label>
 
                                     <input type="number" name='percent' id="Percent" class="form-control"
-                                        placeholder="Percentage" aria-label="Name" required />
+                                        placeholder="Name" aria-label="Name" required />
                                 </div>
                                 <div class="col-md-6 mb-1">
                                     <label class="form-label" for="body">Discount Price</label>
-                                    <input type="number" name='discounted_price' id="Discounted_price"
-                                        placeholder="Discounted Price"class="form-control" required />
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12 mb-1 text-center">
-                                        <button type="submit" class="btn btn-primary waves-effect waves-float waves-light"
-                                            id="editmodelBtn">Update</button>
-                                    </div>
+                                    <input type="number" name='discounted_price' id="Discounted_price" class="form-control"
+                                        required />
                                 </div>
                             </div>
-                        </form>
+                            <div class="modal-body" id="Car_Edit_Modal">
+                                <form class="needs-validation" method='Post' id="update_model">
+                                    @csrf
+                                    <input type="hidden" id="edit_model_id">
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-1">
+                                            <label class="form-label" for="basic-addon-name">Price</label>
+
+                                            <input type="number" name='price' id="Price" class="form-control"
+                                                placeholder="Price" aria-label="Name" required />
+                                        </div>
+                                        <div class="col-md-6 mb-1">
+                                            <label class="form-label" for="basic-addon-name">Percentage</label>
+
+                                            <input type="number" name='percent' id="Percent" class="form-control"
+                                                placeholder="Percentage" aria-label="Name" required />
+                                        </div>
+                                        <div class="col-md-6 mb-1">
+                                            <label class="form-label" for="body">Discount Price</label>
+                                            <input type="number" name='discounted_price' id="Discounted_price"
+                                                placeholder="Discounted Price"class="form-control" required />
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 mb-1 text-center">
+                                                <button type="submit"
+                                                    class="btn btn-primary waves-effect waves-float waves-light"
+                                                    id="editmodelBtn">Update</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                     </div>
                 </div>
             </div>
-        </div>
-    @endcan
+        @endcan
 
-@endsection
-
-
-@section('Script-Area')
-    {{-- <script src="{{asset('BackEnd/assets/js/scripts/forms/form-validation.js')}}"></script> --}}
-    <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/responsive.bootstrap5.js') }}"></script>
-    <script src="{{ asset('Backend/assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
-    {{-- <script src="{{asset('BackEnd/assets/vendors/js/forms/select/select2.full.min.js')}}"></script> --}}
-    <script src="{{ asset('Backend/assets/js/scripts/forms/form-select2.js') }}"></script>
+    @endsection
 
 
-    {{-- <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/pdfmake.min.js') }}"></script>
+    @section('Script-Area')
+        {{-- <script src="{{asset('BackEnd/assets/js/scripts/forms/form-validation.js')}}"></script> --}}
+        <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js') }}"></script>
+        <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/responsive.bootstrap5.js') }}"></script>
+        <script src="{{ asset('Backend/assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
+        {{-- <script src="{{asset('BackEnd/assets/vendors/js/forms/select/select2.full.min.js')}}"></script> --}}
+        <script src="{{ asset('Backend/assets/js/scripts/forms/form-select2.js') }}"></script>
+
+
+        {{-- <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/pdfmake.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/vfs_fonts.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/datatables.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/datatables.buttons.min.js') }}"></script>
@@ -299,92 +298,92 @@
     <script src="{{ asset('Backend/assets/js/scripts/datatables/datatable.js') }}"></script> --}}
 
 
-    <script>
-        const priceInput = document.getElementById('Price');
-        const discounted_priceInput = document.getElementById('Discounted_price');
-        const percentInput = document.getElementById('Percent');
+        <script>
+            const priceInput = document.getElementById('Price');
+            const discounted_priceInput = document.getElementById('Discounted_price');
+            const percentInput = document.getElementById('Percent');
 
-        priceInput.addEventListener('change', updateValuePrice);
-        discounted_priceInput.addEventListener('change', updateValueDiscounted_price);
-        percentInput.addEventListener('change', updateValuePercent);
+            priceInput.addEventListener('change', updateValuePrice);
+            discounted_priceInput.addEventListener('change', updateValueDiscounted_price);
+            percentInput.addEventListener('change', updateValuePercent);
 
-        let price = priceInput.value
-        let discounted_price = discounted_priceInput.value
-        let percent = 0
+            let price = priceInput.value
+            let discounted_price = discounted_priceInput.value
+            let percent = 0
 
-        function updateValuePrice(e) {
-            price = e.target.value;
-            console.log(e.target.value)
-        }
+            function updateValuePrice(e) {
+                price = e.target.value;
+                console.log(e.target.value)
+            }
 
-        function updateValueDiscounted_price(e) {
-            discounted_price = e.target.value;
-            console.log(e.target.value)
+            function updateValueDiscounted_price(e) {
+                discounted_price = e.target.value;
+                console.log(e.target.value)
 
-        }
+            }
 
-        function updateValuePercent(e) {
-            price = priceInput.value;
-            percent = e.target.value;
-            discounted_priceInput.value = price - (price * percent / 100);
-        }
-    </script>
+            function updateValuePercent(e) {
+                price = priceInput.value;
+                percent = e.target.value;
+                discounted_priceInput.value = price - (price * percent / 100);
+            }
+        </script>
 
-    <script>
-        $(document).on("click", "#EditmodelBtn", function(e) {
-            e.preventDefault();
-            var edit_id = $(this).attr('data-id');
-            $("#exampleModal").modal("show");
-            $.ajax({
-                type: "GET",
-                url: '/Backend/edit-model/' + edit_id,
-                dataType: "json",
-                success: function(data) {
-                    if (data.status == 200) {
-                        $("#edit_model_id").val(edit_id);
-                        $("#Price").val(data.success.price);
-                        $("#Percent").val(data.success.percent);
-                        $("#Discounted_price").val(data.success.discounted_price);
-                        $("#exampleModalLabel").text('Model Name - ' + data.success.model.name);
-                    } else if (response.status == 200) {
-                        $("#edit_model_id")[0].reset();
-                        Command: toastr["success"](response.message)
+        <script>
+            $(document).on("click", "#EditmodelBtn", function(e) {
+                e.preventDefault();
+                var edit_id = $(this).attr('data-id');
+                $("#exampleModal").modal("show");
+                $.ajax({
+                    type: "GET",
+                    url: '/Backend/edit-model/' + edit_id,
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.status == 200) {
+                            $("#edit_model_id").val(edit_id);
+                            $("#Price").val(data.success.price);
+                            $("#Percent").val(data.success.percent);
+                            $("#Discounted_price").val(data.success.discounted_price);
+                            $("#exampleModalLabel").text('Model Name - ' + data.success.model.name);
+                        } else if (response.status == 200) {
+                            $("#edit_model_id")[0].reset();
+                            Command: toastr["success"](response.message)
+                        }
                     }
-                }
+                });
             });
-        });
-    </script>
-    <script>
-        $(document).on("submit", "#update_model", function(e) {
-            e.preventDefault();
-            let update_model = new FormData($('#update_model')[0]);
-            $("#editmodelBtn").text("Please wait...");
-            var edit_id = $("#edit_model_id").val();
+        </script>
+        <script>
+            $(document).on("submit", "#update_model", function(e) {
+                e.preventDefault();
+                let update_model = new FormData($('#update_model')[0]);
+                $("#editmodelBtn").text("Please wait...");
+                var edit_id = $("#edit_model_id").val();
 
-            $.ajax({
-                type: "POST",
-                url: "/Backend/update-model/" + edit_id,
-                data: update_model,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    if (response.status == 400) {
-                        var values = '';
-                        jQuery.each(response.errors, function(key, value) {
-                            values += value + '<br>'
-                        });
+                $.ajax({
+                    type: "POST",
+                    url: "/Backend/update-model/" + edit_id,
+                    data: update_model,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        if (response.status == 400) {
+                            var values = '';
+                            jQuery.each(response.errors, function(key, value) {
+                                values += value + '<br>'
+                            });
 
-                        Command: toastr["error"](values)
+                            Command: toastr["error"](values)
 
-                        $("#editmodelBtn").text("Car Update Model");
-                    } else if (response.status == 200) {
-                        $("#update_model")[0].reset();
-                        Command: toastr["success"](response.message)
+                            $("#editmodelBtn").text("Car Update Model");
+                        } else if (response.status == 200) {
+                            $("#update_model")[0].reset();
+                            Command: toastr["success"](response.message)
+                        }
+                        location.reload();
+
                     }
-                    location.reload();
-
-                }
+                });
             });
-        });
-    </script>
-@endsection
+        </script>
+    @endsection

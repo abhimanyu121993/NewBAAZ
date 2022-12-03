@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\WorkshopOrderController;
 use App\Http\Controllers\Admin\ZoneController;
 use App\Http\Middleware\AuthLogin;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\FooterSliderController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Artisan;
 
@@ -47,6 +48,7 @@ Route::group(['prefix'=>'Backend','as'=>'Backend.', 'middleware' => 'auth'],func
     Route::resource('category',CategoryController::class);
     Route::resource('service',ServiceController::class);
     Route::resource('homeslider',HomeSliderController::class);
+
     Route::resource('orderhistory',OrderHistoryController::class);
     Route::resource('role',RoleController::class);
     Route::resource('country',CountryController::class);
@@ -108,6 +110,8 @@ Route::group(['prefix'=>'Backend','as'=>'Backend.', 'middleware' => 'auth'],func
     Route::get('/delete/{id}', [NotificationController::class, 'delete'])->name('delete');
 
     Route::post('/update-order-remark',[OrderHistoryController::class, 'updateOrderRemark'])->name('updateOrderRemark');
+
+    Route::resource('slider',FooterSliderController::class);
 });
 
 

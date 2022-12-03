@@ -261,12 +261,6 @@
     });
     
 </script>
-
-
-
-
-
-
 <script>
 $(document).on("click", "#EditNotifBtn", function(e) {
     e.preventDefault();

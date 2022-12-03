@@ -3,7 +3,9 @@
 @section('Head-Area')
     <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/plugins/forms/form-validation.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/plugins/forms/pickers/form-flat-pickr.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{asset('Backend/assets/vendors/css/forms/select/select2.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/vendors/css/forms/select/select2.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
 @endsection
 
 @section('Content-Area')
@@ -18,9 +20,8 @@
             </h3>
         </div>
         <div class="card-body">
-            <form class="needs-validation"
-                action="{{route('Backend.assignUserRole')}}"
-                method='post' enctype="multipart/form-data">
+            <form class="needs-validation" action="{{ route('Backend.assignUserRole') }}" method='post'
+                enctype="multipart/form-data">
                 @if (isset($modeledit))
                     @method('patch')
                 @endif
@@ -28,30 +29,31 @@
                 <div class="row">
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="desc">User Name</label>
-                        <select class="select2 form-select" id="select2-basic"  name='userid' required>
-                        @if(isset($modeledit))
-                              <option selected hidden value='{{$modeledit->id}}'>{{$modeledit->brand->name}}</option>
-                        @else
-                        <option selected disabled value="">--Select User--</option>
-                        @endif
+                        <select class="select2 form-select" id="select2-basic" name='userid' required>
+                            @if (isset($modeledit))
+                                <option selected hidden value='{{ $modeledit->id }}'>{{ $modeledit->brand->name }}</option>
+                            @else
+                                <option selected disabled value="">--Select User--</option>
+                            @endif
 
                             @foreach ($employees as $employee)
-                                <option value="{{$employee->id}}">{{$employee->name?"$employee->name / ":''}}{{$employee->phone}}</option>
+                                <option value="{{ $employee->id }}">
+                                    {{ $employee->name ? "$employee->name / " : '' }}{{ $employee->phone }}</option>
                             @endforeach
                         </select>
                     </div>
 
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="desc">Role Name</label>
-                        <select class="select2 form-select" id="select2-basic"  name='roleid' required>
-                        @if(isset($modeledit))
-                              <option value='{{$modeledit->id}}'>{{$modeledit->brand->name}}</option>
-                        @else
-                        <option selected disabled value="">--Select Role--</option>
-                        @endif
+                        <select class="select2 form-select" id="select2-basic" name='roleid' required>
+                            @if (isset($modeledit))
+                                <option value='{{ $modeledit->id }}'>{{ $modeledit->brand->name }}</option>
+                            @else
+                                <option selected disabled value="">--Select Role--</option>
+                            @endif
 
                             @foreach ($roles as $role)
-                                <option value="{{$role->id}}">{{$role->name}}</option>
+                                <option value="{{ $role->id }}">{{ $role->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -73,7 +75,8 @@
             <h3>Manage User Roles</h3>
         </div>
         <div class="card-body">
-            <table class="datatables-basic table datatable table-responsive">
+            {{-- <table class="datatables-basic table datatable table-responsive"> --}}
+            <table class="display nowrap" id="userrole" style="width:100% !important;">
                 <thead>
                     <tr>
                         <th>Sr.No</th>
@@ -86,9 +89,9 @@
                 <tbody>
                     @foreach ($employees as $employee)
                         <tr>
-                            <td>{{ $loop->index+1 }}</td>
-                            <td>{{$employee->name?"$employee->name / ":''}}{{$employee->phone}}</td>
-                            <td>{{ $employee->roles[0]->name ?? ''}}</td>
+                            <td>{{ $loop->index + 1 }}</td>
+                            <td>{{ $employee->name ? "$employee->name / " : '' }}{{ $employee->phone }}</td>
+                            <td>{{ $employee->roles[0]->name ?? '' }}</td>
                             <td>
                                 <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
                                     <div class="mb-1 breadcrumb-right">
@@ -98,13 +101,12 @@
                                                 aria-expanded="false"><i data-feather="grid"></i></button>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 @php $uid=Crypt::encrypt($employee->id); @endphp
-                                                <a class="dropdown-item" href="#"><i
-                                                        class="me-1" data-feather="check-square"></i><span
+                                                <a class="dropdown-item" href="#"><i class="me-1"
+                                                        data-feather="check-square"></i><span
                                                         class="align-middle">Edit</span></a>
-                                                        <a class="dropdown-item" href=""
-                                                        onclick="event.preventDefault();"><i
-                                                            class="me-1" data-feather="message-square"></i><span
-                                                            class="align-middle">Delete</span></a>
+                                                <a class="dropdown-item" href="" onclick="event.preventDefault();"><i
+                                                        class="me-1" data-feather="message-square"></i><span
+                                                        class="align-middle">Delete</span></a>
                                             </div>
                                         </div>
                                     </div>
@@ -130,11 +132,22 @@
 
 @section('Script-Area')
     {{-- <script src="{{asset('BackEnd/assets/js/scripts/forms/form-validation.js')}}"></script> --}}
-    <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/jquery.dataTables.min.js') }}"></script>
+    {{-- <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/responsive.bootstrap5.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
-    <script src="{{asset('BackEnd/assets/vendors/js/forms/select/select2.full.min.js')}}"></script>
-<script src="{{asset('Backend/assets/js/scripts/forms/form-select2.js')}}"></script>
+    <script src="{{ asset('BackEnd/assets/vendors/js/forms/select/select2.full.min.js') }}"></script> --}}
+    <script src="{{ asset('Backend/assets/js/scripts/forms/form-select2.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#userrole').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
+    </script>
 @endsection

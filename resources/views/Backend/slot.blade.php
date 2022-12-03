@@ -3,6 +3,8 @@
 @section('Head-Area')
     <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/plugins/forms/form-validation.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/plugins/forms/pickers/form-flat-pickr.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
 @endsection
 
 @section('Content-Area')
@@ -53,7 +55,7 @@
                 <h3>Manage Slots</h3>
             </div>
             <div class="card-body">
-                <table class="datatables-basic table datatable table-responsive">
+                <table class="display nowrap" id="slot" style="width:100% !important;">
                     <thead>
                         <tr>
                             <th>Sr.No</th>
@@ -69,7 +71,7 @@
                         @foreach ($slots as $slot)
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
-                                <td>{{ date("g:iA", strtotime($slot->name)) }}</td>
+                                <td>{{ date('g:iA', strtotime($slot->name)) }}</td>
                                 <td>{{ $slot->created_at }}</td>
                                 @canany(['Country_edit', 'Country_delete'])
                                     <td>
@@ -121,9 +123,20 @@
 
 @section('Script-Area')
     {{-- <script src="{{asset('BackEnd/assets/js/scripts/forms/form-validation.js')}}"></script> --}}
-    <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/jquery.dataTables.min.js') }}"></script>
+    {{-- <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/responsive.bootstrap5.js') }}"></script>
-    <script src="{{ asset('Backend/assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
+    <script src="{{ asset('Backend/assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script> --}}
+
+    <script>
+        $(document).ready(function() {
+            $('#slot').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
+    </script>
 @endsection
