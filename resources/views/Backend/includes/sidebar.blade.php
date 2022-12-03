@@ -12,7 +12,7 @@
     @php $rolecolor='#950740';@endphp
     @elserole('Workshop')
     @php $rolecolor='#832858';@endphp
-    @else
+@else
     @php $rolecolor='#157DEC';@endphp
 @endrole
 
@@ -26,8 +26,9 @@
                     <h2 class="brand-text" style="color: #fca40b;">BAAZ</h2>
                 </a>
             </li>
-            <li class="nav-item nav-toggle" style="color: white;"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i
-                        class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i
+            <li class="nav-item nav-toggle" style="color: white;"><a class="nav-link modern-nav-toggle pe-0"
+                    data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4"
+                        data-feather="x"></i><i
                         class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc"
                         data-ticon="disc"></i></a></li>
         </ul>
@@ -145,15 +146,25 @@
                 </li>
             @endcan
 
+
+            @can('Footer_slider')
+                <li class="nav-item"><a class="d-flex align-items-center" href="{{ route('Backend.slider.index') }}"><i
+                            data-feather="sliders"></i><span class="menu-title text-truncate" data-i18n="User List">
+                            Footer Slider</span></a>
+                </li>
+            @endcan
+
             @can('Edp_work')
-                <li class="nav-item"><a class="d-flex align-items-center"
-                        href="{{ route('Backend.edpWork') }}"><i data-feather="sliders"></i><span
-                            class="menu-title text-truncate" data-i18n="User List">EDP Work</span></a>
+                <li class="nav-item"><a class="d-flex align-items-center" href="{{ route('Backend.edpWork') }}"><i
+                            data-feather="sliders"></i><span class="menu-title text-truncate" data-i18n="User List">EDP
+                            Work</span></a>
                 </li>
             @endcan
 
             @canany(['Pending_orders', 'Confirmed_orders', 'Order_history'])
-                <li class="nav-item has-sub" style=""><a class="d-flex align-items-center" href="#"><span class="menu-title text-truncate" data-i18n="Invoice"><i data-feather="airplay"></i>Orders</span></a>
+                <li class="nav-item has-sub" style=""><a class="d-flex align-items-center" href="#"><span
+                            class="menu-title text-truncate" data-i18n="Invoice"><i
+                                data-feather="airplay"></i>Orders</span></a>
                     <ul class="menu-content">
 
                         @can('Pending_orders')
@@ -182,7 +193,9 @@
             @endcanany
 
             @canany(['Workshop', 'Employee', 'Country', 'Zone', 'Area', 'City', 'Battery_type', 'Slot'])
-                <li class="nav-item has-sub" style=""><a class="d-flex align-items-center" href="#"><i data-feather="settings"></i><span class="menu-title text-truncate" data-i18n="Invoice">Business Setup</span></a>
+                <li class="nav-item has-sub" style=""><a class="d-flex align-items-center" href="#"><i
+                            data-feather="settings"></i><span class="menu-title text-truncate"
+                            data-i18n="Invoice">Business Setup</span></a>
                     <ul class="menu-content">
 
                         @can('Workshop')
@@ -268,27 +281,29 @@
 
             @can('Demanding_service')
                 <li class="nav-item"><a class="d-flex align-items-center"
-                    href="{{ route('Backend.demandingservice.index') }}"><i data-feather="aperture"></i><span
-                        class="menu-title text-truncate" data-i18n="User List">Demanding Services</span></a>
+                        href="{{ route('Backend.demandingservice.index') }}"><i data-feather="aperture"></i><span
+                            class="menu-title text-truncate" data-i18n="User List">Demanding Services</span></a>
                 </li>
             @endcan
 
             @can('Service_charge')
                 <li class="nav-item"><a class="d-flex align-items-center"
-                    href="{{ route('Backend.servicecharge.index') }}"><i data-feather="dollar-sign"></i><span
-                        class="menu-title text-truncate" data-i18n="User List">Service Charges</span></a>
+                        href="{{ route('Backend.servicecharge.index') }}"><i data-feather="dollar-sign"></i><span
+                            class="menu-title text-truncate" data-i18n="User List">Service Charges</span></a>
                 </li>
             @endcan
 
             @can('Other_product')
                 <li class="nav-item"><a class="d-flex align-items-center"
-                    href="{{ route('Backend.otherproduct.index') }}"><i data-feather="monitor"></i><span
-                        class="menu-title text-truncate" data-i18n="User List">Other Products</span></a>
+                        href="{{ route('Backend.otherproduct.index') }}"><i data-feather="monitor"></i><span
+                            class="menu-title text-truncate" data-i18n="User List">Other Products</span></a>
                 </li>
             @endcan
 
             @can('Role_Permission')
-                <li class="nav-item has-sub" style=""><a class="d-flex align-items-center" href="#"><span class="menu-title text-truncate" data-i18n="Invoice"><i data-feather="lock"></i>Roles/Permission</span></a>
+                <li class="nav-item has-sub" style=""><a class="d-flex align-items-center" href="#"><span
+                            class="menu-title text-truncate" data-i18n="Invoice"><i
+                                data-feather="lock"></i>Roles/Permission</span></a>
                     <ul class="menu-content">
                         <li><a class="d-flex align-items-center" href="{{ route('Backend.role.index') }}"><svg
                                     xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -327,8 +342,8 @@
 
             @role('Superadmin')
                 <li class="nav-item"><a class="d-flex align-items-center"
-                href="{{ route('Backend.custom-Notification') }}"><i data-feather="bell"></i><span
-                class="menu-title text-truncate" data-i18n="User List">Custom Notification</span></a>
+                        href="{{ route('Backend.custom-Notification') }}"><i data-feather="bell"></i><span
+                            class="menu-title text-truncate" data-i18n="User List">Custom Notification</span></a>
                 </li>
             @endrole
 

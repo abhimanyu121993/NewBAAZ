@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 
 <html class="loading" lang="en" data-textdirection="ltr">
-  <!-- BEGIN: Head-->
-  <head>
+<!-- BEGIN: Head-->
+
+<head>
     @include('Backend.includes.head')
 
 
     @yield('Head-Area')
 
-  </head>
-  <!-- END: Head-->
+</head>
+<!-- END: Head-->
 
-  <!-- BEGIN: Body-->
-  <body class="vertical-layout vertical-menu-modern  navbar-floating footer-static   vertical-menu-modern" data-open="click" data-menu="vertical-menu-modern" data-col="">
+<!-- BEGIN: Body-->
+
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static   vertical-menu-modern" data-open="click"
+    data-menu="vertical-menu-modern" data-col="">
 
     <!-- BEGIN: Header-->
     @include('Backend.includes.topbar')
@@ -27,20 +30,21 @@
 
     <!-- BEGIN: Content-->
     <div class="app-content content ">
-      <div class="content-overlay"></div>
-      <div class="header-navbar-shadow"></div>
-      <div class="content-wrapper container-xxl p-0">
-        <div class="content-header row">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper container-xxl p-0">
+            <div class="content-header row">
+            </div>
+            <div class="content-body">
+                <!-- Dashboard Ecommerce Starts -->
+                <section id="dashboard-ecommerce">
+                    @yield('Content-Area')
+
+
+                    <!-- Dashboard Ecommerce ends -->
+
+            </div>
         </div>
-        <div class="content-body"><!-- Dashboard Ecommerce Starts -->
-<section id="dashboard-ecommerce">
-  @yield('Content-Area')
-
-
-<!-- Dashboard Ecommerce ends -->
-
-        </div>
-      </div>
     </div>
     <!-- END: Content-->
 
@@ -63,14 +67,18 @@
     @yield('Script-Area')
 
     <script>
-      $(window).on('load',  function(){
-        if (feather) {
-          feather.replace({ width: 14, height: 14 });
-        }
-      })
+        $(window).on('load', function() {
+            if (feather) {
+                feather.replace({
+                    width: 14,
+                    height: 14
+                });
+            }
+        })
     </script>
 
 
-  </body>
-  <!-- END: Body-->
+</body>
+<!-- END: Body-->
+
 </html>

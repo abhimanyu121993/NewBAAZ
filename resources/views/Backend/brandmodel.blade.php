@@ -3,6 +3,8 @@
 @section('Head-Area')
     <link rel="stylesheet" type="text/css" href="{{ asset('BackEnd/assets/css/plugins/forms/form-validation.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('BackEnd/assets/css/plugins/forms/pickers/form-flat-pickr.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
 @endsection
 
 @section('Content-Area')
@@ -27,15 +29,15 @@
                 <div class="row">
                     <div class="col-md-6 mb-1">
                         <label class="form-label" for="desc">Brand Name</label>
-                        <select class="select2 form-select" id="select2-basic"  name='bname' required>
-                        {{-- @if(isset($subcategory))
+                        <select class="select2 form-select" id="select2-basic" name='bname' required>
+                            {{-- @if (isset($subcategory))
                               <option value='{{$subcategory->category_id}}'>{{$subcategory->category->name}}</option>
                         @else --}}
-                        <option selected disabled value="">--Select Category--</option>
-                        @endif
-                       
+                            <option selected disabled value="">--Select Category--</option>
+                            @endif
+
                             @foreach ($brands as $brand)
-                                <option value="{{$brand->id}}">{{$brand->name}}</option>
+                                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                             @endforeach
                         </select>
                         <div class="valid-feedback">Looks good!</div>
@@ -62,7 +64,8 @@
             <h3>Brand Model Map</h3>
         </div>
         <div class="card-body">
-            <table class="datatables-basic table datatable table-responsive">
+            {{-- <table class="datatables-basic table datatable table-responsive"> --}}
+            <table class="display nowrap" id="modelcar" style="width:100% !important;">
                 <thead>
                     <tr>
                         <th>Sr.No</th>
@@ -120,9 +123,20 @@
 
 @section('Script-Area')
     {{-- <script src="{{asset('BackEnd/assets/js/scripts/forms/form-validation.js')}}"></script> --}}
-    <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/jquery.dataTables.min.js') }}"></script>
+    {{-- <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/responsive.bootstrap5.js') }}"></script>
-    <script src="{{ asset('Backend/assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
+    <script src="{{ asset('Backend/assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script> --}}
+
+    <script>
+        $(document).ready(function() {
+            $('#modelcar').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
+    </script>
 @endsection

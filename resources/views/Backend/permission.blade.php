@@ -3,7 +3,7 @@
 @section('Head-Area')
     <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/plugins/forms/form-validation.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/plugins/forms/pickers/form-flat-pickr.css') }}">
-@endsection
+
 
 @section('Content-Area')
     <div class="card">
@@ -17,9 +17,8 @@
             </h3>
         </div>
         <div class="card-body">
-            <form class="needs-validation"
-                action="{{ route('Backend.permission.store') }}"
-                method='post' enctype="multipart/form-data">
+            <form class="needs-validation" action="{{ route('Backend.permission.store') }}" method='post'
+                enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-md-6 mb-1">
@@ -47,6 +46,7 @@
         </div>
         <div class="card-body">
             <table class="datatables-basic table datatable table-responsive">
+
                 <thead>
                     <tr>
                         <th>Sr.No</th>
@@ -71,21 +71,22 @@
                                                 aria-expanded="false"><i data-feather="grid"></i></button>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 @php $cid=Crypt::encrypt($permission->id); @endphp
-                                                <a class="dropdown-item" href="{{ route('Backend.permission.edit', $cid) }}"><i
-                                                        class="me-1" data-feather="check-square"></i><span
+                                                <a class="dropdown-item"
+                                                    href="{{ route('Backend.permission.edit', $cid) }}"><i class="me-1"
+                                                        data-feather="check-square"></i><span
                                                         class="align-middle">Edit</span></a>
-                                                        <a class="dropdown-item" href=""
-                                                        onclick="event.preventDefault();document.getElementById('delete-form-{{ $cid }}').submit();"><i
-                                                            class="me-1" data-feather="message-square"></i><span
-                                                            class="align-middle">Delete</span></a>
+                                                <a class="dropdown-item" href=""
+                                                    onclick="event.preventDefault();document.getElementById('delete-form-{{ $cid }}').submit();"><i
+                                                        class="me-1" data-feather="message-square"></i><span
+                                                        class="align-middle">Delete</span></a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </td>
                         </tr>
-                        <form id="delete-form-{{ $cid }}" action="{{ route('Backend.permission.destroy', $cid) }}"
-                            method="post" style="display: none;">
+                        <form id="delete-form-{{ $cid }}"
+                            action="{{ route('Backend.permission.destroy', $cid) }}" method="post" style="display: none;">
                             @method('DELETE')
                             @csrf
                         </form>
@@ -101,12 +102,11 @@
             </table>
         </div>
     </div>
-
 @endsection
 
 
 @section('Script-Area')
-    {{-- <script src="{{asset('BackEnd/assets/js/scripts/forms/form-validation.js')}}"></script> --}}
+    {{-- <script src="{{asset('BackEnd/assets/js/scripts/forms/form-validation.js')}}"></script> --}} --}}
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('Backend/assets/vendors/js/tables/datatable/dataTables.responsive.min.js') }}"></script>

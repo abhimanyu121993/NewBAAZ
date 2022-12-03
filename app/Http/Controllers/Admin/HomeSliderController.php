@@ -56,7 +56,8 @@ class HomeSliderController extends Controller
                 $sliderpic='hslider-'.time().'-'.rand(0,99).'.'.$request->pic->extension();
                 $request->pic->move(public_path('upload/homeslider/'),$sliderpic);
             }
-            $res= HomeSlider::create(['category_id'=>$request->category_id,'image'=>'upload/homeslider/'.$sliderpic]);
+            $res= HomeSlider::create(['category_id'=>$request->category_id,
+            'image'=>'upload/homeslider/'.$sliderpic]);
 
             if($res)
             {
@@ -123,6 +124,7 @@ class HomeSliderController extends Controller
             'category_id'=>'required',
             'pic'=>'image'
         ]);
+
         try
         {
             if($request->hasFile('pic'))
