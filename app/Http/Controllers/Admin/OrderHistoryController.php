@@ -121,20 +121,20 @@ class OrderHistoryController extends Controller
         if($userrole == 'Superadmin') {
             $pendingorders = Order::orWhere('order_status',1)
             ->orWhere('order_status', NULL)
-            ->paginate(20);
+            ->get();
         return view('Backend.pending_orders', compact('pendingorders', 'workshops'));
         }
         elseif($userrole == 'Workshop') {
             $pendingorders = Order::Where('assigned_workshop', $userid)
                 ->Where('order_status',1)
-                ->paginate(20);
+                ->get();
         Log::info('pendingorders'.json_encode($pendingorders));
         return view('Backend.pending_orders', compact('pendingorders', 'workshops'));
         }
         else {
             $pendingorders = Order::orWhere('order_status',1)
             ->orWhere('order_status', NULL)
-            ->paginate(20);
+            ->get();
         //Log::info('pendingorders'.json_encode($pendingorders));
         return view('Backend.pending_orders', compact('pendingorders', 'workshops'));
         }
