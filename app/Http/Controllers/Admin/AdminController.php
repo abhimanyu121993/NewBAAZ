@@ -54,7 +54,7 @@ class AdminController extends Controller
 
     public function userList()
     {
-        $customers = Customer::latest()->paginate(25);
+        $customers = Customer::latest()->get();
         return view('Backend.customerlist', compact('customers'));
     }
 

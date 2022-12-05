@@ -31,7 +31,7 @@ class OrderHistoryController extends Controller
      */
     public function index()
     {
-        $orders = Order::latest()->paginate(20);
+        $orders = Order::latest()->get();
         return view('Backend.orderhistory', compact('orders'));
     }
 
