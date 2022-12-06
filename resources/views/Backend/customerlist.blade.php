@@ -89,9 +89,6 @@
                 </table>
 
             </div>
-            <div class="card-footer">
-                {!! $customers->links('pagination::bootstrap-5') !!}
-            </div>
         </div>
     @endcan
 @endsection

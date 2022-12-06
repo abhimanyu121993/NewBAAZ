@@ -160,7 +160,7 @@ class WorkshopOrderController extends Controller
 
         $orders = Order::orWhere('order_status',1)
         ->orWhere('order_status', NULL)
-        ->paginate(20);
+        ->get();
         //Log::info('pendingorders'.json_encode($pendingorders));
         return view('Backend.edp_work', compact('orders'));
     }
