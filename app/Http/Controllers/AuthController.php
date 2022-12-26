@@ -36,7 +36,7 @@ class AuthController extends Controller
                 {
                     $result = [
                         'data' => NULL,
-                        'message' => 'Login Unsuccessful',
+                        'message' => 'User not found',
                         'status' => 200,
                         'error' => [
                             'message' => 'Server Error',
