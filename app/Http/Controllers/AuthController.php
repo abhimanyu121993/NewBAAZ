@@ -14,7 +14,6 @@ class AuthController extends Controller
 {
     public function userLogin(Request $req)
     {
-        Log::info($req->all());
         $req->validate([
             'mobileno' => 'required|min:10|max:10',
             'authentication' => 'required'
