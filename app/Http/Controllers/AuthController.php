@@ -7,22 +7,23 @@ use App\Models\Error;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
 class AuthController extends Controller
 {
     public function userLogin(Request $req)
     {
+        Log::info($req->all());
         $req->validate([
             'mobileno' => 'required|min:10|max:10',
             'authentication' => 'required'
         ]);
         if ($req->authentication === 'TRUE')
         {
-            $phone = Customer::find($req->mobileno);
+            $data = Customer::where('mobileno',$req->mobileno)->first();
             try
             {
-                $data = $req->mobileno == $phone;
                 if ($data)
                 {
                     $result = [
