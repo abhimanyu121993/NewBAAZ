@@ -132,7 +132,7 @@
     {{-- <script src="{{ asset('Backend/assets/js/scripts/datatables/datatable.js') }}"></script>
     <script src="{{asset('BackEnd/assets/vendors/js/forms/select/select2.full.min.js')}}"></script>
     <script src="{{asset('Backend/assets/js/scripts/forms/form-select2.js')}}"></script> --}}
-    <script>
+    {{-- <script>
         $("#allotworkshop").submit(function(e) {
             e.preventDefault();
             var form = $(this);
@@ -147,14 +147,11 @@
                         alert('Assigned');
                         swal("Good job!", "Workshop Assigned successfully!", "success");
                         console.log(response.status);
-                    } else {
-                        swal("Snap!", "Server Error", "error");
-                        console.log(response.status);
                     }
                 }
             });
         });
-    </script>
+    </script> --}}
 
     <script>
         $(document).ready(function() {
