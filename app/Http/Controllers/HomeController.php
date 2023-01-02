@@ -167,7 +167,8 @@ class HomeController extends Controller
     {
         $req->validate([
             'category_id' => 'required',
-            'model_id' => 'required'
+            'model_id' => 'required',
+            'fuel_type' => 'required'
         ]);
         try
         {
@@ -178,8 +179,8 @@ class HomeController extends Controller
                 ->join('brand_models as bm', 'bm.id', 'msm.model_id')
                 ->where('c.id', $req->category_id)
                 ->where('msm.model_id', $req->model_id)
+                ->where('msm.fuel_id', $req->fuel_type)
                 ->get();
-            // return $services;
             if ($services)
             {
                 $result = [
