@@ -254,7 +254,7 @@
                     <input type="hidden" name="order_id" value="{{ $order->id }}" />
                     <div class="col-md-10 mb-1">
                         <label class="form-label" for="basic-addon-name">Invoice No</label>
-                        <input type="text" name='invoice_no' class="form-control" placeholder="Invoice No">{{ isset($order) ? $order->invoice_no : '' }} />
+                        <input type="text" name='invoice_no' class="form-control" value="{{ isset($order) ? $order->invoice_no : '' }}" placeholder="Invoice No">
                     </div>
                     <div class="col-md-10 mb-1">
                         <label class="form-label" for="basic-addon-name">Remark</label>
