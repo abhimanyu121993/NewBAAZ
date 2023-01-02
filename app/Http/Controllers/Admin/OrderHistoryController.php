@@ -167,12 +167,13 @@ class OrderHistoryController extends Controller
     {
         $request->validate([
             'order_id' => 'required',
-            'remark' => 'required'
+            'remark' => 'required',
+            'invoice_no' => 'required',
         ]);
 
         Order::find($request->order_id)->update(['remark' => $request->remark]);
-        WorkshopOrder::where('order_id',$request->order_id)->update(['remark' => $request->remark]);
-        return redirect()->back()->with('success', 'Remark added successfully');
+        WorkshopOrder::where('order_id',$request->order_id)->update(['remark' => $request->remark, 'invoice_no' => $request->invoice_no]);
+        return redirect()->back()->with('success', 'Data updated successfully');
     }
 
 }

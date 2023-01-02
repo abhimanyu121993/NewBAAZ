@@ -16,10 +16,12 @@ return new class extends Migration
         Schema::create('workshop_orders', function (Blueprint $table) {
             $table->id();
             $table->string('order_id')->nullable();
+            $table->string('invoice_no')->nullable();
             $table->string('order_no')->nullable();
             $table->string('workshop_id')->nullable();
             $table->string('total_amount')->default(0);
             $table->string('stage')->nullable();
+            $table->string('remark')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
