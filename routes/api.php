@@ -40,6 +40,7 @@ Route::post('fetch-brand-model', [HomeController::class, 'brandModel']);
 Route::post('fetch-fuel-type', [HomeController::class, 'fuelType']);
 Route::post('fetch-category', [HomeController::class, 'category']);
 Route::post('fetch-services', [HomeController::class, 'services']);
+Route::post('fetch-newservices', [HomeController::class, 'newservices']);
 Route::post('user-vehicle-map', [UserController::class, 'userVehicleMap']);
 Route::post('fetch-vehicles', [UserController::class, 'userVehicles']);
 Route::post('fetch-user-address', [UserController::class, 'fetchUserAddress']);
