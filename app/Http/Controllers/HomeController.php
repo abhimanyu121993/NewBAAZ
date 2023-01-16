@@ -229,6 +229,7 @@ class HomeController extends Controller
                 ->where('msm.model_id', $req->model_id)
                 ->where('msm.fuel_id', $req->fuel_type)
                 ->get();
+
             if ($services)
             {
                 $result = [
