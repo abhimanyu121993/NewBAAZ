@@ -167,7 +167,8 @@ class HomeController extends Controller
     {
         $req->validate([
             'category_id' => 'required',
-            'model_id' => 'required'
+            'model_id' => 'required',
+            // 'fuel_type' => 'required'
         ]);
         try
         {
@@ -178,8 +179,57 @@ class HomeController extends Controller
                 ->join('brand_models as bm', 'bm.id', 'msm.model_id')
                 ->where('c.id', $req->category_id)
                 ->where('msm.model_id', $req->model_id)
+                // ->where('msm.fuel_id', $req->fuel_type)
                 ->get();
-            // return $services;
+            if ($services)
+            {
+                $result = [
+                    'data' => $services,
+                    'message' => 'Services found',
+                    'status' => 200,
+                    'error' => NULL
+                ];
+            }
+            else
+            {
+                $result = [
+                    'data' => NULL,
+                    'message' => 'Services not found',
+                    'status' => 200,
+                    'error' => [
+                        'message' => 'Server Error',
+                        'code' => 305,
+                    ]
+                ];
+            }
+            return response()->json($result);
+        }
+        catch (Exception $ex)
+        {
+            $url=URL::current();
+            Error::create(['url'=>$url,'message'=>$ex->getMessage()]);
+        }
+    }
+
+    public function newservices(Request $req)
+    {
+        $req->validate([
+            'category_id' => 'required',
+            'model_id' => 'required',
+            'fuel_type' => 'required'
+        ]);
+        try
+        {
+            $services = DB::table('categories as c')
+                ->select('msm.service_id as service_id', 'msm.price as service_price', 's.name as service_name', 's.image as service_image', 's.desc as service_desc', 'msm.discounted_price as service_discounted_price')
+                ->join('services as s', 's.cid', 'c.id')
+                ->join('model_service_maps as msm', 'msm.service_id', 's.id')
+                ->join('brand_models as bm', 'bm.id', 'msm.model_id')
+                ->where('c.id', $req->category_id)
+                ->where('msm.model_id', $req->model_id)
+                ->where('msm.fuel_id', $req->fuel_type)
+                ->get();
+
             if ($services)
             {
                 $result = [

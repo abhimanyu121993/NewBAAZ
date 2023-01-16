@@ -7,6 +7,7 @@ use App\Models\Error;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
 class AuthController extends Controller
@@ -19,10 +20,9 @@ class AuthController extends Controller
         ]);
         if ($req->authentication === 'TRUE')
         {
-            $phone = Customer::find($req->mobileno);
+            $data = Customer::where('mobileno',$req->mobileno)->first();
             try
             {
-                $data = $req->mobileno == $phone;
                 if ($data)
                 {
                     $result = [
@@ -36,7 +36,7 @@ class AuthController extends Controller
                 {
                     $result = [
                         'data' => NULL,
-                        'message' => 'Login Unsuccessful',
+                        'message' => 'User not found',
                         'status' => 200,
                         'error' => [
                             'message' => 'Server Error',

@@ -252,7 +252,7 @@ class WorkshopController extends Controller
     {
         $res = Order::find($request->oid)->update(['assigned_workshop' => $request->wid]);
         if($res){
-            session()->flash('success','Workshop Assigned ducessfully');
+            session()->flash('success','Workshop Assigned sucessfully');
             return redirect()->back();
         }
 

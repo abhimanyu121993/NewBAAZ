@@ -134,7 +134,7 @@
             @can('Customer_list')
                 <li class="nav-item"><a class="d-flex align-items-center" href="{{ route('Backend.customerList') }}"><i
                             data-feather="users"></i><span class="menu-title text-truncate"
-                            data-i18n="User List">Customer
+                            data-i18n="Customer List">Customer
                             List</span></a>
                 </li>
             @endcan
@@ -142,21 +142,21 @@
             @can('Home_slider')
                 <li class="nav-item"><a class="d-flex align-items-center"
                         href="{{ route('Backend.homeslider.index') }}"><i data-feather="sliders"></i><span
-                            class="menu-title text-truncate" data-i18n="User List">Home Slider</span></a>
+                            class="menu-title text-truncate" data-i18n="Home Slider">Home Slider</span></a>
                 </li>
             @endcan
 
 
             @can('Footer_slider')
                 <li class="nav-item"><a class="d-flex align-items-center" href="{{ route('Backend.slider.index') }}"><i
-                            data-feather="sliders"></i><span class="menu-title text-truncate" data-i18n="User List">
+                            data-feather="sliders"></i><span class="menu-title text-truncate" data-i18n="Footer slider">
                             Footer Slider</span></a>
                 </li>
             @endcan
 
             @can('Edp_work')
                 <li class="nav-item"><a class="d-flex align-items-center" href="{{ route('Backend.edpWork') }}"><i
-                            data-feather="sliders"></i><span class="menu-title text-truncate" data-i18n="User List">EDP
+                            data-feather="sliders"></i><span class="menu-title text-truncate" data-i18n="EDP Work">EDP
                             Work</span></a>
                 </li>
             @endcan
