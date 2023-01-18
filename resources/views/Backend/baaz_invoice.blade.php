@@ -85,7 +85,7 @@
 
                             <b> Invoice No. </b>
                             <b>
-                                55445511
+                                {{ $order->workshop_order->invoice_no ?? '' }}
                             </b>
                         </td>
 
