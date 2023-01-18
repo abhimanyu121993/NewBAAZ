@@ -56,7 +56,9 @@ class NotificationController extends Controller
                     'sound' => $sound
                 );
 
+                
                 $this->sendNotification($to, $data);
+               
             }
             if ($notif) {
                 return response()->json([

@@ -174,8 +174,7 @@
             contentType: false,
             processData: false,
             success: function(response) {
-                console.log(response);
-                return false;
+               
                 if (response.status == 400) {
                     var values = '';
                     jQuery.each(response.errors, function(key, value) {
