@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Error;
 use App\Models\FuelType;
 use App\Models\HomeSlider;
+use App\Models\ModelServiceMap;
 use App\Models\OfferBanner;
 use App\Models\Service;
 use App\Models\Slider;
@@ -93,11 +94,17 @@ class HomeController extends Controller
         }
     }
 
-    public function fuelType()
+    public function fuelType(Request $req)
     {
+        $model_id = $req->model_id;
+        $fuel_id = ModelServiceMap::where('model_id', $model_id)->get()->groupBy('fuel_id');
+        foreach($fuel_id as $key=>$data){
+            $fuel[] = $data[$key]->fuel_id;
+        }
+
         try
         {
-            $fuelType = FuelType::get();
+            $fuelType = FuelType::whereIn('id', $fuel)->get();
             if ($fuelType)
             {
                 $result = [
