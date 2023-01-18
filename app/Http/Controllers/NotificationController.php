@@ -33,7 +33,9 @@ class NotificationController extends Controller
 
             $notif = new CustomNotification();
             $notif->title   = $request->input('title');
-            $notif->body   = $request->input('body');        
+            $notif->body   = $request->input('body'); 
+            $sound = asset('upload/notification_sound.m4a');    
+         
             $notif->notification_type = "custom_notification";
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
@@ -51,7 +53,7 @@ class NotificationController extends Controller
                     'title' => $request->title,
                     'body' => $request->body,
                     'image'=>'https://bazz.techdocklabs.com/upload/Notification_image/'.$notif->image,
-
+                    'sound' => $sound
                 );
 
                 $this->sendNotification($to, $data);
