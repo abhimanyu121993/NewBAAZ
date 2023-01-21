@@ -2,7 +2,7 @@ importScripts('https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js');
 
 firebase.initializeApp({
-  
+       apiKey: "AIzaSyDE6hJnUlCwrsItIwGzgANXEadx6ITNNlo",
     // apiKey:"AIzaSyC5FU8uuVi0-44JDcWZwADB-jOLR5bviJg",
     authDomain: "baazapp-9d05b.firebaseapp.com",
     projectId: "baazapp-9d05b",
