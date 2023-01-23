@@ -228,7 +228,7 @@ class HomeController extends Controller
         try
         {
             $services = DB::table('categories as c')
-                ->select('msm.service_id as service_id', 'msm.price as service_price', 's.name as service_name', 's.image as service_image', 's.desc as service_desc', 'msm.discounted_price as service_discounted_price')
+                ->select('msm.service_id as service_id', 'msm.price as service_price', 's.name as service_name', 's.image as service_image', 's.desc as service_desc', 'msm.discounted_price as service_discounted_price', 'msm.fuel_id as fuel_type')
                 ->join('services as s', 's.cid', 'c.id')
                 ->join('model_service_maps as msm', 'msm.service_id', 's.id')
                 ->join('brand_models as bm', 'bm.id', 'msm.model_id')
@@ -236,7 +236,7 @@ class HomeController extends Controller
                 ->where('msm.model_id', $req->model_id)
                 ->where('msm.fuel_id', $req->fuel_type)
                 ->get();
-
+            return $services;
             if ($services)
             {
                 $result = [
