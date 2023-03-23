@@ -97,14 +97,10 @@ class HomeController extends Controller
     public function fuelType(Request $req)
     {
         $model_id = $req->model_id;
-        $fuel_id = ModelServiceMap::where('model_id', $model_id)->get()->groupBy('fuel_id');
-        foreach($fuel_id as $key=>$data){
-            $fuel[] = $data[$key]->fuel_id;
-        }
-
+        $fuel_id = ModelServiceMap::where('model_id', $model_id)->distinct('fuel_id')->pluck('fuel_id')->toArray();
         try
         {
-            $fuelType = FuelType::whereIn('id', $fuel)->get();
+            $fuelType = FuelType::whereIn('id', $fuel_id)->get();
             if ($fuelType)
             {
                 $result = [
